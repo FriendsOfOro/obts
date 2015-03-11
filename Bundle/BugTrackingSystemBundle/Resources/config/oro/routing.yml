@@ -1,0 +1,4 @@
+oro_bug_tracking_system:
+    resource: "@OroBugTrackingSystemBundle/Controller"
+    type:     annotation
+    prefix:   /obts
