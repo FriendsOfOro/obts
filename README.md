@@ -1,2 +1,2 @@
 # obts
-OroBugTrackingsystemBundle
+OroBugTrackingSystemBundle
