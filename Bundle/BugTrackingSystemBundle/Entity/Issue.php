@@ -5,28 +5,25 @@ namespace Oro\Bundle\BugTrackingSystemBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\BugTrackingSystemBundle\Model\ExtendIssue;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
+ * Issue
+ *
  * @ORM\Table(name="obts_issue")
  * @ORM\Entity(repositoryClass="Oro\Bundle\BugTrackingSystemBundle\Entity\Repository\IssueRepository")
  * @Config(
  *      defaultValues={
  *          "entity"={
  *              "icon"="icon-list-alt"
- *          },
- *          "security"={
- *              "type"="ACL"
- *          },
- *          "dataaudit"={
- *              "auditable"=true
  *          }
  *      }
  * )
  */
-class Issue
+class Issue extends ExtendIssue
 {
     /**
      * @var integer
@@ -41,8 +38,6 @@ class Issue
      * @var string
      *
      * @ORM\Column(name="summary", type="string", length=255, nullable=false)
-     * @ConfigField(
-     * )
      */
     protected $summary;
 
@@ -50,8 +45,6 @@ class Issue
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     * @ConfigField(
-     * )
      */
     protected $description;
 
@@ -94,8 +87,6 @@ class Issue
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="reporter_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     * )
      */
     protected $reporter;
 
@@ -104,8 +95,6 @@ class Issue
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="assignee_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     * )
      */
     protected $assignee;
 
@@ -124,8 +113,6 @@ class Issue
      *
      * @ORM\ManyToOne(targetEntity="Issue", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     * )
      */
     protected $parent;
 
@@ -133,8 +120,6 @@ class Issue
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent")
-     * @ConfigField(
-     * )
      */
     protected $children;
 
@@ -147,8 +132,6 @@ class Issue
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
-     * @ConfigField(
-     * )
      */
     protected $createdAt;
 
@@ -164,6 +147,8 @@ class Issue
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->children = new ArrayCollection();
     }
 
