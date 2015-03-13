@@ -1,1 +1,5 @@
-Hello World!
+{% extends 'OroUIBundle:actions:index.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+{% set gridName = 'issues_grid' %}
+{% set pageTitle = 'oro.bugtrackingsystem.issue.entity_plural_label'|trans %}

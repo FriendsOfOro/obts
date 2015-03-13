@@ -1,5 +1,5 @@
 parameters:
-#    oro_bug_tracking_system.example.class: Oro\Bundle\BugTrackingSystemBundle\Example
+    oro_bug_tracking_system.issue.entity.class: Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
 
 services:
 #    oro_bug_tracking_system.example:
