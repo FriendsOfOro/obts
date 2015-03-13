@@ -30,6 +30,11 @@ class OroBugTrackingSystemBundle implements Migration
     private $issueTypeTableName = 'obts_issue_type';
 
     /**
+     * @var string
+     */
+    private $userTableName = 'oro_user';
+
+    /**
      * {@inheritdoc}
      */
     public function up(Schema $schema, QueryBag $queries)
@@ -149,13 +154,25 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addForeignKeyConstraint(
             $schema->getTable($this->issueResolutionTableName),
             ['issue_resolution_id'],
-            ['name'],
+            ['id'],
             ['onDelete' => 'SET NULL']
         );
         $table->addForeignKeyConstraint(
             $schema->getTable($this->issueTypeTableName),
             ['issue_type_id'],
-            ['name'],
+            ['id'],
+            ['onDelete' => 'SET NULL']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable($this->userTableName),
+            ['reporter_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable($this->userTableName),
+            ['assignee_id'],
+            ['id'],
             ['onDelete' => 'SET NULL']
         );
     }

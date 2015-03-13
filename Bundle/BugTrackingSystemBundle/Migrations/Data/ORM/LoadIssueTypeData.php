@@ -7,7 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
 
-class LoadIssueType extends AbstractFixture
+class LoadIssueTypeData extends AbstractFixture
 {
     /**
      * @var array
