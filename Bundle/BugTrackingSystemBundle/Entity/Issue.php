@@ -207,7 +207,7 @@ class Issue
      */
     public function getCode()
     {
-        return sprintf('%s-%d', 'some string', $this->getId());
+        return sprintf('%s-%d', 'ORO', $this->getId());
     }
 
     /**

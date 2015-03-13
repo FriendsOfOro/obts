@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\BugTrackingSystemBundle\Tests\Controller;
+namespace Oro\Bundle\BugTrackingSystemBundle\Tests\Functional\Controller;
 
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
