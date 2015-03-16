@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
+use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
+use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 
@@ -46,13 +48,38 @@ class IssueController extends Controller
      *      class="OroBugTrackingSystemBundle:Issue",
      *      permission="CREATE"
      * )
-     * @Template
+     * @Template("OroBugTrackingSystemBundle:Issue:update.html.twig")
      *
      * @return array
      */
     public function createAction()
     {
-        return [];
+        $issue = new Issue();
+
+        $type = $this->getRepository('OroBugTrackingSystemBundle:IssueType')->findOneByName(IssueType::STORY);
+
+        if ($type) {
+            $issue->setIssueType($type);
+        }
+
+        $priority = $this
+            ->getRepository('OroBugTrackingSystemBundle:IssuePriority')
+            ->findOneByName(IssuePriority::MAJOR);
+
+        if ($priority) {
+            $issue->setIssuePriority($priority);
+        }
+
+        $reporter = $this->get("security.context")->getToken()->getUser();
+        if ($reporter) {
+            $issue->setReporter($reporter);
+        }
+
+        $formAction = $this
+            ->get('oro_entity.routing_helper')
+            ->generateUrlByRequest('oro_bug_tracking_system_issue_create', $this->getRequest());
+
+        return $this->update($issue, $formAction);
     }
 
     /**
@@ -89,5 +116,53 @@ class IssueController extends Controller
     public function updateAction(Issue $issue)
     {
         return [];
+    }
+
+    /**
+     * @param string $entityName
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    protected function getRepository($entityName)
+    {
+        return $this->getDoctrine()->getRepository($entityName);
+    }
+
+    /**
+     * @param Issue $issue
+     * @param string $formAction
+     * @return array
+     */
+    protected function update(Issue $issue, $formAction)
+    {
+        $saved = false;
+
+        if ($this->get('oro_bug_tracking_system.form.handler.issue')->process($issue)) {
+            if (!$this->getRequest()->get('_widgetContainer')) {
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    $this->get('translator')->trans('oro.bugtrackingsystem.issue.saved_message')
+                );
+
+                return $this->get('oro_ui.router')->redirectAfterSave(
+                    [
+                        'route' => 'oro_bug_tracking_system_issue_update',
+                        'parameters' => ['id' => $issue->getId()],
+                    ],
+                    [
+                        'route' => 'oro_bug_tracking_system_issue_view',
+                        'parameters' => ['id' => $issue->getId()],
+                    ]
+                );
+            }
+
+            $saved = true;
+        }
+
+        return [
+            'entity'     => $issue,
+            'saved'      => $saved,
+            'form'       => $this->get('oro_bug_tracking_system.form.handler.issue')->getForm()->createView(),
+            'formAction' => $formAction,
+        ];
     }
 }

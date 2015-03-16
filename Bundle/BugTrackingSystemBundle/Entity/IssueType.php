@@ -123,4 +123,12 @@ class IssueType
     {
         return $this->order;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->label;
+    }
 }

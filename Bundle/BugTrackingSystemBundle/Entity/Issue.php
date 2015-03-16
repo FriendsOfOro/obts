@@ -21,6 +21,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      }
  * )
  * @ORM\Entity(repositoryClass="Oro\Bundle\BugTrackingSystemBundle\Entity\Repository\IssueRepository")
+ * @ORM\HasLifecycleCallbacks
  * @Config(
  *      defaultValues={
  *          "entity"={
@@ -190,6 +191,9 @@ class Issue extends ExtendIssue
 
         $this->children = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
+
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -571,10 +575,28 @@ class Issue extends ExtendIssue
     }
 
     /**
+     * Get assignee
+     *
+     * @return \Oro\Bundle\UserBundle\Entity\User
+     */
+    public function getOwner()
+    {
+        return $this->getAssignee();
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
         return (string) $this->getSummary();
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function generateTemporaryCodeOnPrePersist()
+    {
+        $this->setCode($this->getOrganization()->getName() . '-' . rand(1000, 9999));
     }
 }

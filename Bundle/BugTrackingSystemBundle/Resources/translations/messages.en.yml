@@ -1,19 +1,21 @@
 oro:
   bugtrackingsystem:
         issue:
-            entity_label:                             Issue
-            entity_plural_label:                      Issues
+            entity_label:           Issue
+            entity_plural_label:    Issues
 
-            assignee.label:                           Assignee
-            children.label:                           Subtasks
-            code.label:                               Code
-            created_at.label:                         Created
-            description.label:	                      Description
-            id.label:	                              Id
-            issue_priority.label:                     Priority
-            issue_resolution.label:                   Resolution
-            issue_type.label:                         Type
-            parent.label:                             Story
-            reporter.label:	                          Reporter
-            summary.label:	                          Summary
-            updated_at.label:                         Updated
+            assignee.label:         Assignee
+            children.label:         Subtasks
+            code.label:             Code
+            created_at.label:       Created
+            description.label:	    Description
+            id.label:	            Id
+            issue_priority.label:   Priority
+            issue_resolution.label: Resolution
+            issue_type.label:       Type
+            parent.label:           Story
+            reporter.label:	        Reporter
+            summary.label:	        Summary
+            updated_at.label:       Updated
+
+            saved_message:          Issue saved
