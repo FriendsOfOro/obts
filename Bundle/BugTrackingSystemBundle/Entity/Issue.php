@@ -8,18 +8,31 @@ use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\BugTrackingSystemBundle\Model\ExtendIssue;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * Issue
  *
- * @ORM\Table(name="obts_issue")
+ * @ORM\Table(
+ *      name="obts_issue",
+ *      indexes={
+ *          @ORM\Index(name="uidx_obts_issue_code",columns={"code"})
+ *      }
+ * )
  * @ORM\Entity(repositoryClass="Oro\Bundle\BugTrackingSystemBundle\Entity\Repository\IssueRepository")
  * @Config(
  *      defaultValues={
  *          "entity"={
  *              "icon"="icon-list-alt"
- *          }
+ *          },
+ *          "ownership"={
+ *              "owner_type"="USER",
+ *              "owner_field_name"="assignee",
+ *              "owner_column_name"="assignee_id",
+ *              "organization_field_name"="organization",
+ *              "organization_column_name"="organization_id"
+ *          },
  *      }
  * )
  */
@@ -40,6 +53,13 @@ class Issue extends ExtendIssue
      * @ORM\Column(name="summary", type="string", length=255, nullable=false)
      */
     protected $summary;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=255, nullable=false, unique=true)
+     */
+    protected $code;
 
     /**
      * @var string
@@ -104,9 +124,20 @@ class Issue extends ExtendIssue
     //protected $related_issues;
 
     /**
-     * //@var
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
+     * @ORM\JoinTable(
+     *      name="obts_issue_collaborators",
+     *      joinColumns={
+     *          @ORM\JoinColumn(name="issue_id", referencedColumnName="id")
+     *      },
+     *      inverseJoinColumns={
+     *          @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *      }
+     * )
      */
-    //protected $collaborators;
+    protected $collaborators;
 
     /**
      * @var Issue
@@ -143,6 +174,14 @@ class Issue extends ExtendIssue
     protected $updatedAt;
 
     /**
+     * @var Organization
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $organization;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -150,6 +189,7 @@ class Issue extends ExtendIssue
         parent::__construct();
 
         $this->children = new ArrayCollection();
+        $this->collaborators = new ArrayCollection();
     }
 
     /**
@@ -186,13 +226,26 @@ class Issue extends ExtendIssue
     }
 
     /**
+     * Set code
+     *
+     * @param string $code
+     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
      * Get code
      *
      * @return string
      */
     public function getCode()
     {
-        return sprintf('%s-%d', 'ORO', $this->getId());
+        return $this->code;
     }
 
     /**
@@ -380,6 +433,52 @@ class Issue extends ExtendIssue
     }
 
     /**
+     * Add collaborator
+     *
+     * @param \Oro\Bundle\UserBundle\Entity\User $user
+     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     */
+    public function addCollaborator(User $user)
+    {
+        if (!$this->hasCollaborator($user)) {
+            $this->collaborators->add($user);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove collaborator
+     *
+     * @param \Oro\Bundle\UserBundle\Entity\User $user
+     */
+    public function removeCollaborator(User $user)
+    {
+        $this->collaborators->removeElement($user);
+    }
+
+    /**
+     * Has collaborator
+     *
+     * @param \Oro\Bundle\UserBundle\Entity\User $user
+     * @return  boolean
+     */
+    public function hasCollaborator(User $user)
+    {
+        return $this->collaborators->contains($user);
+    }
+
+    /**
+     *  Get collaborators
+     *
+     *  @return \Oro\Bundle\UserBundle\Entity\User[]
+     */
+    public function getCollaborators()
+    {
+        return $this->collaborators->toArray();
+    }
+
+    /**
      * Set parent
      *
      * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $parent
@@ -403,35 +502,79 @@ class Issue extends ExtendIssue
     }
 
     /**
-     * Add children
+     * Add child
      *
-     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $children
+     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $child
      * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
      */
-    public function addChild(Issue $children)
+    public function addChild(Issue $child)
     {
-        $this->children[] = $children;
+        if (!$this->hasChild($child)) {
+            $this->children->add($child);
+        }
 
         return $this;
     }
 
     /**
-     * Remove children
+     * Remove child
      *
-     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $children
+     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $child
      */
-    public function removeChild(Issue $children)
+    public function removeChild(Issue $child)
     {
-        $this->children->removeElement($children);
+        $this->children->removeElement($child);
+    }
+
+    /**
+     * Has child
+     *
+     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $child
+     * @return boolean
+     */
+    public function hasChild(Issue $child)
+    {
+        return $this->children->contains($child);
     }
 
     /**
      * Get children
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue[]
      */
     public function getChildren()
     {
-        return $this->children;
+        return $this->children->toArray();
+    }
+
+    /**
+     * Set organization
+     *
+     * @param \Oro\Bundle\OrganizationBundle\Entity\Organization $organization
+     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     */
+    public function setOrganization(Organization $organization = null)
+    {
+        $this->organization = $organization;
+
+        return $this;
+    }
+
+    /**
+     * Get organization
+     *
+     * @return \Oro\Bundle\OrganizationBundle\Entity\Organization
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getSummary();
     }
 }

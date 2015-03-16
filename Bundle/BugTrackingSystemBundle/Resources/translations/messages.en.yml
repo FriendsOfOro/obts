@@ -6,6 +6,7 @@ oro:
 
             assignee.label:                           Assignee
             children.label:                           Subtasks
+            code.label:                               Code
             created_at.label:                         Created
             description.label:	                      Description
             id.label:	                              Id

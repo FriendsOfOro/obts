@@ -38,14 +38,16 @@ class LoadIssueEntityData extends AbstractFixture
             $issueResolution = $this->getRandomEntity($manager, 'OroBugTrackingSystemBundle:IssueResolution');
             $reporter = $this->getRandomEntity($manager, 'OroUserBundle:User');
             $assignee = $this->getRandomEntity($manager, 'OroUserBundle:User');
+            $organization = $this->getRandomEntity($manager, 'OroOrganizationBundle:Organization');
 
-            if (!$issueType || !$issuePriority || !$issueResolution || !$reporter || !$assignee) {
+            if (!$issueType || !$issuePriority || !$issueResolution || !$reporter || !$assignee || !$organization) {
                 continue;
             }
 
             if (!$this->isIssueExist($manager, $summary)) {
                 $entity = new Issue();
                 $entity->setSummary($summary);
+                $entity->setCode('ORO-' . ($i + 1));
                 $entity->setDescription($description);
                 $entity->setIssueType($issueType);
                 $entity->setIssuePriority($issuePriority);
@@ -54,6 +56,9 @@ class LoadIssueEntityData extends AbstractFixture
                 $entity->setAssignee($assignee);
                 $entity->setCreatedAt($this->getRandomDate());
                 $entity->setUpdatedAt($this->getRandomDate());
+                $entity->setOrganization($organization);
+                $entity->addCollaborator($reporter);
+                $entity->addCollaborator($assignee);
 
                 $manager->persist($entity);
             }

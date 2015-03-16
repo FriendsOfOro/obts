@@ -32,7 +32,17 @@ class OroBugTrackingSystemBundle implements Migration
     /**
      * @var string
      */
+    private $issueCollaboratorsTableName = 'obts_issue_collaborators';
+
+    /**
+     * @var string
+     */
     private $userTableName = 'oro_user';
+
+    /**
+     * @var string
+     */
+    private $organizationTableName = 'oro_organization';
 
     /**
      * {@inheritdoc}
@@ -46,6 +56,8 @@ class OroBugTrackingSystemBundle implements Migration
         $this->createIssueTypeTable($schema);
 
         $this->addIssueForeignKeys($schema);
+
+        $this->createIssueCollaboratorsTable($schema);
     }
 
     /**
@@ -63,6 +75,7 @@ class OroBugTrackingSystemBundle implements Migration
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('summary', 'string', ['notnull' => true, 'length' => 255]);
+        $table->addColumn('code', 'string', ['notnull' => true, 'length' => 255]);
         $table->addColumn('description', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('issue_type_id', 'integer', ['notnull' => false]);
         $table->addColumn('issue_priority_id', 'integer', ['notnull' => false]);
@@ -72,8 +85,11 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('parent_id', 'integer', ['notnull' => false]);
         $table->addColumn('createdAt', 'datetime', []);
         $table->addColumn('updatedAt', 'datetime', []);
+        $table->addColumn('organization_id', 'integer', ['notnull' => false]);
 
         $table->setPrimaryKey(['id']);
+
+        $table->addUniqueIndex(['code'], 'uidx_obts_issue_code');
     }
 
     /**
@@ -175,5 +191,33 @@ class OroBugTrackingSystemBundle implements Migration
             ['id'],
             ['onDelete' => 'SET NULL']
         );
+        $table->addForeignKeyConstraint(
+            $schema->getTable($this->organizationTableName),
+            ['organization_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL']
+        );
+    }
+
+    /**
+     * Create IssueCollaborators table
+     *
+     * @param Schema $schema
+     */
+    private function createIssueCollaboratorsTable(Schema $schema)
+    {
+        if ($schema->hasTable($this->issueCollaboratorsTableName)) {
+            $schema->dropTable($this->issueCollaboratorsTableName);
+        }
+
+        $table = $schema->createTable($this->issueCollaboratorsTableName);
+
+        $table->addColumn('id', 'integer', ['autoincrement' => true]);
+        $table->addColumn('issue_id', 'integer', []);
+        $table->addColumn('user_id', 'integer', []);
+
+        $table->setPrimaryKey(['id']);
+
+        $table->addUniqueIndex(['issue_id', 'user_id'], 'uidx_obts_collaborators_issue_id_user_id');
     }
 }
