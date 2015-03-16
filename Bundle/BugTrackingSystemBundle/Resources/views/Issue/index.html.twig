@@ -3,3 +3,12 @@
 
 {% set gridName = 'issues_grid' %}
 {% set pageTitle = 'oro.bugtrackingsystem.issue.entity_plural_label'|trans %}
+
+{% block navButtons %}
+    {% if resource_granted('oro_bug_tracking_system_issue_create') %}
+        {{ UI.addButton({
+            'path' : path('oro_bug_tracking_system_issue_create'),
+            'entity_label': 'oro.bugtrackingsystem.issue.entity_label'|trans
+        }) }}
+    {% endif %}
+{% endblock %}

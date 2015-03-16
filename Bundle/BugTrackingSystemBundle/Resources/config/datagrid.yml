@@ -8,6 +8,7 @@ datagrid:
                 select:
                     - issue.id
                     - issue.summary
+                    - issue.code
                     - issue.description
                     - issueType.label as typeLabel
                     - issuePriority.label as priorityLabel
@@ -32,6 +33,8 @@ datagrid:
         columns:
             summary:
                 label:         oro.bugtrackingsystem.issue.summary.label
+            code:
+                label:         oro.bugtrackingsystem.issue.code.label
 #            workflowStepLabel:
 #                label:         orocrm.task.workflow_step.label
             typeLabel:
@@ -60,6 +63,8 @@ datagrid:
             columns:
                 summary:
                     data_name: issue.summary
+                code:
+                    data_name: issue.code
 #                workflowStepLabel:
 #                    data_name: workflowStep.stepOrder
                 typeLabel:
@@ -83,6 +88,9 @@ datagrid:
                 summary:
                     type:      string
                     data_name: issue.summary
+                code:
+                    type:      string
+                    data_name: issue.code
 #                workflowStepLabel:
 #                    type:      entity
 #                    data_name: task.workflowStep
@@ -111,34 +119,34 @@ datagrid:
                 updatedAt:
                     type:      datetime
                     data_name: issue.updatedAt
-#        properties:
-#            id: ~
-#            view_link:
-#                type:       url
-#                route:      orocrm_task_view
-#                params:     [ id ]
-#            update_link:
-#                type:       url
-#                route:      orocrm_task_update
-#                params:     [ id ]
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      oro_bug_tracking_system_issue_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      oro_bug_tracking_system_issue_update
+                params:     [ id ]
 #            delete_link:
 #                type:       url
 #                route:      orocrm_api_delete_task
 #                params:     [ id ]
-#        actions:
-#            view:
-#                type:          navigate
-#                acl_resource:  orocrm_task_view
-#                label:         oro.grid.action.view
-#                icon:          eye-open
-#                link:          view_link
-#                rowAction:     true
-#            update:
-#                type:          navigate
-#                acl_resource:  orocrm_task_update
-#                label:         oro.grid.action.update
-#                icon:          edit
-#                link:          update_link
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  oro_bug_tracking_system_issue_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  oro_bug_tracking_system_issue_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
 #            delete:
 #                type:          delete
 #                acl_resource:  orocrm_task_delete
