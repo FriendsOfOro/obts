@@ -12,7 +12,7 @@
     syntaxCheck                 = "false"
     bootstrap                   = "../../app/bootstrap.php.cache">
     <php>
-        <server name="KERNEL_DIR" value="../../../../../../app/" />
+        <server name="KERNEL_DIR" value="../../../../app/" />
     </php>
     <testsuites>
         <testsuite name="Oro Bug Tracking System Test Suite">
