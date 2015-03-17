@@ -74,7 +74,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
             ['issuePriority', new IssuePriority],
             ['issueResolution', new IssueResolution],
             ['reporter', new User],
-            ['assignee', new User],
+            ['owner', new User],
             ['parent', new Issue],
             ['createdAt', new \DateTime()],
             ['updatedAt', new \DateTime()],

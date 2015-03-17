@@ -1,10 +1,13 @@
 oro:
   bugtrackingsystem:
         issue:
+            menu:
+                issue_list.description:  List of issues
+                my_tasks: My Issues
+
             entity_label:           Issue
             entity_plural_label:    Issues
 
-            assignee.label:         Assignee
             children.label:         Subtasks
             code.label:             Code
             created_at.label:       Created
@@ -13,10 +16,10 @@ oro:
             issue_priority.label:   Priority
             issue_resolution.label: Resolution
             issue_type.label:       Type
+            owner.label:            Assignee
             parent.label:           Story
             reporter.label:	        Reporter
             summary.label:	        Summary
             updated_at.label:       Updated
-            owner.label:            Assigned To
 
             saved_message:          Issue saved

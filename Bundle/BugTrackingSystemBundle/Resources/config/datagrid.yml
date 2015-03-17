@@ -15,8 +15,8 @@ datagrid:
                     - issueResolution.label as resolutionLabel
                     - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as reporterName
                     - reporter.id as reporterId
-                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as assigneeName
-                    - assignee.id as assigneeId
+                    - CONCAT(owner.firstName, CONCAT(' ', owner.lastName)) as ownerName
+                    - owner.id as ownerId
                     - issue.createdAt
                     - issue.updatedAt
 #                    - workflowStep.label as workflowStepLabel
@@ -28,7 +28,7 @@ datagrid:
                         - { join: issue.issuePriority, alias: issuePriority }
                         - { join: issue.issueResolution, alias: issueResolution }
                         - { join: issue.reporter, alias: reporter }
-                        - { join: issue.assignee, alias: assignee }
+                        - { join: issue.owner, alias: owner }
 #                        - { join: task.workflowStep, alias: workflowStep }
         columns:
             code:
@@ -48,11 +48,11 @@ datagrid:
                 label:         oro.bugtrackingsystem.issue.reporter.label
                 frontend_type: html
                 template:      OroBugTrackingSystemBundle:Issue:Datagrid/Property/reporter.html.twig
-            assigneeName:
+            ownerName:
                 type:          twig
-                label:         oro.bugtrackingsystem.issue.assignee.label
+                label:         oro.bugtrackingsystem.issue.owner.label
                 frontend_type: html
-                template:      OroBugTrackingSystemBundle:Issue:Datagrid/Property/assignee.html.twig
+                template:      OroBugTrackingSystemBundle:Issue:Datagrid/Property/owner.html.twig
             createdAt:
                 label:         oro.ui.created_at
                 frontend_type: datetime
@@ -75,8 +75,8 @@ datagrid:
                     data_name: issueResolution.order
                 reporterName:
                     data_name: reporterName
-                assigneeName:
-                    data_name: assigneeName
+                ownerName:
+                    data_name: ownerName
                 createdAt:
                     data_name: issue.createdAt
                 updatedAt:
@@ -110,9 +110,9 @@ datagrid:
                 reporterName:
                     type:      string
                     data_name: reporterName
-                assigneeName:
+                ownerName:
                     type:      string
-                    data_name: assigneeName
+                    data_name: ownerName
                 createdAt:
                     type:      datetime
                     data_name: issue.createdAt

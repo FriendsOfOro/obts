@@ -29,8 +29,8 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "ownership"={
  *              "owner_type"="USER",
- *              "owner_field_name"="assignee",
- *              "owner_column_name"="assignee_id",
+ *              "owner_field_name"="owner",
+ *              "owner_column_name"="owner_id",
  *              "organization_field_name"="organization",
  *              "organization_column_name"="organization_id"
  *          },
@@ -115,9 +115,9 @@ class Issue extends ExtendIssue
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="assignee_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    protected $assignee;
+    protected $owner;
 
     /**
      * //@var
@@ -411,26 +411,26 @@ class Issue extends ExtendIssue
     }
 
     /**
-     * Set assignee
+     * Set owner
      *
-     * @param \Oro\Bundle\UserBundle\Entity\User $assignee
+     * @param \Oro\Bundle\UserBundle\Entity\User $owner
      * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
      */
-    public function setAssignee(User $assignee = null)
+    public function setOwner(User $owner = null)
     {
-        $this->assignee = $assignee;
+        $this->owner = $owner;
 
         return $this;
     }
 
     /**
-     * Get assignee
+     * Get owner
      *
      * @return \Oro\Bundle\UserBundle\Entity\User
      */
-    public function getAssignee()
+    public function getOwner()
     {
-        return $this->assignee;
+        return $this->owner;
     }
 
     /**
@@ -569,16 +569,6 @@ class Issue extends ExtendIssue
     public function getOrganization()
     {
         return $this->organization;
-    }
-
-    /**
-     * Get assignee
-     *
-     * @return \Oro\Bundle\UserBundle\Entity\User
-     */
-    public function getOwner()
-    {
-        return $this->getAssignee();
     }
 
     /**

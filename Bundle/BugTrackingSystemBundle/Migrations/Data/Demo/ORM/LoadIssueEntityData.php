@@ -37,10 +37,10 @@ class LoadIssueEntityData extends AbstractFixture
             $issuePriority = $this->getRandomEntity($manager, 'OroBugTrackingSystemBundle:IssuePriority');
             $issueResolution = $this->getRandomEntity($manager, 'OroBugTrackingSystemBundle:IssueResolution');
             $reporter = $this->getRandomEntity($manager, 'OroUserBundle:User');
-            $assignee = $this->getRandomEntity($manager, 'OroUserBundle:User');
+            $owner = $this->getRandomEntity($manager, 'OroUserBundle:User');
             $organization = $this->getRandomEntity($manager, 'OroOrganizationBundle:Organization');
 
-            if (!$issueType || !$issuePriority || !$issueResolution || !$reporter || !$assignee || !$organization) {
+            if (!$issueType || !$issuePriority || !$issueResolution || !$reporter || !$owner || !$organization) {
                 continue;
             }
 
@@ -53,12 +53,12 @@ class LoadIssueEntityData extends AbstractFixture
                 $entity->setIssuePriority($issuePriority);
                 $entity->setIssueResolution($issueResolution);
                 $entity->setReporter($reporter);
-                $entity->setAssignee($assignee);
+                $entity->setOwner($owner);
                 $entity->setCreatedAt($this->getRandomDate());
                 $entity->setUpdatedAt($this->getRandomDate());
                 $entity->setOrganization($organization);
                 $entity->addCollaborator($reporter);
-                $entity->addCollaborator($assignee);
+                $entity->addCollaborator($owner);
 
                 $manager->persist($entity);
             }

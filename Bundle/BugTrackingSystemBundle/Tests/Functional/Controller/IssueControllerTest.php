@@ -49,7 +49,7 @@ class IssueControllerTest extends WebTestCase
         $form['oro_bug_tracking_system_issue[description]'] = 'New description';
         $form['oro_bug_tracking_system_issue[issueType]'] = $type->getId();
         $form['oro_bug_tracking_system_issue[issuePriority]'] = $priority->getId();
-        $form['oro_bug_tracking_system_issue[assignee]'] = '1';
+        $form['oro_bug_tracking_system_issue[owner]'] = '1';
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);

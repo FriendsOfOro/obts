@@ -1,0 +1,35 @@
+oro_menu_config:
+    items:
+        issue_list:
+            label: 'oro.bugtrackingsystem.issue.entity_plural_label'
+            route: 'oro_bug_tracking_system_issue_index'
+            extras:
+                position: 10
+                routes:
+                    - 'oro_bug_tracking_system_issue_update'
+                    - 'oro_bug_tracking_system_issue_create'
+                    - 'oro_bug_tracking_system_issue_view'
+                description: 'oro.bugtrackingsystem.issue.menu.issue_list.description'
+
+#        oro_bug_tracking_system_issue_my_issues:
+#            label: 'oro.bugtrackingsystem.issue.menu.my_tasks'
+#            route: 'oro_bug_tracking_system_issue_my_issues'
+#            extras:
+#                position: 15
+
+    tree:
+        application_menu:
+            children:
+                activities_tab:
+                    children:
+                        issue_list: ~
+#        usermenu:
+#            children:
+#                oro_bug_tracking_system_issue_my_issues: ~
+
+oro_titles:
+    oro_bug_tracking_system_issue_index: ~
+    oro_bug_tracking_system_issue_view: '%%entity.code%%'
+    oro_bug_tracking_system_issue_create: oro.ui.create_entity
+    oro_bug_tracking_system_issue_update: '%%entity.code%% - Edit'
+#    oro_bug_tracking_system_issue_my_issues: "My Issues - %%username%%"

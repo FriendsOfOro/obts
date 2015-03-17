@@ -41,8 +41,7 @@
                     form_row(form.description),
                     form_row(form.issueType),
                     form_row(form.issuePriority),
-                    form.reporter is defined ? form_row(form.reporter) : '',
-                    form.assignee is defined ? form_row(form.assignee) : '',
+                    form.owner is defined ? form_row(form.owner) : '',
                 ]
             }
         ]

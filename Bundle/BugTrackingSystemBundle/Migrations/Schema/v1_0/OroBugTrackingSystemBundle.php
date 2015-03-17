@@ -81,7 +81,7 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('issue_priority_id', 'integer', ['notnull' => false]);
         $table->addColumn('issue_resolution_id', 'integer', ['notnull' => false]);
         $table->addColumn('reporter_id', 'integer', ['notnull' => false]);
-        $table->addColumn('assignee_id', 'integer', ['notnull' => false]);
+        $table->addColumn('owner_id', 'integer', ['notnull' => false]);
         $table->addColumn('parent_id', 'integer', ['notnull' => false]);
         $table->addColumn('createdAt', 'datetime', []);
         $table->addColumn('updatedAt', 'datetime', []);
@@ -187,7 +187,7 @@ class OroBugTrackingSystemBundle implements Migration
         );
         $table->addForeignKeyConstraint(
             $schema->getTable($this->userTableName),
-            ['assignee_id'],
+            ['owner_id'],
             ['id'],
             ['onDelete' => 'SET NULL']
         );
