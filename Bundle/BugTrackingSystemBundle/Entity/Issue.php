@@ -597,6 +597,8 @@ class Issue extends ExtendIssue
      */
     public function generateTemporaryCodeOnPrePersist()
     {
-        $this->setCode($this->getOrganization()->getName() . '-' . rand(1000, 9999));
+        if (!$this->getCode() && $this->getOrganization()) {
+            $this->setCode(sprintf('%s-%d', $this->getOrganization()->getName(), crc32(microtime())));
+        }
     }
 }
