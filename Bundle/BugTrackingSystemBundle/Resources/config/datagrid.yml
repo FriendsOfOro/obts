@@ -129,10 +129,10 @@ datagrid:
                 type:       url
                 route:      oro_bug_tracking_system_issue_update
                 params:     [ id ]
-#            delete_link:
-#                type:       url
-#                route:      orocrm_api_delete_task
-#                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      oro_bug_tracking_system_issue_delete
+                params:     [ id ]
         actions:
             view:
                 type:          navigate
@@ -147,12 +147,12 @@ datagrid:
                 label:         oro.grid.action.update
                 icon:          edit
                 link:          update_link
-#            delete:
-#                type:          delete
-#                acl_resource:  orocrm_task_delete
-#                label:         oro.grid.action.delete
-#                icon:          trash
-#                link:          delete_link
+            delete:
+                type:          delete
+                acl_resource:  oro_bug_tracking_system_issue_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
         options:
             entity_pagination: true
 

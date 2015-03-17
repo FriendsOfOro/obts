@@ -17,5 +17,6 @@ oro:
             reporter.label:	        Reporter
             summary.label:	        Summary
             updated_at.label:       Updated
+            owner.label:            Assigned To
 
             saved_message:          Issue saved
