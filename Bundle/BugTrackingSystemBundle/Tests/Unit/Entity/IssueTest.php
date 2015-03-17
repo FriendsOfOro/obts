@@ -7,10 +7,9 @@ use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\UserBundle\Entity\User;
 
-class IssueTest extends WebTestCase
+class IssueTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Issue
@@ -170,9 +169,49 @@ class IssueTest extends WebTestCase
      */
     public function testToString()
     {
-        $summary = 'Test summary';
+        $code = 'TEST-10';
 
-        $this->entity->setSummary($summary);
-        $this->assertEquals($summary, $this->entity);
+        $this->entity->setCode($code);
+        $this->assertEquals($code, $this->entity);
+    }
+
+    /**
+     * Issue generateTemporaryCodeOnPrePersist test
+     */
+    public function testGenerateTemporaryCodeOnPrePersist()
+    {
+        $organization = new Organization();
+        $organization->setName('ORO_TEST');
+
+        $this->entity->setCode(null);
+        $this->entity->setOrganization($organization);
+
+        $this->entity->generateTemporaryCodeOnPrePersist();
+        $this->assertNotNull($this->entity->getCode());
+        $this->assertContains('ORO_TEST' . '-', $this->entity->getCode());
+    }
+
+    /**
+     * Issue setCreatedAtAndUpdatedAtOnPrePersist test
+     */
+    public function testSetCreatedAtAndUpdatedAtOnPrePersist()
+    {
+        $this->assertNull($this->entity->getCreatedAt());
+        $this->assertNull($this->entity->getUpdatedAt());
+
+        $this->entity->setCreatedAtAndUpdatedAtOnPrePersist();
+        $this->assertInstanceOf('\DateTime', $this->entity->getCreatedAt());
+        $this->assertInstanceOf('\DateTime', $this->entity->getUpdatedAt());
+    }
+
+    /**
+     * Issue refreshUpdatedAtOnPreUpdate test
+     */
+    public function testRefreshUpdatedAtOnPreUpdate()
+    {
+        $this->assertNull($this->entity->getUpdatedAt());
+
+        $this->entity->refreshUpdatedAtOnPreUpdate();
+        $this->assertInstanceOf('\DateTime', $this->entity->getUpdatedAt());
     }
 }

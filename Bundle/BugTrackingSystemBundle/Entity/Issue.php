@@ -191,9 +191,6 @@ class Issue extends ExtendIssue
 
         $this->children = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
-
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -589,7 +586,7 @@ class Issue extends ExtendIssue
      */
     public function __toString()
     {
-        return (string) $this->getSummary();
+        return (string) $this->getCode();
     }
 
     /**
@@ -600,5 +597,27 @@ class Issue extends ExtendIssue
         if (!$this->getCode() && $this->getOrganization()) {
             $this->setCode(sprintf('%s-%d', $this->getOrganization()->getName(), crc32(microtime())));
         }
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtAndUpdatedAtOnPrePersist()
+    {
+        $date = new \DateTime();
+
+        if (!$this->getId()) {
+            $this
+                ->setCreatedAt($date)
+                ->setUpdatedAt($date);
+        }
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function refreshUpdatedAtOnPreUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

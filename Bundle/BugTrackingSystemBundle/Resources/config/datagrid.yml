@@ -3,12 +3,12 @@ datagrid:
         extended_entity_name: %oro_bug_tracking_system.issue.entity.class%
         source:
             type: orm
-#            acl_resource: orocrm_task_view
+            acl_resource: oro_bug_tracking_system_issue_view
             query:
                 select:
                     - issue.id
-                    - issue.summary
                     - issue.code
+                    - issue.summary
                     - issue.description
                     - issueType.label as typeLabel
                     - issuePriority.label as priorityLabel
@@ -31,10 +31,10 @@ datagrid:
                         - { join: issue.assignee, alias: assignee }
 #                        - { join: task.workflowStep, alias: workflowStep }
         columns:
-            summary:
-                label:         oro.bugtrackingsystem.issue.summary.label
             code:
                 label:         oro.bugtrackingsystem.issue.code.label
+            summary:
+                label:         oro.bugtrackingsystem.issue.summary.label
 #            workflowStepLabel:
 #                label:         orocrm.task.workflow_step.label
             typeLabel:
@@ -61,10 +61,10 @@ datagrid:
                 frontend_type: datetime
         sorters:
             columns:
-                summary:
-                    data_name: issue.summary
                 code:
                     data_name: issue.code
+                summary:
+                    data_name: issue.summary
 #                workflowStepLabel:
 #                    data_name: workflowStep.stepOrder
                 typeLabel:
@@ -85,12 +85,12 @@ datagrid:
                 dueDate: ASC
         filters:
             columns:
-                summary:
-                    type:      string
-                    data_name: issue.summary
                 code:
                     type:      string
                     data_name: issue.code
+                summary:
+                    type:      string
+                    data_name: issue.summary
 #                workflowStepLabel:
 #                    type:      entity
 #                    data_name: task.workflowStep

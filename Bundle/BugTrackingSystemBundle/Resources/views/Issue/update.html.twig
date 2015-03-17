@@ -1,6 +1,6 @@
 {% extends 'OroUIBundle:actions:update.html.twig' %}
 
-{% oro_title_set({params : {"%entity.summary%": entity.summary, "%entityName%": 'oro.bugtrackingsystem.issue.entity_label'|trans }}) %}
+{% oro_title_set({params : {"%entity.code%": entity.code, "%entityName%": 'oro.bugtrackingsystem.issue.entity_label'|trans }}) %}
 {% set entityId = entity.id %}
 
 {% block navButtons %}
@@ -18,7 +18,7 @@
             'entity': entity,
             'indexPath': path('oro_bug_tracking_system_issue_index'),
             'indexLabel': 'oro.bugtrackingsystem.issue.entity_plural_label'|trans,
-            'entityTitle': entity.summary
+            'entityTitle': entity.code
         } %}
         {{ parent() }}
     {% else %}

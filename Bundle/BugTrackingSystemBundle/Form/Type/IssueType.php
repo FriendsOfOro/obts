@@ -57,14 +57,6 @@ class IssueType extends AbstractType
                 ]
             )
             ->add(
-                'reporter',
-                'oro_user_select',
-                [
-                    'required' => true,
-                    'label'    => 'oro.bugtrackingsystem.issue.reporter.label',
-                ]
-            )
-            ->add(
                 'assignee',
                 'oro_user_select',
                 [

@@ -3,10 +3,30 @@
 namespace Oro\Bundle\BugTrackingSystemBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
-class IssueTypeTest extends WebTestCase
+class IssueTypeTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var IssueType
+     */
+    protected $entity;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        $this->entity = new IssueType();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function tearDown()
+    {
+        $this->entity = null;
+    }
+
     /**
      * @dataProvider settersAndGettersDataProvider
      *
@@ -15,10 +35,8 @@ class IssueTypeTest extends WebTestCase
      */
     public function testSettersAndGetters($property, $value)
     {
-        $obj = new IssueType();
-
-        call_user_func_array([$obj, 'set' . ucfirst($property)], [$value]);
-        $this->assertEquals($value, call_user_func_array([$obj, 'get' . ucfirst($property)], []));
+        call_user_func_array([$this->entity, 'set' . ucfirst($property)], [$value]);
+        $this->assertEquals($value, call_user_func_array([$this->entity, 'get' . ucfirst($property)], []));
     }
 
     /**
@@ -31,5 +49,16 @@ class IssueTypeTest extends WebTestCase
             ['label', 'Test label'],
             ['order', 10],
         ];
+    }
+
+    /**
+     * IssueType toString test
+     */
+    public function testToString()
+    {
+        $label = 'Test label';
+
+        $this->entity->setLabel($label);
+        $this->assertEquals($label, $this->entity);
     }
 }

@@ -56,7 +56,9 @@ class IssueController extends Controller
     {
         $issue = new Issue();
 
-        $type = $this->getRepository('OroBugTrackingSystemBundle:IssueType')->findOneByName(IssueType::STORY);
+        $type = $this
+            ->getRepository('OroBugTrackingSystemBundle:IssueType')
+            ->findOneByName(IssueType::STORY);
 
         if ($type) {
             $issue->setIssueType($type);
@@ -68,11 +70,6 @@ class IssueController extends Controller
 
         if ($priority) {
             $issue->setIssuePriority($priority);
-        }
-
-        $reporter = $this->get("security.context")->getToken()->getUser();
-        if ($reporter) {
-            $issue->setReporter($reporter);
         }
 
         $formAction = $this
@@ -115,7 +112,9 @@ class IssueController extends Controller
      */
     public function updateAction(Issue $issue)
     {
-        return [];
+        $formAction = $this->get('router')->generate('oro_bug_tracking_system_issue_update', ['id' => $issue->getId()]);
+
+        return $this->update($issue, $formAction);
     }
 
     /**

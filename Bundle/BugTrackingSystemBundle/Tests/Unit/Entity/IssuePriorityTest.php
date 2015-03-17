@@ -3,10 +3,30 @@
 namespace Oro\Bundle\BugTrackingSystemBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
-class IssuePriorityTest extends WebTestCase
+class IssuePriorityTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var IssuePriority
+     */
+    protected $entity;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        $this->entity = new IssuePriority();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function tearDown()
+    {
+        $this->entity = null;
+    }
+
     /**
      * @dataProvider settersAndGettersDataProvider
      *
@@ -15,10 +35,8 @@ class IssuePriorityTest extends WebTestCase
      */
     public function testSettersAndGetters($property, $value)
     {
-        $obj = new IssuePriority();
-
-        call_user_func_array([$obj, 'set' . ucfirst($property)], [$value]);
-        $this->assertEquals($value, call_user_func_array([$obj, 'get' . ucfirst($property)], []));
+        call_user_func_array([$this->entity, 'set' . ucfirst($property)], [$value]);
+        $this->assertEquals($value, call_user_func_array([$this->entity, 'get' . ucfirst($property)], []));
     }
 
     /**
@@ -31,5 +49,16 @@ class IssuePriorityTest extends WebTestCase
             ['label', 'Test label'],
             ['order', 10],
         ];
+    }
+
+    /**
+     * IssuePriority toString test
+     */
+    public function testToString()
+    {
+        $label = 'Test label';
+
+        $this->entity->setLabel($label);
+        $this->assertEquals($label, $this->entity);
     }
 }
