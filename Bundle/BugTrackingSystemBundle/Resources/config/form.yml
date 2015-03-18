@@ -1,5 +1,6 @@
 parameters:
     oro_bug_tracking_system.form.type.issue.class:        Oro\Bundle\BugTrackingSystemBundle\Form\Type\IssueType
+    oro_bug_tracking_system.form.type.issue_api.class:    Oro\Bundle\BugTrackingSystemBundle\Form\Type\IssueApiType
     oro_bug_tracking_system.form.handler.issue.class:     Oro\Bundle\BugTrackingSystemBundle\Form\Handler\IssueHandler
     oro_bug_tracking_system.form.handler.issue_api.class: Oro\Bundle\BugTrackingSystemBundle\Form\Handler\IssueApiHandler
     oro_bug_tracking_system.manager.api.class:            Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
@@ -9,6 +10,11 @@ services:
         class: %oro_bug_tracking_system.form.type.issue.class%
         tags:
             - { name: form.type, alias: oro_bug_tracking_system_issue }
+            
+    oro_bug_tracking_system.form.type.issue_api:
+        class: %oro_bug_tracking_system.form.type.issue_api.class%
+        tags:
+            - { name: form.type, alias: issue }
 
     oro_bug_tracking_system.form:
         class: Symfony\Component\Form\Form

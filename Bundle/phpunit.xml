@@ -10,18 +10,18 @@
     processIsolation            = "false"
     stopOnFailure               = "false"
     syntaxCheck                 = "false"
-    bootstrap                   = "../../app/bootstrap.php.cache">
-    <php>
-        <server name="KERNEL_DIR" value="../../../../../../../app/" />
-    </php>
+    bootstrap                   = "bootstrap.php.cache">
     <testsuites>
-        <testsuite name="Oro Bug Tracking System Test Suite">
-            <directory>Bundle/BugTrackingSystemBundle/Tests</directory>
+        <testsuite name="Oro Bug Tracking System Functional Test Suite">
+            <directory>../src/Oro/Bundle/BugTrackingSystemBundle/Tests/Functional</directory>
+        </testsuite>
+        <testsuite name="Oro Bug Tracking System Unit Test Suite">
+            <directory>../src/Oro/Bundle/BugTrackingSystemBundle/Tests/Unit</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory>Bundle</directory>
+            <directory>../src/Oro</directory>
         </whitelist>
     </filter>
 </phpunit>
