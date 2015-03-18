@@ -2,3 +2,12 @@ oro_bug_tracking_system:
     resource: "@OroBugTrackingSystemBundle/Controller"
     type:     annotation
     prefix:   /obts
+
+oro_bug_tracking_system_api:
+    resource:     "@OroBugTrackingSystemBundle/Controller/Api/Rest/IssueController.php"
+    type:         rest
+    prefix:       api/rest/{version}
+    requirements:
+        version:  latest|v1
+    defaults:
+        version:  latest

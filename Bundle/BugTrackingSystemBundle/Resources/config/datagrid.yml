@@ -131,7 +131,7 @@ datagrid:
                 params:     [ id ]
             delete_link:
                 type:       url
-                route:      oro_bug_tracking_system_issue_delete
+                route:      oro_bug_tracking_system_api_delete_issue
                 params:     [ id ]
         actions:
             view:
@@ -234,8 +234,8 @@ datagrid:
 
 #    activity-tasks-grid:
 #        extends: widget-base-tasks-grid
-#
-#    user-tasks-grid:
-#        extends: tasks-grid
-#        options:
-#            entity_pagination: false
+
+    user_issues_grid:
+        extends: issues_grid
+        options:
+            entity_pagination: false
