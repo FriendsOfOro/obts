@@ -8,9 +8,9 @@ Oro\Bundle\BugTrackingSystemBundle\Entity\Issue:
         description:
             - Length:
                 max: 255
-        priority:
+        issuePriority:
             - NotBlank: ~
-        type:
+        issueType:
             - NotBlank: ~
         owner:
             - NotBlank: ~

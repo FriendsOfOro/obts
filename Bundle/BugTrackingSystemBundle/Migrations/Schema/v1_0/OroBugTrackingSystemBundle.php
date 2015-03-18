@@ -65,17 +65,16 @@ class OroBugTrackingSystemBundle implements Migration
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->createIssueTable($schema);
-
         $this->createIssuePriorityTable($schema);
         $this->createIssuePriorityTranslationTable($schema);
         $this->createIssueResolutionTable($schema);
         $this->createIssueResolutionTranslationTable($schema);
         $this->createIssueTypeTable($schema);
         $this->createIssueTypeTranslationTable($schema);
+        $this->createIssueCollaboratorsTable($schema);
 
         $this->addIssueForeignKeys($schema);
-
-        $this->createIssueCollaboratorsTable($schema);
+        $this->addIssueCollaboratorsForeignKeys($schema);
     }
 
     /**
@@ -312,5 +311,27 @@ class OroBugTrackingSystemBundle implements Migration
         $table->setPrimaryKey(['id']);
 
         $table->addUniqueIndex(['issue_id', 'user_id'], 'uidx_obts_collaborators_issue_id_user_id');
+    }
+
+    /**
+     * Add IssueCollaborators foreign keys.
+     *
+     * @param Schema $schema
+     */
+    private function addIssueCollaboratorsForeignKeys(Schema $schema)
+    {
+        $table = $schema->getTable($this->issueCollaboratorsTableName);
+        $table->addForeignKeyConstraint(
+            $schema->getTable($this->issueTableName),
+            ['issue_id'],
+            ['id'],
+            ['onDelete' => null, 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable($this->userTableName),
+            ['user_id'],
+            ['id'],
+            ['onDelete' => null, 'onUpdate' => null]
+        );
     }
 }
