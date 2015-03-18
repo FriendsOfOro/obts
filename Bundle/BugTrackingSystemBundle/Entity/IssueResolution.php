@@ -4,11 +4,18 @@ namespace Oro\Bundle\BugTrackingSystemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+
 /**
  * @ORM\Table(name="obts_issue_resolution")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolutionTranslation")
+ * @Config()
  */
-class IssueResolution
+class IssueResolution implements Translatable
 {
     const CANNOT_REPRODUCE = 'cannot_reproduce';
     const DONE             = 'done';
@@ -38,8 +45,14 @@ class IssueResolution
      * @var string
      *
      * @ORM\Column(name="label", type="string", length=255, unique=true)
+     * @Gedmo\Translatable
      */
     protected $label;
+
+    /**
+     * @Gedmo\Locale
+     */
+    protected $locale;
 
     /**
      * @var string
@@ -102,6 +115,29 @@ class IssueResolution
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set locale
+     *
+     * @param string $locale
+     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * Returns locale code
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
     }
 
     /**

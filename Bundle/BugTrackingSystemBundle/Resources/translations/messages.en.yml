@@ -10,12 +10,14 @@ oro:
 
             children.label:             Subtasks
             code.label:                 Code
+            collaborators.label:        Collaborators
             created_at.label:           Created
             description.label:	        Description
             id.label:	                Id
             issue_priority.label:       Priority
             issue_resolution.label:     Resolution
             issue_type.label:           Type
+            organization.label:         Organization
             owner.label:                Assignee
             parent.label:               Story
             reporter.label:	            Reporter
@@ -23,3 +25,27 @@ oro:
             updated_at.label:           Updated
 
             saved_message:              Issue saved
+
+        issuepriority:
+            entity_label:               Issue Priority
+
+            id.label:                   Id
+            name.label:                 Name
+            label.label:                Label
+            order.label:                Order
+
+        issueresolution:
+            entity_label:               Issue Resolution
+
+            id.label:                   Id
+            name.label:                 Name
+            label.label:                Label
+            order.label:                Order
+
+        issuetype:
+            entity_label:               Issue Type
+
+            id.label:                   Id
+            name.label:                 Name
+            label.label:                Label
+            order.label:                Order

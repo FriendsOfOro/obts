@@ -4,11 +4,18 @@ namespace Oro\Bundle\BugTrackingSystemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+
 /**
  * @ORM\Table(name="obts_issue_priority")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriorityTranslation")
+ * @Config()
  */
-class IssuePriority
+class IssuePriority implements Translatable
 {
     const BLOCKER  = 'blocker';
     const CRITICAL = 'critical';
@@ -36,8 +43,14 @@ class IssuePriority
      * @var string
      *
      * @ORM\Column(name="label", type="string", length=255, unique=true)
+     * @Gedmo\Translatable
      */
     protected $label;
+
+    /**
+     * @Gedmo\Locale
+     */
+    protected $locale;
 
     /**
      * @var string
@@ -100,6 +113,29 @@ class IssuePriority
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set locale
+     *
+     * @param string $locale
+     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * Returns locale code
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
     }
 
     /**

@@ -4,12 +4,12 @@ namespace Oro\Bundle\BugTrackingSystemBundle\Form\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Oro\Bundle\FormBundle\Utils\FormUtils;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-use Oro\Bundle\ActivityBundle\Manager\ActivityManager;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
+
+use Oro\Bundle\ActivityBundle\Manager\ActivityManager;
 use Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper;
 
 class IssueHandler

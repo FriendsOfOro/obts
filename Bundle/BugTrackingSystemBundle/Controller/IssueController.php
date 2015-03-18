@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
+
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 

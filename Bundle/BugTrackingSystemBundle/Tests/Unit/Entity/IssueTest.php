@@ -6,6 +6,7 @@ use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution;
+
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 

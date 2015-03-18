@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
+
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 /**

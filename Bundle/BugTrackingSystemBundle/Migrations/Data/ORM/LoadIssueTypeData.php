@@ -2,50 +2,59 @@
 
 namespace Oro\Bundle\BugTrackingSystemBundle\Migrations\Data\ORM;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
 
-class LoadIssueTypeData extends AbstractFixture
+use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
+
+class LoadIssueTypeData extends AbstractTranslatableEntityFixture
 {
+    const ISSUE_TYPE_PREFIX = 'issue.issueType';
+
     /**
      * @var array
      */
     private $data = [
-        ['order' => 1, 'name' => IssueType::STORY],
-        ['order' => 2, 'name' => IssueType::TASK],
-        ['order' => 3, 'name' => IssueType::SUB_TASK],
-        ['order' => 4, 'name' => IssueType::BUG],
+        1 => IssueType::STORY,
+        2 => IssueType::TASK,
+        3 => IssueType::SUB_TASK,
+        4 => IssueType::BUG,
     ];
 
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function loadEntities(ObjectManager $manager)
     {
-        foreach ($this->data as $type) {
-            if (!$this->isTypeExist($manager, $type['name'])) {
-                $entity = new IssueType();
-                $entity->setName($type['name']);
-                $entity->setLabel(ucfirst($type['name']));
-                $entity->setOrder($type['order']);
-                $manager->persist($entity);
+        $typeRepository = $manager->getRepository('OroBugTrackingSystemBundle:IssueType');
+
+        $translationLocales = $this->getTranslationLocales();
+
+        foreach ($translationLocales as $locale) {
+            foreach ($this->data as $order => $typeName) {
+                /**
+                 * @var IssueType $issueType
+                 */
+                $issueType = $typeRepository->findOneByName($typeName);
+                if (!$issueType) {
+                    $issueType = new IssueType();
+                    $issueType->setName($typeName);
+                    $issueType->setLabel(ucfirst($typeName));
+                    $issueType->setOrder($order);
+                }
+
+                // set locale and label
+                $typeLabel = $this->translate($typeName, static::ISSUE_TYPE_PREFIX, $locale);
+                $issueType
+                    ->setLocale($locale)
+                    ->setLabel($typeLabel);
+
+                // save
+                $manager->persist($issueType);
             }
         }
 
         $manager->flush();
-    }
-
-    /**
-     * @param ObjectManager $manager
-     * @param string $typeName
-     * @return boolean
-     */
-    private function isTypeExist(ObjectManager $manager, $typeName)
-    {
-        $type = $manager->getRepository('OroBugTrackingSystemBundle:IssueType')->findOneByName($typeName);
-
-        return $type !== null;
     }
 }

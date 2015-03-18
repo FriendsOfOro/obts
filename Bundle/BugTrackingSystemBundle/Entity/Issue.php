@@ -6,8 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Oro\Bundle\BugTrackingSystemBundle\Model\ExtendIssue;
+
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 
@@ -23,6 +23,8 @@ use Oro\Bundle\UserBundle\Entity\User;
  * @ORM\Entity(repositoryClass="Oro\Bundle\BugTrackingSystemBundle\Entity\Repository\IssueRepository")
  * @ORM\HasLifecycleCallbacks
  * @Config(
+ *      routeName="oro_bug_tracking_system_issue_index",
+ *      routeView="oro_bug_tracking_system_issue_view",
  *      defaultValues={
  *          "entity"={
  *              "icon"="icon-list-alt"

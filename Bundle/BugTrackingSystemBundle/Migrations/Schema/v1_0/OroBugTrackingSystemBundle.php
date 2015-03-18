@@ -22,12 +22,27 @@ class OroBugTrackingSystemBundle implements Migration
     /**
      * @var string
      */
+    private $issuePriorityTranslationTableName = 'obts_issue_priority_trans';
+
+    /**
+     * @var string
+     */
     private $issueResolutionTableName = 'obts_issue_resolution';
 
     /**
      * @var string
      */
+    private $issueResolutionTranslationTableName = 'obts_issue_resolution_trans';
+
+    /**
+     * @var string
+     */
     private $issueTypeTableName = 'obts_issue_type';
+
+    /**
+     * @var string
+     */
+    private $issueTypeTranslationTableName = 'obts_issue_type_trans';
 
     /**
      * @var string
@@ -52,8 +67,11 @@ class OroBugTrackingSystemBundle implements Migration
         $this->createIssueTable($schema);
 
         $this->createIssuePriorityTable($schema);
+        $this->createIssuePriorityTranslationTable($schema);
         $this->createIssueResolutionTable($schema);
+        $this->createIssueResolutionTranslationTable($schema);
         $this->createIssueTypeTable($schema);
+        $this->createIssueTypeTranslationTable($schema);
 
         $this->addIssueForeignKeys($schema);
 
@@ -114,6 +132,31 @@ class OroBugTrackingSystemBundle implements Migration
     }
 
     /**
+     * Create IssuePriorityTranslation table
+     *
+     * @param Schema $schema
+     */
+    private function createIssuePriorityTranslationTable(Schema $schema)
+    {
+        if ($schema->hasTable($this->issuePriorityTranslationTableName)) {
+            $schema->dropTable($this->issuePriorityTranslationTableName);
+        }
+
+        $table = $schema->createTable($this->issuePriorityTranslationTableName);
+
+        $table->addColumn('id', 'integer', ['autoincrement' => true]);
+        $table->addColumn('foreign_key', 'string', ['length' => 16]);
+        $table->addColumn('content', 'string', ['length' => 255]);
+        $table->addColumn('locale', 'string', ['length' => 8]);
+        $table->addColumn('object_class', 'string', ['length' => 255]);
+        $table->addColumn('field', 'string', ['length' => 32]);
+
+        $table->setPrimaryKey(['id']);
+
+        $table->addIndex(['locale', 'object_class', 'field', 'foreign_key'], 'idx_obts_issue_priority_trans');
+    }
+
+    /**
      * Create IssueResolution table
      *
      * @param Schema $schema
@@ -135,6 +178,31 @@ class OroBugTrackingSystemBundle implements Migration
     }
 
     /**
+     * Create IssueResolutionTranslation table
+     *
+     * @param Schema $schema
+     */
+    private function createIssueResolutionTranslationTable(Schema $schema)
+    {
+        if ($schema->hasTable($this->issueResolutionTranslationTableName)) {
+            $schema->dropTable($this->issueResolutionTranslationTableName);
+        }
+
+        $table = $schema->createTable($this->issueResolutionTranslationTableName);
+
+        $table->addColumn('id', 'integer', ['autoincrement' => true]);
+        $table->addColumn('foreign_key', 'string', ['length' => 16]);
+        $table->addColumn('content', 'string', ['length' => 255]);
+        $table->addColumn('locale', 'string', ['length' => 8]);
+        $table->addColumn('object_class', 'string', ['length' => 255]);
+        $table->addColumn('field', 'string', ['length' => 32]);
+
+        $table->setPrimaryKey(['id']);
+
+        $table->addIndex(['locale', 'object_class', 'field', 'foreign_key'], 'idx_obts_issue_resolution_trans');
+    }
+
+    /**
      * Create IssueType table
      *
      * @param Schema $schema
@@ -153,6 +221,31 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('`order`', 'integer', ['notnull' => true]);
 
         $table->setPrimaryKey(['id']);
+    }
+
+    /**
+     * Create IssueTypeTranslation table
+     *
+     * @param Schema $schema
+     */
+    private function createIssueTypeTranslationTable(Schema $schema)
+    {
+        if ($schema->hasTable($this->issueTypeTranslationTableName)) {
+            $schema->dropTable($this->issueTypeTranslationTableName);
+        }
+
+        $table = $schema->createTable($this->issueTypeTranslationTableName);
+
+        $table->addColumn('id', 'integer', ['autoincrement' => true]);
+        $table->addColumn('foreign_key', 'string', ['length' => 16]);
+        $table->addColumn('content', 'string', ['length' => 255]);
+        $table->addColumn('locale', 'string', ['length' => 8]);
+        $table->addColumn('object_class', 'string', ['length' => 255]);
+        $table->addColumn('field', 'string', ['length' => 32]);
+
+        $table->setPrimaryKey(['id']);
+
+        $table->addIndex(['locale', 'object_class', 'field', 'foreign_key'], 'idx_obts_issue_type_trans');
     }
 
     /**

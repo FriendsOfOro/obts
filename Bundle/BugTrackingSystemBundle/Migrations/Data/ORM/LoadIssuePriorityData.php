@@ -2,51 +2,60 @@
 
 namespace Oro\Bundle\BugTrackingSystemBundle\Migrations\Data\ORM;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
 
-class LoadIssuePriorityData extends AbstractFixture
+use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
+
+class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
 {
+    const ISSUE_PRIORITY_PREFIX = 'issue.issuePriority';
+
     /**
      * @var array
      */
     private $data = [
-        ['order' => 1, 'name' => IssuePriority::BLOCKER],
-        ['order' => 2, 'name' => IssuePriority::CRITICAL],
-        ['order' => 3, 'name' => IssuePriority::MAJOR],
-        ['order' => 4, 'name' => IssuePriority::MINOR],
-        ['order' => 5, 'name' => IssuePriority::TRIVIAL],
+        1 => IssuePriority::BLOCKER,
+        2 => IssuePriority::CRITICAL,
+        3 => IssuePriority::MAJOR,
+        4 => IssuePriority::MINOR,
+        5 => IssuePriority::TRIVIAL,
     ];
 
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function loadEntities(ObjectManager $manager)
     {
-        foreach ($this->data as $priority) {
-            if (!$this->isPriorityExist($manager, $priority['name'])) {
-                $entity = new IssuePriority();
-                $entity->setName($priority['name']);
-                $entity->setLabel(ucfirst($priority['name']));
-                $entity->setOrder($priority['order']);
-                $manager->persist($entity);
+        $priorityRepository = $manager->getRepository('OroBugTrackingSystemBundle:IssuePriority');
+
+        $translationLocales = $this->getTranslationLocales();
+
+        foreach ($translationLocales as $locale) {
+            foreach ($this->data as $order => $priorityName) {
+                /**
+                 * @var IssuePriority $issuePriority
+                 */
+                $issuePriority = $priorityRepository->findOneByName($priorityName);
+                if (!$issuePriority) {
+                    $issuePriority = new IssuePriority();
+                    $issuePriority->setName($priorityName);
+                    $issuePriority->setLabel(ucfirst($priorityName));
+                    $issuePriority->setOrder($order);
+                }
+
+                // set locale and label
+                $priorityLabel = $this->translate($priorityName, static::ISSUE_PRIORITY_PREFIX, $locale);
+                $issuePriority
+                    ->setLocale($locale)
+                    ->setLabel($priorityLabel);
+
+                // save
+                $manager->persist($issuePriority);
             }
         }
 
         $manager->flush();
-    }
-
-    /**
-     * @param ObjectManager $manager
-     * @param string $priorityName
-     * @return boolean
-     */
-    private function isPriorityExist(ObjectManager $manager, $priorityName)
-    {
-        $priority = $manager->getRepository('OroBugTrackingSystemBundle:IssuePriority')->findOneByName($priorityName);
-
-        return $priority !== null;
     }
 }

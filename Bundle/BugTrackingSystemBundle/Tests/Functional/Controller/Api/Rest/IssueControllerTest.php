@@ -4,6 +4,7 @@ namespace Oro\Bundle\BugTrackingSystemBundle\Tests\Functional\Controller\Api\Res
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
+
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 /**
