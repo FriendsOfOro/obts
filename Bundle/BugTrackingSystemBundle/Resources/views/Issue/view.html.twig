@@ -2,7 +2,7 @@
 {% import 'OroUIBundle::macros.html.twig' as UI %}
 {% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 
-{% oro_title_set({params : {"%entity.code%": entity.code, "%entityName%": 'oro.bugtrackingsystem.issue.entity_label'|trans }}) %}
+{% oro_title_set({params : {"%entity.code%": entity.code}}) %}
 
 {% block navButtons %}
     {% if resource_granted('EDIT', entity) %}
@@ -41,9 +41,10 @@
                 {{ UI.renderHtmlProperty('oro.bugtrackingsystem.issue.description.label'|trans, entity.description|nl2br) }}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.issue_type.label'|trans, entity.issueType) }}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.issue_priority.label'|trans, entity.issuePriority) }}
+                {{ UI.renderProperty('oro.bugtrackingsystem.issue.workflow_step.label'|trans, entity.workflowStep ? entity.workflowStep.label : 'N/A') }}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.issue_resolution.label'|trans, entity.issueResolution) }}
-                {{ UI.renderProperty('oro.bugtrackingsystem.issue.created_at.label'|trans, entity.createdAt|oro_format_datetime) }}
-                {{ UI.renderProperty('oro.bugtrackingsystem.issue.updated_at.label'|trans, entity.updatedAt|oro_format_datetime) }}
+                {#{{ UI.renderProperty('oro.bugtrackingsystem.issue.created_at.label'|trans, entity.createdAt|oro_format_datetime) }}#}
+                {#{{ UI.renderProperty('oro.bugtrackingsystem.issue.updated_at.label'|trans, entity.updatedAt|oro_format_datetime) }}#}
 
                 {%- set reporterData -%}
                 {%- if entity.reporter -%}

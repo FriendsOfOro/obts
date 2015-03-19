@@ -1,2 +1,2 @@
 bundles:
-- { name: Oro\Bundle\BugTrackingSystemBundle\OroBugTrackingSystemBundle }
+- { name: Oro\Bundle\BugTrackingSystemBundle\OroBugTrackingSystemBundle, priority: 200 }

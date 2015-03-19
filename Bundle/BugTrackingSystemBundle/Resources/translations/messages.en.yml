@@ -2,7 +2,7 @@ oro:
   bugtrackingsystem:
         issue:
             menu:
-                issue_list.description: List of issues
+                issue_list.description: List of Issues
                 my_issues:              My Issues
 
             entity_label:               Issue
@@ -23,6 +23,7 @@ oro:
             reporter.label:	            Reporter
             summary.label:	            Summary
             updated_at.label:           Updated
+            workflow_step.label:        Status
 
             saved_message:              Issue saved
 

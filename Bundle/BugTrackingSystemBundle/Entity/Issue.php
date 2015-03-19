@@ -10,6 +10,8 @@ use Oro\Bundle\BugTrackingSystemBundle\Model\ExtendIssue;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
 
 /**
  * Issue
@@ -41,6 +43,9 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "workflow"={
+ *              "active_workflow"="issue_flow"
  *          }
  *      }
  * )
@@ -100,11 +105,6 @@ class Issue extends ExtendIssue
      * @ORM\JoinColumn(name="issue_resolution_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $issueResolution;
-
-    /**
-     * //@var
-     */
-    //protected $status;
 
     /**
      * //@var
@@ -191,6 +191,22 @@ class Issue extends ExtendIssue
     protected $organization;
 
     /**
+     * @var WorkflowItem
+     *
+     * @ORM\OneToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowItem")
+     * @ORM\JoinColumn(name="workflow_item_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $workflowItem;
+
+    /**
+     * @var WorkflowStep
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowStep")
+     * @ORM\JoinColumn(name="workflow_step_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $workflowStep;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -215,7 +231,7 @@ class Issue extends ExtendIssue
      * Set summary
      *
      * @param string $summary
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @return Issue
      */
     public function setSummary($summary)
     {
@@ -238,7 +254,7 @@ class Issue extends ExtendIssue
      * Set code
      *
      * @param string $code
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @return Issue
      */
     public function setCode($code)
     {
@@ -261,7 +277,7 @@ class Issue extends ExtendIssue
      * Set description
      *
      * @param string $description
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @return Issue
      */
     public function setDescription($description)
     {
@@ -284,7 +300,7 @@ class Issue extends ExtendIssue
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @return Issue
      */
     public function setCreatedAt($createdAt)
     {
@@ -307,7 +323,7 @@ class Issue extends ExtendIssue
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @return Issue
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -329,8 +345,8 @@ class Issue extends ExtendIssue
     /**
      * Set issueType
      *
-     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType $issueType
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @param IssueType $issueType
+     * @return Issue
      */
     public function setIssueType(IssueType $issueType = null)
     {
@@ -342,7 +358,7 @@ class Issue extends ExtendIssue
     /**
      * Get issueType
      *
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType
+     * @return IssueType
      */
     public function getIssueType()
     {
@@ -352,8 +368,8 @@ class Issue extends ExtendIssue
     /**
      * Set issuePriority
      *
-     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority $issuePriority
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @param IssuePriority $issuePriority
+     * @return Issue
      */
     public function setIssuePriority(IssuePriority $issuePriority = null)
     {
@@ -365,7 +381,7 @@ class Issue extends ExtendIssue
     /**
      * Get issuePriority
      *
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority
+     * @return IssuePriority
      */
     public function getIssuePriority()
     {
@@ -375,8 +391,8 @@ class Issue extends ExtendIssue
     /**
      * Set issueResolution
      *
-     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution $issueResolution
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @param IssueResolution $issueResolution
+     * @return Issue
      */
     public function setIssueResolution(IssueResolution $issueResolution = null)
     {
@@ -388,7 +404,7 @@ class Issue extends ExtendIssue
     /**
      * Get issueResolution
      *
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution
+     * @return IssueResolution
      */
     public function getIssueResolution()
     {
@@ -398,8 +414,8 @@ class Issue extends ExtendIssue
     /**
      * Set reporter
      *
-     * @param \Oro\Bundle\UserBundle\Entity\User $reporter
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @param User $reporter
+     * @return Issue
      */
     public function setReporter(User $reporter = null)
     {
@@ -411,7 +427,7 @@ class Issue extends ExtendIssue
     /**
      * Get reporter
      *
-     * @return \Oro\Bundle\UserBundle\Entity\User
+     * @return User
      */
     public function getReporter()
     {
@@ -421,8 +437,8 @@ class Issue extends ExtendIssue
     /**
      * Set owner
      *
-     * @param \Oro\Bundle\UserBundle\Entity\User $owner
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @param User $owner
+     * @return Issue
      */
     public function setOwner(User $owner = null)
     {
@@ -434,7 +450,7 @@ class Issue extends ExtendIssue
     /**
      * Get owner
      *
-     * @return \Oro\Bundle\UserBundle\Entity\User
+     * @return User
      */
     public function getOwner()
     {
@@ -444,8 +460,8 @@ class Issue extends ExtendIssue
     /**
      * Add collaborator
      *
-     * @param \Oro\Bundle\UserBundle\Entity\User $user
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @param User $user
+     * @return Issue
      */
     public function addCollaborator(User $user)
     {
@@ -459,7 +475,7 @@ class Issue extends ExtendIssue
     /**
      * Remove collaborator
      *
-     * @param \Oro\Bundle\UserBundle\Entity\User $user
+     * @param User $user
      */
     public function removeCollaborator(User $user)
     {
@@ -469,7 +485,7 @@ class Issue extends ExtendIssue
     /**
      * Has collaborator
      *
-     * @param \Oro\Bundle\UserBundle\Entity\User $user
+     * @param User $user
      * @return  boolean
      */
     public function hasCollaborator(User $user)
@@ -480,7 +496,7 @@ class Issue extends ExtendIssue
     /**
      *  Get collaborators
      *
-     *  @return \Oro\Bundle\UserBundle\Entity\User[]
+     *  @return User[]
      */
     public function getCollaborators()
     {
@@ -490,8 +506,8 @@ class Issue extends ExtendIssue
     /**
      * Set parent
      *
-     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $parent
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @param Issue $parent
+     * @return Issue
      */
     public function setParent(Issue $parent = null)
     {
@@ -503,7 +519,7 @@ class Issue extends ExtendIssue
     /**
      * Get parent
      *
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @return Issue
      */
     public function getParent()
     {
@@ -513,8 +529,8 @@ class Issue extends ExtendIssue
     /**
      * Add child
      *
-     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $child
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @param Issue $child
+     * @return Issue
      */
     public function addChild(Issue $child)
     {
@@ -528,7 +544,7 @@ class Issue extends ExtendIssue
     /**
      * Remove child
      *
-     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $child
+     * @param Issue $child
      */
     public function removeChild(Issue $child)
     {
@@ -538,7 +554,7 @@ class Issue extends ExtendIssue
     /**
      * Has child
      *
-     * @param \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $child
+     * @param Issue $child
      * @return boolean
      */
     public function hasChild(Issue $child)
@@ -549,7 +565,7 @@ class Issue extends ExtendIssue
     /**
      * Get children
      *
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue[]
+     * @return Issue[]
      */
     public function getChildren()
     {
@@ -559,8 +575,8 @@ class Issue extends ExtendIssue
     /**
      * Set organization
      *
-     * @param \Oro\Bundle\OrganizationBundle\Entity\Organization $organization
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+     * @param Organization $organization
+     * @return Issue
      */
     public function setOrganization(Organization $organization = null)
     {
@@ -572,11 +588,49 @@ class Issue extends ExtendIssue
     /**
      * Get organization
      *
-     * @return \Oro\Bundle\OrganizationBundle\Entity\Organization
+     * @return Organization
      */
     public function getOrganization()
     {
         return $this->organization;
+    }
+
+    /**
+     * @param WorkflowItem $workflowItem
+     * @return Issue
+     */
+    public function setWorkflowItem($workflowItem)
+    {
+        $this->workflowItem = $workflowItem;
+
+        return $this;
+    }
+
+    /**
+     * @return WorkflowItem
+     */
+    public function getWorkflowItem()
+    {
+        return $this->workflowItem;
+    }
+
+    /**
+     * @param WorkflowStep $workflowStep
+     * @return Issue
+     */
+    public function setWorkflowStep($workflowStep)
+    {
+        $this->workflowStep = $workflowStep;
+
+        return $this;
+    }
+
+    /**
+     * @return WorkflowStep
+     */
+    public function getWorkflowStep()
+    {
+        return $this->workflowStep;
     }
 
     /**

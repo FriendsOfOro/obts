@@ -1,6 +1,10 @@
 parameters:
-    oro_bug_tracking_system.issue.entity.class:   Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
-    oro_bug_tracking_system.issue.listener.class: Oro\Bundle\BugTrackingSystemBundle\EventListener\IssueListener
+    oro_bug_tracking_system.issue.entity.class:            Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+    oro_bug_tracking_system.issue_priority.entity.class:   Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority
+    oro_bug_tracking_system.issue_resolution.entity.class: Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution
+    oro_bug_tracking_system.issue_type.entity.class:       Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType
+
+    oro_bug_tracking_system.issue.listener.class:          Oro\Bundle\BugTrackingSystemBundle\EventListener\IssueListener
 
 services:
     oro_bug_tracking_system.issue.listener:

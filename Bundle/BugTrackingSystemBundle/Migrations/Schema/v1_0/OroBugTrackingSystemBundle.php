@@ -7,6 +7,9 @@ use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
+/**
+ * @codeCoverageIgnore
+ */
 class OroBugTrackingSystemBundle implements Migration
 {
     /**
@@ -60,6 +63,16 @@ class OroBugTrackingSystemBundle implements Migration
     private $organizationTableName = 'oro_organization';
 
     /**
+     * @var string
+     */
+    private $workflowItemTableName = 'oro_workflow_item';
+
+    /**
+     * @var string
+     */
+    private $workflowStepTableName = 'oro_workflow_step';
+
+    /**
      * {@inheritdoc}
      */
     public function up(Schema $schema, QueryBag $queries)
@@ -103,6 +116,8 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('createdAt', 'datetime', []);
         $table->addColumn('updatedAt', 'datetime', []);
         $table->addColumn('organization_id', 'integer', ['notnull' => false]);
+        $table->addColumn('workflow_step_id', 'integer', ['notnull' => false]);
+        $table->addColumn('workflow_item_id', 'integer', ['notnull' => false]);
 
         $table->setPrimaryKey(['id']);
 
@@ -286,6 +301,18 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addForeignKeyConstraint(
             $schema->getTable($this->organizationTableName),
             ['organization_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable($this->workflowItemTableName),
+            ['workflow_item_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable($this->workflowStepTableName),
+            ['workflow_step_id'],
             ['id'],
             ['onDelete' => 'SET NULL']
         );

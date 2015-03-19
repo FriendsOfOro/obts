@@ -1,0 +1,23 @@
+workflows:
+    issue_flow:
+        transition_definitions:
+            start_progress_definition: ~
+            stop_progress_definition: ~
+            resolved_definition:
+                post_actions:
+                    - @call_method:
+                        object: $issue
+                        method: setIssueResolution
+                        method_parameters: [$issue_resolution]
+            closed_definition:
+                post_actions:
+                    - @call_method:
+                        object: $issue
+                        method: setIssueResolution
+                        method_parameters: [$issue_resolution]
+            reopen_definition:
+                post_actions:
+                    - @call_method:
+                        object: $issue
+                        method: setIssueResolution
+                        method_parameters: [null]

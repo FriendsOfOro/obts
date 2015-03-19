@@ -7,6 +7,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
 
+/**
+ * @codeCoverageIgnore
+ */
 class LoadIssueEntityData extends AbstractFixture
 {
     /**

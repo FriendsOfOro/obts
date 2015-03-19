@@ -81,7 +81,7 @@ class IssueType implements Translatable
      * Set name
      *
      * @param string $name
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType
+     * @return IssueType
      */
     public function setName($name)
     {
@@ -104,7 +104,7 @@ class IssueType implements Translatable
      * Set label
      *
      * @param string $label
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType
+     * @return IssueType
      */
     public function setLabel($label)
     {
@@ -127,7 +127,7 @@ class IssueType implements Translatable
      * Set locale
      *
      * @param string $locale
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType
+     * @return IssueType
      */
     public function setLocale($locale)
     {
@@ -150,7 +150,7 @@ class IssueType implements Translatable
      * Set order
      *
      * @param integer $order
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType
+     * @return IssueType
      */
     public function setOrder($order)
     {

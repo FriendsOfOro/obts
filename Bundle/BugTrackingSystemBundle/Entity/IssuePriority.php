@@ -82,7 +82,7 @@ class IssuePriority implements Translatable
      * Set name
      *
      * @param string $name
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority
+     * @return IssuePriority
      */
     public function setName($name)
     {
@@ -105,7 +105,7 @@ class IssuePriority implements Translatable
      * Set label
      *
      * @param string $label
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority
+     * @return IssuePriority
      */
     public function setLabel($label)
     {
@@ -128,7 +128,7 @@ class IssuePriority implements Translatable
      * Set locale
      *
      * @param string $locale
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority
+     * @return IssuePriority
      */
     public function setLocale($locale)
     {
@@ -151,7 +151,7 @@ class IssuePriority implements Translatable
      * Set order
      *
      * @param integer $order
-     * @return \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority
+     * @return IssuePriority
      */
     public function setOrder($order)
     {

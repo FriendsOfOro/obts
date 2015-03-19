@@ -8,6 +8,9 @@ use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
 
 use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
 
+/**
+ * @codeCoverageIgnore
+ */
 class LoadIssueTypeData extends AbstractTranslatableEntityFixture
 {
     const ISSUE_TYPE_PREFIX = 'issueType';

@@ -1,6 +1,6 @@
 {% extends 'OroUIBundle:actions:update.html.twig' %}
 
-{% oro_title_set({params : {"%entity.code%": entity.code, "%entityName%": 'oro.bugtrackingsystem.issue.entity_label'|trans }}) %}
+{% oro_title_set({params : {"%entity.code%": entity.code}}) %}
 {% set entityId = entity.id %}
 
 {% block navButtons %}

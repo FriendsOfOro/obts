@@ -12,6 +12,7 @@ datagrid:
                     - issue.description
                     - issueType.label as typeLabel
                     - issuePriority.label as priorityLabel
+                    - workflowStep.label as workflowStepLabel
                     - issueResolution.label as resolutionLabel
                     - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as reporterName
                     - reporter.id as reporterId
@@ -19,7 +20,6 @@ datagrid:
                     - owner.id as ownerId
                     - issue.createdAt
                     - issue.updatedAt
-#                    - workflowStep.label as workflowStepLabel
                 from:
                     - { table: %oro_bug_tracking_system.issue.entity.class%, alias: issue }
                 join:
@@ -29,18 +29,18 @@ datagrid:
                         - { join: issue.issueResolution, alias: issueResolution }
                         - { join: issue.reporter, alias: reporter }
                         - { join: issue.owner, alias: owner }
-#                        - { join: task.workflowStep, alias: workflowStep }
+                        - { join: issue.workflowStep, alias: workflowStep }
         columns:
             code:
                 label:         oro.bugtrackingsystem.issue.code.label
             summary:
                 label:         oro.bugtrackingsystem.issue.summary.label
-#            workflowStepLabel:
-#                label:         orocrm.task.workflow_step.label
             typeLabel:
                 label:         oro.bugtrackingsystem.issue.issue_type.label
             priorityLabel:
                 label:         oro.bugtrackingsystem.issue.issue_priority.label
+            workflowStepLabel:
+                label:         oro.bugtrackingsystem.issue.workflow_step.label
             resolutionLabel:
                 label:         oro.bugtrackingsystem.issue.issue_resolution.label
             reporterName:
@@ -65,12 +65,12 @@ datagrid:
                     data_name: issue.code
                 summary:
                     data_name: issue.summary
-#                workflowStepLabel:
-#                    data_name: workflowStep.stepOrder
                 typeLabel:
                     data_name: issueType.order
                 priorityLabel:
                     data_name: issuePriority.order
+                workflowStepLabel:
+                    data_name: workflowStep.stepOrder
                 resolutionLabel:
                     data_name: issueResolution.order
                 reporterName:
@@ -82,7 +82,7 @@ datagrid:
                 updatedAt:
                     data_name: issue.updatedAt
             default:
-                dueDate: ASC
+                updatedAt: DESC
         filters:
             columns:
                 code:
@@ -91,22 +91,34 @@ datagrid:
                 summary:
                     type:      string
                     data_name: issue.summary
-#                workflowStepLabel:
-#                    type:      entity
-#                    data_name: task.workflowStep
-#                    options:
-#                        field_type: oro_workflow_step_select
-#                        field_options:
-#                            workflow_entity_class: %orocrm_task.entity.class%
                 typeLabel:
-                    type:      string
-                    data_name: typeLabel
+                    type:      entity
+                    data_name: issueType.id
+                    options:
+                        field_options:
+                            class: %oro_bug_tracking_system.issue_type.entity.class%
+                            property: label
                 priorityLabel:
-                    type:      string
-                    data_name: priorityLabel
+                    type:      entity
+                    data_name: issuePriority.id
+                    options:
+                        field_options:
+                            class: %oro_bug_tracking_system.issue_priority.entity.class%
+                            property: label
+                workflowStepLabel:
+                    type:      entity
+                    data_name: issue.workflowStep
+                    options:
+                        field_type: oro_workflow_step_select
+                        field_options:
+                            workflow_entity_class: %oro_bug_tracking_system.issue.entity.class%
                 resolutionLabel:
-                    type:      string
-                    data_name: resolutionLabel
+                    type:      entity
+                    data_name: issueResolution.id
+                    options:
+                        field_options:
+                            class: %oro_bug_tracking_system.issue_resolution.entity.class%
+                            property: label
                 reporterName:
                     type:      string
                     data_name: reporterName
