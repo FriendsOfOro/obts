@@ -40,8 +40,10 @@ class IssueController extends Controller
 
     /**
      * @Route(
-     *      "/create",
-     *      name="oro_bug_tracking_system_issue_create"
+     *      "/create/{id}",
+     *      name="oro_bug_tracking_system_issue_create",
+     *      requirements={"id"="\d+"},
+     *      defaults={"id"=null}
      * )
      * @Acl(
      *      id="oro_bug_tracking_system_issue_create",
@@ -51,10 +53,19 @@ class IssueController extends Controller
      * )
      * @Template("OroBugTrackingSystemBundle:Issue:update.html.twig")
      *
+     * @param null|int
      * @return array
      */
-    public function createAction()
+    public function createAction($id)
     {
+        if ($id) {
+            $issue = $this->getRepository('OroBugTrackingSystemBundle:Issue')->find($id);
+
+            if (!$issue) {
+                throw $this->createNotFoundException('Oro\Bundle\BtsBundle\Entity\Issue object not found.');
+            }
+        }
+
         $issue = new Issue();
 
         $type = $this

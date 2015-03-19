@@ -55,8 +55,8 @@ class LoadIssueTypeData extends AbstractTranslatableEntityFixture
                 // save
                 $manager->persist($issueType);
             }
-        }
 
-        $manager->flush();
+            $manager->flush();
+        }
     }
 }

@@ -1,6 +1,6 @@
 {% extends 'OroUIBundle:actions:update.html.twig' %}
 
-{% oro_title_set({params : {"%entity.code%": entity.code}}) %}
+{% oro_title_set({params : {"%entity.code%": entity.code, "%entityName%": 'oro.bugtrackingsystem.issue.entity_label'|trans }}) %}
 {% set entityId = entity.id %}
 
 {% block navButtons %}
@@ -38,10 +38,10 @@
                 'title': '',
                 'data': [
                     form_row(form.summary),
-                    form_row(form.description),
                     form_row(form.issueType),
                     form_row(form.issuePriority),
                     form.owner is defined ? form_row(form.owner) : '',
+                    form_row(form.description),
                 ]
             }
         ]

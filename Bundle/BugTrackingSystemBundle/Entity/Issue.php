@@ -672,4 +672,20 @@ class Issue extends ExtendIssue
     {
         $this->setUpdatedAt(new \DateTime());
     }
+
+    /**
+     * @return boolean
+     */
+    public function isStory()
+    {
+        return $this->getIssueType() && $this->getIssueType()->getName() == IssueType::STORY;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSubTask()
+    {
+        return $this->getIssueType() && $this->getIssueType()->getName() == IssueType::SUB_TASK;
+    }
 }

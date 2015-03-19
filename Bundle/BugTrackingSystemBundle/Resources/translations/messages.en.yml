@@ -26,6 +26,7 @@ oro:
             workflow_step.label:        Status
 
             saved_message:              Issue saved
+            create_subtask_button:      Create Sub-Task
 
         issuepriority:
             entity_label:               Issue Priority

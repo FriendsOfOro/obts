@@ -6,8 +6,9 @@ use Doctrine\ORM\EntityRepository;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
 
 class IssueType extends AbstractType
 {
@@ -41,7 +42,11 @@ class IssueType extends AbstractType
                     'class' => 'Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType',
                     'required' => true,
                     'query_builder' => function (EntityRepository $repository) {
-                        return $repository->createQueryBuilder('type')->orderBy('type.order');
+                        return $repository
+                            ->createQueryBuilder('type')
+                            ->orderBy('type.order')
+                            ->where('type.name != :name')
+                            ->setParameter('name', \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType::SUB_TASK);
                     }
                 ]
             )

@@ -56,8 +56,8 @@ class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
                 // save
                 $manager->persist($issuePriority);
             }
-        }
 
-        $manager->flush();
+            $manager->flush();
+        }
     }
 }
