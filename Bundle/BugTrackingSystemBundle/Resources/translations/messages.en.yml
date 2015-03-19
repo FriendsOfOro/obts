@@ -23,6 +23,7 @@ oro:
             reporter.label:	            Reporter
             summary.label:	            Summary
             updated_at.label:           Updated
+            workflow_item.label:        Workflow Item
             workflow_step.label:        Status
 
             saved_message:              Issue saved

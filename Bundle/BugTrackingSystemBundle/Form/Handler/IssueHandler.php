@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
+use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
 
 use Oro\Bundle\ActivityBundle\Manager\ActivityManager;
 use Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper;
@@ -113,6 +114,14 @@ class IssueHandler
      */
     protected function onSuccess(Issue $entity)
     {
+        if (!$entity->getId() && $entity->getParent()) {
+            $type = $this->manager
+                ->getRepository('OroBugTrackingSystemBundle:IssueType')
+                ->findOneByName(IssueType::SUB_TASK);
+
+            $entity->setIssueType($type);
+        }
+
         $this->manager->persist($entity);
         $this->manager->flush();
     }

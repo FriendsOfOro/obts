@@ -59,14 +59,22 @@ class IssueController extends Controller
     public function createAction($id)
     {
         if ($id) {
-            $issue = $this->getRepository('OroBugTrackingSystemBundle:Issue')->find($id);
+            $story = $this->getRepository('OroBugTrackingSystemBundle:Issue')->find($id);
 
-            if (!$issue) {
+            if (!$story) {
                 throw $this->createNotFoundException('Oro\Bundle\BtsBundle\Entity\Issue object not found.');
+            }
+
+            if (!$story->isStory()) {
+                return $this->redirect($this->generateUrl('oro_bug_tracking_system_issue_view', ['id' => $id]));
             }
         }
 
         $issue = new Issue();
+
+        if (isset($story)) {
+            $issue->setParent($story);
+        }
 
         $type = $this
             ->getRepository('OroBugTrackingSystemBundle:IssueType')
@@ -86,7 +94,11 @@ class IssueController extends Controller
 
         $formAction = $this
             ->get('oro_entity.routing_helper')
-            ->generateUrlByRequest('oro_bug_tracking_system_issue_create', $this->getRequest());
+            ->generateUrlByRequest(
+                'oro_bug_tracking_system_issue_create',
+                $this->getRequest(),
+                isset($story) ? ['id' => $story->getId()] : []
+            );
 
         return $this->update($issue, $formAction);
     }

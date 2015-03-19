@@ -1,8 +1,9 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 {% import 'OroUIBundle::macros.html.twig' as UI %}
 {% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
 
-{% oro_title_set({params : {"%entity.code%": entity.code}}) %}
+{% oro_title_set({params : {"%entityCode%": entity.code}}) %}
 
 {% block navButtons %}
     {% if resource_granted('CREATE', entity) and entity.isStory() %}
@@ -36,6 +37,13 @@
         'indexLabel': 'oro.bugtrackingsystem.issue.entity_plural_label'|trans,
         'entityTitle': entity.code ~ ' : ' ~ entity.summary
     } %}
+    {% if entity.parent %}
+        {% set breadcrumbs = breadcrumbs|merge({'additional': [{
+            'entity': entity.parent,
+            'indexPath': path('oro_bug_tracking_system_issue_view', { 'id': entity.parent.id }),
+            'indexLabel': entity.parent.code
+        }]}) %}
+    {% endif %}
     {{ parent() }}
 {% endblock pageHeader %}
 
@@ -43,14 +51,18 @@
     {%- set issueInformation -%}
         <div class="row-fluid form-horizontal">
             <div class="responsive-block">
+                {% if entity.parent %}
+                    {{ UI.renderHtmlProperty(
+                        'oro.bugtrackingsystem.issue.parent.label'|trans,
+                        UI.link({'path': path('oro_bug_tracking_system_issue_view', {'id': entity.parent.id}), 'label': entity.parent.code})
+                    ) }}
+                {% endif %}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.summary.label'|trans, entity.summary) }}
                 {{ UI.renderHtmlProperty('oro.bugtrackingsystem.issue.description.label'|trans, entity.description|nl2br) }}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.issue_type.label'|trans, entity.issueType) }}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.issue_priority.label'|trans, entity.issuePriority) }}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.workflow_step.label'|trans, entity.workflowStep ? entity.workflowStep.label : 'N/A') }}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.issue_resolution.label'|trans, entity.issueResolution) }}
-                {#{{ UI.renderProperty('oro.bugtrackingsystem.issue.created_at.label'|trans, entity.createdAt|oro_format_datetime) }}#}
-                {#{{ UI.renderProperty('oro.bugtrackingsystem.issue.updated_at.label'|trans, entity.updatedAt|oro_format_datetime) }}#}
 
                 {%- set reporterData -%}
                 {%- if entity.reporter -%}
@@ -93,6 +105,19 @@
             ]
         }
     ] %}
+
+    {% if entity.isStory() %}
+        {% set subtasksBlock = [
+            {
+                'title': 'Sub-Tasks'|trans,
+                'class': 'active',
+                'subblocks': [
+                    {'data' : [dataGrid.renderGrid('subtask_grid', {'parent_id': entity.id})] }
+                ]
+            }
+        ] %}
+        {% set dataBlocks = dataBlocks|merge(subtasksBlock) %}
+    {% endif %}
 
     {% set id = 'issueView' %}
     {% set data = { 'dataBlocks': dataBlocks } %}

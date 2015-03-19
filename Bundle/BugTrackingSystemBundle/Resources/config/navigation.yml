@@ -29,7 +29,7 @@ oro_menu_config:
 
 oro_titles:
     oro_bug_tracking_system_issue_index: ~
-    oro_bug_tracking_system_issue_view: '%%entity.code%%'
+    oro_bug_tracking_system_issue_view: '%%entityCode%%'
     oro_bug_tracking_system_issue_create: oro.ui.create_entity
-    oro_bug_tracking_system_issue_update: '%%entity.code%% - Edit'
+    oro_bug_tracking_system_issue_update: '%%entityCode%% - Edit'
     oro_bug_tracking_system_issue_my_issues: "My Issues - %%username%%"

@@ -8,8 +8,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
-
 class IssueType extends AbstractType
 {
     /**
@@ -22,16 +20,16 @@ class IssueType extends AbstractType
                 'summary',
                 'text',
                 [
-                    'required' => true,
-                    'label' => 'oro.bugtrackingsystem.issue.summary.label'
+                    'label' => 'oro.bugtrackingsystem.issue.summary.label',
+                    'required' => true
                 ]
             )
             ->add(
                 'description',
                 'textarea',
                 [
-                    'required' => false,
-                    'label' => 'oro.bugtrackingsystem.issue.description.label'
+                    'label' => 'oro.bugtrackingsystem.issue.description.label',
+                    'required' => false
                 ]
             )
             ->add(
