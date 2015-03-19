@@ -1,20 +1,19 @@
-issue:
-    issuePriority:
-        blocker:          Blocker
-        critical:         Critical
-        major:            Major
-        minor:            Minor
-        trivial:          Trivial
-    issueResolution:
-        cannot_reproduce: Cannot Reproduce
-        done:             Done
-        duplicate:        Duplicate
-        fixed:            Fixed
-        incomplete:       Incomplete
-        wont_do:          Won't Do
-        wont_fix:         Won't Fix
-    issueType:
-        bug:              Bug
-        story:            Story
-        task:             Task
-        sub_task:         Sub-Task
+issuePriority:
+    blocker:          Blocker
+    critical:         Critical
+    major:            Major
+    minor:            Minor
+    trivial:          Trivial
+issueResolution:
+    cannot_reproduce: Cannot Reproduce
+    done:             Done
+    duplicate:        Duplicate
+    fixed:            Fixed
+    incomplete:       Incomplete
+    wont_do:          Won't Do
+    wont_fix:         Won't Fix
+issueType:
+    bug:              Bug
+    story:            Story
+    task:             Task
+    sub_task:         Sub-Task

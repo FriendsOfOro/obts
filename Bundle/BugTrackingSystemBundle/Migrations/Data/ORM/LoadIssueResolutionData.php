@@ -10,7 +10,7 @@ use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
 
 class LoadIssueResolutionData extends AbstractTranslatableEntityFixture
 {
-    const ISSUE_RESOLUTION_PREFIX = 'issue.issueResolution';
+    const ISSUE_RESOLUTION_PREFIX = 'issueResolution';
 
     /**
      * @var array
@@ -43,7 +43,6 @@ class LoadIssueResolutionData extends AbstractTranslatableEntityFixture
                 if (!$issueResolution) {
                     $issueResolution = new IssueResolution();
                     $issueResolution->setName($resolutionName);
-                    $issueResolution->setLabel(ucfirst($resolutionName));
                     $issueResolution->setOrder($order);
                 }
 

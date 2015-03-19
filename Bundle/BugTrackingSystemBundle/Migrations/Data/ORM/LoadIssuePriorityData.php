@@ -10,7 +10,7 @@ use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
 
 class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
 {
-    const ISSUE_PRIORITY_PREFIX = 'issue.issuePriority';
+    const ISSUE_PRIORITY_PREFIX = 'issuePriority';
 
     /**
      * @var array
@@ -41,7 +41,6 @@ class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
                 if (!$issuePriority) {
                     $issuePriority = new IssuePriority();
                     $issuePriority->setName($priorityName);
-                    $issuePriority->setLabel(ucfirst($priorityName));
                     $issuePriority->setOrder($order);
                 }
 

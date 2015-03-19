@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\BugTrackingSystemBundle\Model;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ExtendIssue
 {
     /**

@@ -10,7 +10,7 @@ use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
 
 class LoadIssueTypeData extends AbstractTranslatableEntityFixture
 {
-    const ISSUE_TYPE_PREFIX = 'issue.issueType';
+    const ISSUE_TYPE_PREFIX = 'issueType';
 
     /**
      * @var array
@@ -40,7 +40,6 @@ class LoadIssueTypeData extends AbstractTranslatableEntityFixture
                 if (!$issueType) {
                     $issueType = new IssueType();
                     $issueType->setName($typeName);
-                    $issueType->setLabel(ucfirst($typeName));
                     $issueType->setOrder($order);
                 }
 

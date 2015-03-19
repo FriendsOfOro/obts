@@ -13,7 +13,16 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
  * @ORM\Table(name="obts_issue_resolution")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolutionTranslation")
- * @Config()
+ * @Config(
+ *      defaultValues={
+ *          "grouping"={
+ *              "groups"={"dictionary"}
+ *          },
+ *          "dictionary"={
+ *              "virtual_fields"={"label"}
+ *          }
+ *      }
+ * )
  */
 class IssueResolution implements Translatable
 {

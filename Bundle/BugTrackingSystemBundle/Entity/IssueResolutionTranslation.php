@@ -17,6 +17,7 @@ use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
  *      }
  * )
  * @ORM\Entity(repositoryClass="Gedmo\Translatable\Entity\Repository\TranslationRepository")
+ * @codeCoverageIgnore
  */
 class IssueResolutionTranslation extends AbstractTranslation
 {
