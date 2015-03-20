@@ -9,6 +9,8 @@ use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution;
 
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
 
 class IssueTest extends \PHPUnit_Framework_TestCase
 {
@@ -79,7 +81,9 @@ class IssueTest extends \PHPUnit_Framework_TestCase
             ['parent', new Issue],
             ['createdAt', new \DateTime()],
             ['updatedAt', new \DateTime()],
-            ['organization', new Organization()]
+            ['organization', new Organization()],
+            ['workflowItem', new WorkflowItem()],
+            ['workflowStep', new WorkflowStep()],
         ];
     }
 

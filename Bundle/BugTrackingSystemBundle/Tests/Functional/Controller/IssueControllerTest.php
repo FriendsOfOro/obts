@@ -64,6 +64,45 @@ class IssueControllerTest extends WebTestCase
     /**
      * @depends testCreate
      */
+    public function testCreateSubTask()
+    {
+        $response = $this->client->requestGrid(
+            'issues_grid',
+            ['issues_grid[_filter][summary][value]' => 'New issue']
+        );
+
+        $result = $this->getJsonResponseContent($response, 200);
+        $result = reset($result['data']);
+
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_bug_tracking_system_issue_create', ['id' => $result['id']])
+        );
+
+        /**
+         * @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority $priority
+         */
+        $priority = $this->em
+            ->getRepository('OroBugTrackingSystemBundle:IssuePriority')
+            ->findOneByName(IssuePriority::MAJOR);
+
+        $form = $crawler->selectButton('Save and Close')->form();
+        $form['oro_bug_tracking_system_issue[summary]'] = 'New sub-task';
+        $form['oro_bug_tracking_system_issue[description]'] = 'New description';
+        $form['oro_bug_tracking_system_issue[issuePriority]'] = $priority->getId();
+        $form['oro_bug_tracking_system_issue[owner]'] = '1';
+
+        $this->client->followRedirects(true);
+        $crawler = $this->client->submit($form);
+
+        $result = $this->client->getResponse();
+        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        $this->assertContains("Issue saved", $crawler->html());
+    }
+
+    /**
+     * @depends testCreate
+     */
     public function testUpdate()
     {
         $response = $this->client->requestGrid(
