@@ -6,6 +6,8 @@ parameters:
 
     oro_bug_tracking_system.issue.listener.class:          Oro\Bundle\BugTrackingSystemBundle\EventListener\IssueListener
 
+    oro_bug_tracking_system.datagrid.action.story_delete.class: Oro\Bundle\BugTrackingSystemBundle\Datagrid\Action\StoryDeleteAction
+
 services:
     oro_bug_tracking_system.issue.listener:
         class: %oro_bug_tracking_system.issue.listener.class%
@@ -14,3 +16,9 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }
+
+    oro_bug_tracking_system.datagrid.action.story_delete:
+        class: %oro_bug_tracking_system.datagrid.action.story_delete.class%
+        scope: prototype
+        tags:
+            - { name: oro_datagrid.extension.action.type, type: story-delete }

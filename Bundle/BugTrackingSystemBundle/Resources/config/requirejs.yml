@@ -1,0 +1,4 @@
+config:
+    paths:
+        'orobugtrackingsystem/js/story-deletion-handler': 'bundles/orobugtrackingsystem/js/story-deletion-handler.js'
+        'oro/datagrid/action/story-delete-action':        'bundles/orobugtrackingsystem/js/datagrid/action/story-delete-action.js'
