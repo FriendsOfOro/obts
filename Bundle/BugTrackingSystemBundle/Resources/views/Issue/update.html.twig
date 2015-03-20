@@ -38,7 +38,7 @@
                 'title': '',
                 'data': [
                     form_row(form.summary),
-                    entity.parent ? '' : form_row(form.issueType),
+                    (entity.parent or entity.isSubTask()) ? '' : form_row(form.issueType),
                     form_row(form.issuePriority),
                     form.owner is defined ? form_row(form.owner) : '',
                     form_row(form.description),

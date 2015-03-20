@@ -45,7 +45,8 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  *              "auditable"=true
  *          },
  *          "workflow"={
- *              "active_workflow"="issue_flow"
+ *              "active_workflow"="issue_flow",
+ *              "show_step_in_grid"=false
  *          }
  *      }
  * )

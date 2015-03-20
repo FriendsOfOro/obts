@@ -299,6 +299,12 @@ class OroBugTrackingSystemBundle implements Migration
             ['onDelete' => 'SET NULL']
         );
         $table->addForeignKeyConstraint(
+            $schema->getTable($this->issueTableName),
+            ['parent_id'],
+            ['id'],
+            ['onDelete' => 'CASCADE']
+        );
+        $table->addForeignKeyConstraint(
             $schema->getTable($this->organizationTableName),
             ['organization_id'],
             ['id'],

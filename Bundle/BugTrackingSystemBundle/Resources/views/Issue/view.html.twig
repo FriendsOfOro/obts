@@ -23,7 +23,7 @@
             'dataUrl': path('oro_bug_tracking_system_api_delete_issue', {'id': entity.id}),
             'dataRedirect': path('oro_bug_tracking_system_issue_index'),
             'aCss': 'no-hash remove-button',
-            'id': 'btn-remove-user',
+            'id': 'btn-remove-issue',
             'dataId': entity.id,
             'entity_label': 'oro.bugtrackingsystem.issue.entity_label'|trans
         }) }}
@@ -51,10 +51,10 @@
     {%- set issueInformation -%}
         <div class="row-fluid form-horizontal">
             <div class="responsive-block">
-                {% if entity.parent %}
+                {% if entity.isSubTask() %}
                     {{ UI.renderHtmlProperty(
                         'oro.bugtrackingsystem.issue.parent.label'|trans,
-                        UI.link({'path': path('oro_bug_tracking_system_issue_view', {'id': entity.parent.id}), 'label': entity.parent.code})
+                        entity.parent ? UI.link({'path': path('oro_bug_tracking_system_issue_view', {'id': entity.parent.id}), 'label': entity.parent.code}) : 'N/A'
                     ) }}
                 {% endif %}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.summary.label'|trans, entity.summary) }}
@@ -106,13 +106,24 @@
         }
     ] %}
 
+    {% set collaboratorsBlock = [
+        {
+            'title': 'Collaborators'|trans,
+            'class': 'active',
+            'subblocks': [
+                {'data' : [dataGrid.renderGrid('collaborators_grid', {'issue_id': entity.id})] }
+            ]
+        }
+    ] %}
+    {% set dataBlocks = dataBlocks|merge(collaboratorsBlock) %}
+
     {% if entity.isStory() %}
         {% set subtasksBlock = [
             {
                 'title': 'Sub-Tasks'|trans,
                 'class': 'active',
                 'subblocks': [
-                    {'data' : [dataGrid.renderGrid('subtask_grid', {'parent_id': entity.id})] }
+                    {'data' : [dataGrid.renderGrid('subtask_grid', {'issue_id': entity.id})] }
                 ]
             }
         ] %}

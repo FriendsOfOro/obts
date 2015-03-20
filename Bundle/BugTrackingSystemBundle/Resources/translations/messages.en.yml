@@ -1,5 +1,8 @@
 oro:
   bugtrackingsystem:
+        collaborator:
+            entity_label:               Collaborator
+
         issue:
             menu:
                 issue_list.description: List of Issues
