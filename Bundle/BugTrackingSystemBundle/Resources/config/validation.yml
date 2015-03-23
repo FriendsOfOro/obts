@@ -14,3 +14,4 @@ Oro\Bundle\BugTrackingSystemBundle\Entity\Issue:
             - NotBlank: ~
         owner:
             - NotBlank: ~
+        children: ~

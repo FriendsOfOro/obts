@@ -1,9 +1,8 @@
 parameters:
-    oro_bug_tracking_system.form.type.issue.class:        Oro\Bundle\BugTrackingSystemBundle\Form\Type\IssueType
-    oro_bug_tracking_system.form.type.issue_api.class:    Oro\Bundle\BugTrackingSystemBundle\Form\Type\IssueApiType
-    oro_bug_tracking_system.form.handler.issue.class:     Oro\Bundle\BugTrackingSystemBundle\Form\Handler\IssueHandler
-    oro_bug_tracking_system.form.handler.issue_api.class: Oro\Bundle\BugTrackingSystemBundle\Form\Handler\IssueApiHandler
-    oro_bug_tracking_system.manager.api.class:            Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+    oro_bug_tracking_system.form.type.issue.class:     Oro\Bundle\BugTrackingSystemBundle\Form\Type\IssueType
+    oro_bug_tracking_system.form.type.issue_api.class: Oro\Bundle\BugTrackingSystemBundle\Form\Type\IssueApiType
+    oro_bug_tracking_system.form.handler.issue.class:  Oro\Bundle\BugTrackingSystemBundle\Form\Handler\IssueHandler
+    oro_bug_tracking_system.manager.api.class:         Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
 
 services:
     oro_bug_tracking_system.form.type.issue:
@@ -31,8 +30,8 @@ services:
             - @oro_bug_tracking_system.form
             - @request
             - @doctrine.orm.entity_manager
-            - @oro_activity.manager
-            - @oro_entity.routing_helper
+        tags:
+            - { name: oro_tag.tag_manager }
 
     oro_bug_tracking_system.form.api:
         class: Symfony\Component\Form\Form
@@ -43,13 +42,14 @@ services:
             - 'issue'
 
     oro_bug_tracking_system.form.handler.issue_api:
-        class: %oro_bug_tracking_system.form.handler.issue_api.class%
+        class: %oro_bug_tracking_system.form.handler.issue.class%
         scope: request
         arguments:
             - @oro_bug_tracking_system.form.api
             - @request
             - @doctrine.orm.entity_manager
-            - @oro_entity.routing_helper
+        tags:
+            - { name: oro_tag.tag_manager }
 
     oro_bug_tracking_system.manager.api:
         class: %oro_bug_tracking_system.manager.api.class%

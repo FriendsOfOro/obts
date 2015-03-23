@@ -1,9 +1,42 @@
 {% extends 'OroUIBundle:actions:update.html.twig' %}
+{% form_theme form with ['OroTagBundle:Form:fields.html.twig'] %}
 
 {% oro_title_set({params : {"%entityCode%": entity.code, "%entityName%": 'oro.bugtrackingsystem.issue.entity_label'|trans }}) %}
 {% set entityId = entity.id %}
 
 {% block navButtons %}
+    {% if resource_granted('DELETE', entity) %}
+        {% set idButton = 'btn-remove-issue' %}
+        {{ UI.button({
+            'path':  path('oro_bug_tracking_system_api_delete_issue', {'id': entity.id}),
+            'aCss':  'no-hash',
+            'iCss':  'icon-trash',
+            'id':    idButton,
+            'label': 'oro.ui.delete'|trans,
+            'title': 'oro.ui.delete'|trans ~ ' ' ~ 'oro.bugtrackingsystem.issue.entity_label'|trans,
+        }) }}
+        <script type="text/javascript">
+            require(['jquery', 'orobugtrackingsystem/js/issue-deletion-handler', 'oroui/js/mediator'],
+                    function($, issueDeletionHandler, mediator) {
+                        $('#{{ idButton }}').on('click', function(e) {
+                            e.preventDefault();
+                            var el = $(this);
+                            el.on('issue_deletion_success', function() {
+                                mediator.once('page:afterChange', function() {
+                                    mediator.execute('showFlashMessage', 'success', 'Issue deleted');
+                                });
+                                mediator.execute(
+                                        'redirectTo',
+                                        {url: '{{ path('oro_bug_tracking_system_issue_index') }}' }
+                                );
+                            });
+                            issueDeletionHandler.call(el, el.prop('href'), {{ entity.getChildren()|length }});
+                        });
+                    });
+        </script>
+    {% endif %}
+    {{ UI.buttonSeparator() }}
+
     {% set html = UI.saveAndCloseButton() %}
     {% if resource_granted('oro_bug_tracking_system_issue_update') %}
         {% set html = html ~ UI.saveAndStayButton() %}
@@ -42,6 +75,13 @@
                     form_row(form.issuePriority),
                     form.owner is defined ? form_row(form.owner) : '',
                     form_row(form.description),
+                    form_row(form.tags)
+                ]
+            },
+            {
+                'title': '',
+                'data': [
+                    form_row(form.tags)
                 ]
             }
         ]
@@ -63,7 +103,7 @@
     {% endif %}
 
     {% set data = {
-        'formErrors': form_errors(form)? form_errors(form) : null,
+        'formErrors': form_errors(form) ? form_errors(form) : null,
         'dataBlocks': dataBlocks,
     } %}
     {{ parent() }}

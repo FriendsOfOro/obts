@@ -65,7 +65,14 @@ class IssueType extends AbstractType
                 'oro_user_select',
                 [
                     'required' => true,
-                    'label'    => 'oro.bugtrackingsystem.issue.owner.label',
+                    'label' => 'oro.bugtrackingsystem.issue.owner.label',
+                ]
+            )
+            ->add(
+                'tags',
+                'oro_tag_select',
+                [
+                    'label' => 'oro.tag.entity_plural_label',
                 ]
             );
     }
@@ -77,7 +84,9 @@ class IssueType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'Oro\Bundle\BugTrackingSystemBundle\Entity\Issue'
+                'data_class' => 'Oro\Bundle\BugTrackingSystemBundle\Entity\Issue',
+                'intention' => 'issue',
+                'cascade_validation' => true,
             ]
         );
     }
