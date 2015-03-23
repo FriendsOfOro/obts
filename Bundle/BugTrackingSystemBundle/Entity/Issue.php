@@ -158,7 +158,7 @@ class Issue extends ExtendIssue
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "order"=80,
+     *              "order"=60,
      *              "header"="Resolution",
      *              "short"=true
      *          }
@@ -180,7 +180,7 @@ class Issue extends ExtendIssue
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "order"=90,
+     *              "order"=70,
      *              "header"="Reporter",
      *              "short"=true
      *          }
@@ -197,7 +197,7 @@ class Issue extends ExtendIssue
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "order"=100,
+     *              "order"=80,
      *              "header"="Assignee",
      *              "short"=true
      *          }
@@ -242,7 +242,7 @@ class Issue extends ExtendIssue
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "order"=140,
+     *              "order"=120,
      *              "header"="Parent",
      *              "short"=true
      *          }
@@ -277,7 +277,7 @@ class Issue extends ExtendIssue
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "order"=110,
+     *              "order"=90,
      *              "header"="Created At"
      *          }
      *      }
@@ -292,7 +292,7 @@ class Issue extends ExtendIssue
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "order"=120,
+     *              "order"=100,
      *              "header"="Created At"
      *          }
      *      }
@@ -308,7 +308,7 @@ class Issue extends ExtendIssue
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "order"=130,
+     *              "order"=110,
      *              "header"="Organization",
      *              "short"=true
      *          }
@@ -325,9 +325,7 @@ class Issue extends ExtendIssue
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "order"=60,
-     *              "header"="Workflow Item",
-     *              "short"=true
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -342,9 +340,7 @@ class Issue extends ExtendIssue
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "order"=70,
-     *              "header"="Status",
-     *              "short"=true
+     *              "excluded"=true
      *          }
      *      }
      * )
