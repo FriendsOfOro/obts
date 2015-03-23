@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\BugTrackingSystemBundle\Model\ExtendIssue;
 
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
@@ -59,6 +60,13 @@ class Issue extends ExtendIssue
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $id;
 
@@ -66,6 +74,14 @@ class Issue extends ExtendIssue
      * @var string
      *
      * @ORM\Column(name="summary", type="string", length=255, nullable=false)
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=20,
+     *              "header"="Summary"
+     *          }
+     *      }
+     * )
      */
     protected $summary;
 
@@ -73,6 +89,15 @@ class Issue extends ExtendIssue
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=255, nullable=false, unique=true)
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=10,
+     *              "header"="Code",
+     *              "identity"=true
+     *          }
+     *      }
+     * )
      */
     protected $code;
 
@@ -80,6 +105,14 @@ class Issue extends ExtendIssue
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=30,
+     *              "header"="Description"
+     *          }
+     *      }
+     * )
      */
     protected $description;
 
@@ -88,6 +121,15 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="IssueType")
      * @ORM\JoinColumn(name="issue_type_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=40,
+     *              "header"="Type",
+     *              "short"=true
+     *          }
+     *      }
+     * )
      */
     protected $issueType;
 
@@ -96,6 +138,15 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="IssuePriority")
      * @ORM\JoinColumn(name="issue_priority_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=50,
+     *              "header"="Priority",
+     *              "short"=true
+     *          }
+     *      }
+     * )
      */
     protected $issuePriority;
 
@@ -104,6 +155,15 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="IssueResolution")
      * @ORM\JoinColumn(name="issue_resolution_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=80,
+     *              "header"="Resolution",
+     *              "short"=true
+     *          }
+     *      }
+     * )
      */
     protected $issueResolution;
 
@@ -117,6 +177,15 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="reporter_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=90,
+     *              "header"="Reporter",
+     *              "short"=true
+     *          }
+     *      }
+     * )
      */
     protected $reporter;
 
@@ -125,6 +194,15 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=100,
+     *              "header"="Assignee",
+     *              "short"=true
+     *          }
+     *      }
+     * )
      */
     protected $owner;
 
@@ -146,6 +224,13 @@ class Issue extends ExtendIssue
      *          @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      *      }
      * )
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $collaborators;
 
@@ -154,6 +239,15 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="Issue", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=140,
+     *              "header"="Parent",
+     *              "short"=true
+     *          }
+     *      }
+     * )
      */
     protected $parent;
 
@@ -161,6 +255,13 @@ class Issue extends ExtendIssue
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $children;
 
@@ -173,6 +274,14 @@ class Issue extends ExtendIssue
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=110,
+     *              "header"="Created At"
+     *          }
+     *      }
+     * )
      */
     protected $createdAt;
 
@@ -180,6 +289,14 @@ class Issue extends ExtendIssue
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=120,
+     *              "header"="Created At"
+     *          }
+     *      }
+     * )
      */
     protected $updatedAt;
 
@@ -188,6 +305,15 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
      * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=130,
+     *              "header"="Organization",
+     *              "short"=true
+     *          }
+     *      }
+     * )
      */
     protected $organization;
 
@@ -196,6 +322,15 @@ class Issue extends ExtendIssue
      *
      * @ORM\OneToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowItem")
      * @ORM\JoinColumn(name="workflow_item_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=60,
+     *              "header"="Workflow Item",
+     *              "short"=true
+     *          }
+     *      }
+     * )
      */
     protected $workflowItem;
 
@@ -204,6 +339,15 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowStep")
      * @ORM\JoinColumn(name="workflow_step_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=70,
+     *              "header"="Status",
+     *              "short"=true
+     *          }
+     *      }
+     * )
      */
     protected $workflowStep;
 
