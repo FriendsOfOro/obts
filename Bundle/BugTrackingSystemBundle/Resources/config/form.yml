@@ -13,14 +13,14 @@ services:
     oro_bug_tracking_system.form.type.issue_api:
         class: %oro_bug_tracking_system.form.type.issue_api.class%
         tags:
-            - { name: form.type, alias: issue }
+            - { name: form.type, alias: oro_bug_tracking_system_issue_api }
 
     oro_bug_tracking_system.form:
         class: Symfony\Component\Form\Form
         factory_method: createNamed
         factory_service: form.factory
         arguments:
-            - 'oro_bug_tracking_system_issue'
+            - 'oro_bug_tracking_system_issue_form'
             - 'oro_bug_tracking_system_issue'
 
     oro_bug_tracking_system.form.handler.issue:
@@ -39,7 +39,7 @@ services:
         factory_service: form.factory
         arguments:
             - ~
-            - 'issue'
+            - 'oro_bug_tracking_system_issue_api'
 
     oro_bug_tracking_system.form.handler.issue_api:
         class: %oro_bug_tracking_system.form.handler.issue.class%

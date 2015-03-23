@@ -47,11 +47,11 @@ class IssueControllerTest extends WebTestCase
             ->findOneByName(IssuePriority::MAJOR);
 
         $form = $crawler->selectButton('Save and Close')->form();
-        $form['oro_bug_tracking_system_issue[summary]'] = 'New issue';
-        $form['oro_bug_tracking_system_issue[description]'] = 'New description';
-        $form['oro_bug_tracking_system_issue[issueType]'] = $type->getId();
-        $form['oro_bug_tracking_system_issue[issuePriority]'] = $priority->getId();
-        $form['oro_bug_tracking_system_issue[owner]'] = '1';
+        $form['oro_bug_tracking_system_issue_form[summary]'] = 'New issue';
+        $form['oro_bug_tracking_system_issue_form[description]'] = 'New description';
+        $form['oro_bug_tracking_system_issue_form[issueType]'] = $type->getId();
+        $form['oro_bug_tracking_system_issue_form[issuePriority]'] = $priority->getId();
+        $form['oro_bug_tracking_system_issue_form[owner]'] = '1';
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);
@@ -87,10 +87,10 @@ class IssueControllerTest extends WebTestCase
             ->findOneByName(IssuePriority::MAJOR);
 
         $form = $crawler->selectButton('Save and Close')->form();
-        $form['oro_bug_tracking_system_issue[summary]'] = 'New sub-task';
-        $form['oro_bug_tracking_system_issue[description]'] = 'New description';
-        $form['oro_bug_tracking_system_issue[issuePriority]'] = $priority->getId();
-        $form['oro_bug_tracking_system_issue[owner]'] = '1';
+        $form['oro_bug_tracking_system_issue_form[summary]'] = 'New sub-task';
+        $form['oro_bug_tracking_system_issue_form[description]'] = 'New description';
+        $form['oro_bug_tracking_system_issue_form[issuePriority]'] = $priority->getId();
+        $form['oro_bug_tracking_system_issue_form[owner]'] = '1';
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);
@@ -119,8 +119,8 @@ class IssueControllerTest extends WebTestCase
         );
 
         $form = $crawler->selectButton('Save and Close')->form();
-        $form['oro_bug_tracking_system_issue[summary]'] = 'Issue updated';
-        $form['oro_bug_tracking_system_issue[description]'] = 'Description updated';
+        $form['oro_bug_tracking_system_issue_form[summary]'] = 'Issue updated';
+        $form['oro_bug_tracking_system_issue_form[description]'] = 'Description updated';
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);

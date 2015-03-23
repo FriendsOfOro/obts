@@ -2,19 +2,19 @@
 
 namespace Oro\Bundle\BugTrackingSystemBundle\Form\Type;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Oro\Bundle\SoapBundle\Form\EventListener\PatchSubscriber;
 
-class IssueApiType extends IssueType
+class IssueApiType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
         $builder->addEventSubscriber(new PatchSubscriber());
     }
 
@@ -25,9 +25,6 @@ class IssueApiType extends IssueType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'Oro\Bundle\BugTrackingSystemBundle\Entity\Issue',
-                'intention' => 'issue',
-                'cascade_validation' => true,
                 'csrf_protection' => false
             ]
         );
@@ -36,8 +33,16 @@ class IssueApiType extends IssueType
     /**
      * {@inheritdoc}
      */
+    public function getParent()
+    {
+        return 'oro_bug_tracking_system_issue';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
-        return 'issue';
+        return 'oro_bug_tracking_system_issue_api';
     }
 }
