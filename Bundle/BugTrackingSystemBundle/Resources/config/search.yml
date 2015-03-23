@@ -1,0 +1,90 @@
+Oro\Bundle\BugTrackingSystemBundle\Entity\Issue:
+    alias: oro_bugtrackingsystem_issue
+    label: oro.bugtrackingsystem.issue.entity_plural_label
+    title_fields: [code, summary]
+    route:
+        name: oro_bug_tracking_system_issue_view
+        parameters:
+            id: id
+    search_template: OroBugTrackingSystemBundle:Search:result.html.twig
+    fields:
+        -
+            name: code
+            target_type: text
+            target_fields: [code]
+        -
+            name: summary
+            target_type: text
+            target_fields: [summary, description]
+        -
+            name: issueType
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: label
+                    target_type: text
+                    target_fields: [label, all_data]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [issueType]
+        -
+            name: issuePriority
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: label
+                    target_type: text
+                    target_fields: [label, all_data]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [issuePriority]
+        -
+            name: workflowStep
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: label
+                    target_type: text
+                    target_fields: [label, all_data]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [workflowStep]
+        -
+            name: issueResolution
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: label
+                    target_type: text
+                    target_fields: [label, all_data]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [issueResolution]
+        -
+            name: reporter
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: username
+                    target_type: text
+                    target_fields: [username, all_data]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [reporter]
+        -
+            name: owner
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: username
+                    target_type: text
+                    target_fields: [username, all_data]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [owner]
