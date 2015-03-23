@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\BugTrackingSystemBundle\Tests\Unit\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Util\ClassUtils;
+
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
@@ -14,6 +17,8 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
 
 class IssueTest extends \PHPUnit_Framework_TestCase
 {
+    const TEST_ID = 10;
+
     /**
      * @var Issue
      */
@@ -40,15 +45,13 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetId()
     {
-        $id = 10;
-
         $this->assertNull($this->entity->getId());
 
         $reflection = new \ReflectionProperty(get_class($this->entity), 'id');
         $reflection->setAccessible(true);
-        $reflection->setValue($this->entity, $id);
+        $reflection->setValue($this->entity, self::TEST_ID);
 
-        $this->assertEquals($id, $this->entity->getId());
+        $this->assertEquals(self::TEST_ID, $this->entity->getId());
     }
 
     /**
@@ -218,5 +221,26 @@ class IssueTest extends \PHPUnit_Framework_TestCase
 
         $this->entity->refreshUpdatedAtOnPreUpdate();
         $this->assertInstanceOf('\DateTime', $this->entity->getUpdatedAt());
+    }
+
+    /**
+     * Issue taggable test
+     */
+    public function testTaggableInterface()
+    {
+        $this->assertInstanceOf('Oro\Bundle\TagBundle\Entity\Taggable', $this->entity);
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $this->entity->getTags());
+
+        $this->assertNull($this->entity->getTaggableId());
+
+        $ref = new \ReflectionProperty(ClassUtils::getClass($this->entity), 'id');
+        $ref->setAccessible(true);
+        $ref->setValue($this->entity, self::TEST_ID);
+
+        $this->assertSame(self::TEST_ID, $this->entity->getTaggableId());
+
+        $newCollection = new ArrayCollection();
+        $this->entity->setTags($newCollection);
+        $this->assertSame($newCollection, $this->entity->getTags());
     }
 }

@@ -202,8 +202,8 @@ class IssueController extends RestController implements ClassResourceInterface
                 }
                 break;
             case 'owner':
-//            case 'workflowItem':
-//            case 'workflowStep':
+            case 'workflowItem':
+            case 'workflowStep':
                 if ($value) {
                     $value = $value->getId();
                 }

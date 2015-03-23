@@ -10,6 +10,7 @@ use Oro\Bundle\BugTrackingSystemBundle\Model\ExtendIssue;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
@@ -52,7 +53,7 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  *      }
  * )
  */
-class Issue extends ExtendIssue
+class Issue extends ExtendIssue implements Taggable
 {
     /**
      * @var integer
@@ -168,9 +169,9 @@ class Issue extends ExtendIssue
     protected $issueResolution;
 
     /**
-     * //@var
+     * @var ArrayCollection
      */
-    //protected $tags;
+    protected $tags;
 
     /**
      * @var User
@@ -356,6 +357,7 @@ class Issue extends ExtendIssue
 
         $this->children = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /**
@@ -550,6 +552,36 @@ class Issue extends ExtendIssue
     public function getIssueResolution()
     {
         return $this->issueResolution;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaggableId()
+    {
+        return $this->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTags()
+    {
+        if (!$this->tags) {
+            $this->tags = new ArrayCollection();
+        }
+
+        return $this->tags;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+
+        return $this;
     }
 
     /**
