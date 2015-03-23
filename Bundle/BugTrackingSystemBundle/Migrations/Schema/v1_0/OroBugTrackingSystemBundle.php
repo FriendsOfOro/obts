@@ -358,13 +358,13 @@ class OroBugTrackingSystemBundle implements Migration
             $schema->getTable($this->issueTableName),
             ['issue_id'],
             ['id'],
-            ['onDelete' => null, 'onUpdate' => null]
+            ['onDelete' => 'CASCADE']
         );
         $table->addForeignKeyConstraint(
             $schema->getTable($this->userTableName),
             ['user_id'],
             ['id'],
-            ['onDelete' => null, 'onUpdate' => null]
+            ['onDelete' => null]
         );
     }
 }

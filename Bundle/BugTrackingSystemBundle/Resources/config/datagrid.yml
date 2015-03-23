@@ -20,6 +20,7 @@ datagrid:
                     - owner.id as ownerId
                     - issue.createdAt
                     - issue.updatedAt
+                    - COUNT(DISTINCT subtask.id) as subtasksCount
                 from:
                     - { table: %oro_bug_tracking_system.issue.entity.class%, alias: issue }
                 join:
@@ -30,6 +31,8 @@ datagrid:
                         - { join: issue.reporter, alias: reporter }
                         - { join: issue.owner, alias: owner }
                         - { join: issue.workflowStep, alias: workflowStep }
+                        - { join: issue.children, alias: subtask }
+                groupBy: issue.id
         columns:
             code:
                 label:         oro.bugtrackingsystem.issue.code.label
@@ -59,6 +62,8 @@ datagrid:
             updatedAt:
                 label:         oro.ui.updated_at
                 frontend_type: datetime
+            subtasksCount:
+                renderable:    false
         sorters:
             columns:
                 code:
@@ -159,17 +164,11 @@ datagrid:
                 label:         oro.grid.action.update
                 icon:          edit
                 link:          update_link
-#            delete:
-#                type:          delete
-#                acl_resource:  oro_bug_tracking_system_issue_delete
-#                label:         oro.grid.action.delete
-#                icon:          trash
-#                link:          delete_link
             delete:
-                type:          story-delete
+                type:          issue-delete
                 acl_resource:  oro_bug_tracking_system_issue_delete
                 label:         oro.grid.action.delete
-                icon:          ok
+                icon:          trash
                 link:          delete_link
         options:
             entity_pagination: true

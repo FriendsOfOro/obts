@@ -1,57 +1,57 @@
 oro:
   bugtrackingsystem:
-        collaborator:
-            entity_label:               Collaborator
+      collaborator:
+          entity_label:               Collaborator
 
-        issue:
-            menu:
-                issue_list.description: List of Issues
-                my_issues:              My Issues
+      issue:
+          menu:
+              issue_list.description: List of Issues
+              my_issues:              My Issues
 
-            entity_label:               Issue
-            entity_plural_label:        Issues
+          entity_label:               Issue
+          entity_plural_label:        Issues
 
-            children.label:             Subtasks
-            code.label:                 Code
-            collaborators.label:        Collaborators
-            created_at.label:           Created
-            description.label:	        Description
-            id.label:	                Id
-            issue_priority.label:       Priority
-            issue_resolution.label:     Resolution
-            issue_type.label:           Type
-            organization.label:         Organization
-            owner.label:                Assignee
-            parent.label:               Story
-            reporter.label:	            Reporter
-            summary.label:	            Summary
-            updated_at.label:           Updated
-            workflow_item.label:        Workflow Item
-            workflow_step.label:        Status
+          children.label:             Subtasks
+          code.label:                 Code
+          collaborators.label:        Collaborators
+          created_at.label:           Created
+          description.label:	      Description
+          id.label:	                  Id
+          issue_priority.label:       Priority
+          issue_resolution.label:     Resolution
+          issue_type.label:           Type
+          organization.label:         Organization
+          owner.label:                Assignee
+          parent.label:               Story
+          reporter.label:	          Reporter
+          summary.label:	          Summary
+          updated_at.label:           Updated
+          workflow_item.label:        Workflow Item
+          workflow_step.label:        Status
 
-            saved_message:              Issue saved
-            create_subtask_button:      Create Sub-Task
+          saved_message:              Issue saved
+          create_subtask_button:      Create Sub-Task
 
-        issuepriority:
-            entity_label:               Issue Priority
+      issuepriority:
+          entity_label:               Issue Priority
 
-            id.label:                   Id
-            name.label:                 Name
-            label.label:                Label
-            order.label:                Order
+          id.label:                   Id
+          name.label:                 Name
+          label.label:                Label
+          order.label:                Order
 
-        issueresolution:
-            entity_label:               Issue Resolution
+      issueresolution:
+          entity_label:               Issue Resolution
 
-            id.label:                   Id
-            name.label:                 Name
-            label.label:                Label
-            order.label:                Order
+          id.label:                   Id
+          name.label:                 Name
+          label.label:                Label
+          order.label:                Order
 
-        issuetype:
-            entity_label:               Issue Type
+      issuetype:
+          entity_label:               Issue Type
 
-            id.label:                   Id
-            name.label:                 Name
-            label.label:                Label
-            order.label:                Order
+          id.label:                   Id
+          name.label:                 Name
+          label.label:                Label
+          order.label:                Order

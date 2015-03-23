@@ -19,14 +19,34 @@
         }) }}
     {% endif %}
     {% if resource_granted('DELETE', entity) %}
-        {{ UI.deleteButton({
-            'dataUrl': path('oro_bug_tracking_system_api_delete_issue', {'id': entity.id}),
-            'dataRedirect': path('oro_bug_tracking_system_issue_index'),
-            'aCss': 'no-hash remove-button',
-            'id': 'btn-remove-issue',
-            'dataId': entity.id,
-            'entity_label': 'oro.bugtrackingsystem.issue.entity_label'|trans
+        {% set idButton = 'btn-remove-issue' %}
+        {{ UI.button({
+            'path':  path('oro_bug_tracking_system_api_delete_issue', {'id': entity.id}),
+            'aCss':  'no-hash',
+            'iCss':  'icon-trash',
+            'id':    idButton,
+            'label': 'oro.ui.delete'|trans,
+            'title': 'oro.ui.delete'|trans ~ ' ' ~ 'oro.bugtrackingsystem.issue.entity_label'|trans,
         }) }}
+        <script type="text/javascript">
+            require(['jquery', 'orobugtrackingsystem/js/issue-deletion-handler', 'oroui/js/mediator'],
+                    function($, issueDeletionHandler, mediator) {
+                        $('#{{ idButton }}').on('click', function(e) {
+                            e.preventDefault();
+                            var el = $(this);
+                            el.on('issue_deletion_success', function() {
+                                mediator.once('page:afterChange', function() {
+                                    mediator.execute('showFlashMessage', 'success', 'Issue deleted');
+                                });
+                                mediator.execute(
+                                    'redirectTo',
+                                    {url: '{{ path('oro_bug_tracking_system_issue_index') }}' }
+                                );
+                            });
+                            issueDeletionHandler.call(el, el.prop('href'), {{ entity.getChildren()|length }});
+                        });
+                    });
+        </script>
     {% endif %}
 {% endblock navButtons %}
 
