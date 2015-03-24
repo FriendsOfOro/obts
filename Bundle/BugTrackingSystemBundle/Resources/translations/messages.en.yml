@@ -17,6 +17,12 @@ oro:
           menu:
               issue_list.description: List of Issues
 
+          user_issues.label:          User Issues
+
+          create_entity:              Create Issue
+          create_entity.title:        Create an Issue for this user
+          create_entity.widget_title: Create Issue for %username%
+
           entity_label:               Issue
           entity_plural_label:        Issues
 

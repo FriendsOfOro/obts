@@ -145,6 +145,22 @@ class IssueController extends Controller
     }
 
     /**
+     * @Route(
+     *      "/user/{userId}",
+     *      name="oro_bug_tracking_system_issue_user_issues",
+     *      requirements={"userId"="\d+"}
+     * )
+     * @AclAncestor("oro_bug_tracking_system_issue_view")
+     * @Template
+     * @param int $userId
+     * @return array
+     */
+    public function userIssuesAction($userId)
+    {
+        return ['userId' => $userId];
+    }
+
+    /**
      * @param string $entityName
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */

@@ -208,6 +208,23 @@ datagrid:
                     items: [10]
                     default_per_page: 10
 
+    user_issues_grid:
+        extends: issues_grid
+        source:
+            query:
+                where:
+                    and:
+                        - issue.owner = :userId
+            bind_parameters:
+                - userId
+        filters: ~
+        options:
+            toolbarOptions:
+                hide: true
+                pageSize:
+                    items: [10]
+                    default_per_page: 10
+
     collaborators_grid:
         source:
             type: orm

@@ -1,0 +1,24 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{{ UI.clientButton({
+    'dataUrl': path('oro_bug_tracking_system_issue_create', oro_action_params(entity, 'assign')),
+    'aCss': 'no-hash btn-primary',
+    'dataId': entity.id,
+    'label': 'oro.bugtrackingsystem.issue.create_entity'|trans,
+    'title': 'oro.bugtrackingsystem.issue.create_entity.title'|trans,
+    'widget' : {
+        'type' : 'dialog',
+        'multiple' : false,
+        'reload-grid-name' : 'user_issues_grid',
+        'options' : {
+            'alias': 'create-issue-dialog',
+            'dialogOptions' : {
+                'title' : 'oro.bugtrackingsystem.issue.create_entity.widget_title'|trans({'%username%': entity|oro_format_name}),
+                'allowMaximize': true,
+                'allowMinimize': true,
+                'dblclick': 'maximize',
+                'maximizedHeightDecreaseBy': 'minimize-bar',
+                'width': 1000
+            }
+        }
+    }
+}) }}
