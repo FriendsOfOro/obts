@@ -150,7 +150,7 @@ class IssueControllerTest extends WebTestCase
 
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        //$this->assertContains('Issue updated - Issues - Activities', $result->getContent());
+        $this->assertContains('Issues - Activities', $result->getContent());
     }
 
     /**

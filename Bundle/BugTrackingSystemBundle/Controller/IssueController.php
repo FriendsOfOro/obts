@@ -145,16 +145,6 @@ class IssueController extends Controller
     }
 
     /**
-     * @Route("/my", name="oro_bug_tracking_system_issue_my_issues")
-     * @AclAncestor("oro_bug_tracking_system_issue_view")
-     * @Template
-     */
-    public function myIssuesAction()
-    {
-        return [];
-    }
-
-    /**
      * @param string $entityName
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */

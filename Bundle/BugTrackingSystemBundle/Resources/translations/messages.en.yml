@@ -4,9 +4,18 @@ oro:
           entity_label:               Collaborator
 
       issue:
+          dashboard:
+              issues_by_status:
+                  title:              Issues by Status
+                  description:        This widget displays a breakdown of issues by status in form of a bar chart.
+
+              user_issues:
+                  title:              User`s Issues
+                  view_all:           View All
+                  description:        This widget displays the list of user`s issues
+
           menu:
               issue_list.description: List of Issues
-              my_issues:              My Issues
 
           entity_label:               Issue
           entity_plural_label:        Issues

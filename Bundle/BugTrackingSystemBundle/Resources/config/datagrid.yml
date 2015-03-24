@@ -190,10 +190,23 @@ datagrid:
                 typeLabel:
                     enabled: false
 
-    user_issues_grid:
+    dashboard_user_issues_grid:
         extends: issues_grid
+        source:
+            query:
+                join:
+                    left:
+                        - { join: issue.collaborators, alias: collaborator }
+                where:
+                    and:
+                        - collaborator.id = @oro_security.security_facade->getLoggedUserId
+        filters: ~
         options:
-            entity_pagination: false
+            toolbarOptions:
+                hide: true
+                pageSize:
+                    items: [10]
+                    default_per_page: 10
 
     collaborators_grid:
         source:

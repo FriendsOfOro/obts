@@ -3,6 +3,11 @@ oro_bug_tracking_system:
     type:     annotation
     prefix:   /obts
 
+oro_bug_tracking_system_dashboard:
+    resource:     "@OroBugTrackingSystemBundle/Controller/Dashboard"
+    type:         annotation
+    prefix:       /obts/dashboard
+
 oro_bug_tracking_system_api:
     resource:     "@OroBugTrackingSystemBundle/Controller/Api/Rest/IssueController.php"
     type:         rest

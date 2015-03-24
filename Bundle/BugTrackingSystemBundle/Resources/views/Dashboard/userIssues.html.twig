@@ -1,0 +1,16 @@
+{% extends 'OroDashboardBundle:Dashboard:widget.html.twig' %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{% block content %}
+    {{ dataGrid.renderGrid('dashboard_user_issues_grid') }}
+{% endblock %}
+
+{% block actions %}
+    {% set actions = [{
+        'url': path('oro_bug_tracking_system_issue_index'),
+        'type': 'link',
+        'label': 'oro.bugtrackingsystem.issue.dashboard.user_issues.view_all'|trans
+    }] %}
+
+    {{ parent() }}
+{% endblock %}
