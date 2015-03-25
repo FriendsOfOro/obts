@@ -170,6 +170,13 @@ class Issue extends ExtendIssue implements Taggable
 
     /**
      * @var ArrayCollection
+     * @ConfigField(
+     *      defaultValues={
+     *          "merge"={
+     *              "display"=true
+     *          }
+     *      }
+     * )
      */
     protected $tags;
 
@@ -206,11 +213,6 @@ class Issue extends ExtendIssue implements Taggable
      * )
      */
     protected $owner;
-
-    /**
-     * //@var
-     */
-    //protected $related_issues;
 
     /**
      * @var ArrayCollection
@@ -265,11 +267,6 @@ class Issue extends ExtendIssue implements Taggable
      * )
      */
     protected $children;
-
-    /**
-     * //@var
-     */
-    //protected $notes;
 
     /**
      * @var \DateTime

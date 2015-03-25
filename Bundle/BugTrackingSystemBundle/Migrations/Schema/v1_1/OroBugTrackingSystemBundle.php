@@ -13,7 +13,7 @@ use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 /**
  * @codeCoverageIgnore
  */
-class AddNotesSupport implements Migration, NoteExtensionAwareInterface
+class OroBugTrackingSystemBundle implements Migration, NoteExtensionAwareInterface
 {
     /**
      * @var NoteExtension
