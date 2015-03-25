@@ -3,6 +3,7 @@
 namespace Oro\Bundle\BugTrackingSystemBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
@@ -10,7 +11,7 @@ use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
 /**
  * @codeCoverageIgnore
  */
-class LoadIssueEntityData extends AbstractFixture
+class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInterface
 {
     /**
      * @var array
@@ -27,6 +28,16 @@ class LoadIssueEntityData extends AbstractFixture
         'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
         'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return [
+            'Oro\Bundle\BugTrackingSystemBundle\Migrations\Data\Demo\ORM\LoadUserData',
+        ];
+    }
 
     /**
      * {@inheritdoc}

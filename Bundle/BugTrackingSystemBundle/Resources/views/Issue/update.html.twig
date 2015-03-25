@@ -1,5 +1,5 @@
 {% extends 'OroUIBundle:actions:update.html.twig' %}
-{% form_theme form with ['OroTagBundle:Form:fields.html.twig'] %}
+{% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
 
 {% oro_title_set({params : {"%entityCode%": entity.code, "%entityName%": 'oro.bugtrackingsystem.issue.entity_label'|trans }}) %}
 {% set entityId = entity.id %}
@@ -15,25 +15,15 @@
             'label': 'oro.ui.delete'|trans,
             'title': 'oro.ui.delete'|trans ~ ' ' ~ 'oro.bugtrackingsystem.issue.entity_label'|trans,
         }) }}
-        <script type="text/javascript">
-            require(['jquery', 'orobugtrackingsystem/js/issue-deletion-handler', 'oroui/js/mediator'],
-                    function($, issueDeletionHandler, mediator) {
-                        $('#{{ idButton }}').on('click', function(e) {
-                            e.preventDefault();
-                            var el = $(this);
-                            el.on('issue_deletion_success', function() {
-                                mediator.once('page:afterChange', function() {
-                                    mediator.execute('showFlashMessage', 'success', 'Issue deleted');
-                                });
-                                mediator.execute(
-                                        'redirectTo',
-                                        {url: '{{ path('oro_bug_tracking_system_issue_index') }}' }
-                                );
-                            });
-                            issueDeletionHandler.call(el, el.prop('href'), {{ entity.getChildren()|length }});
-                        });
-                    });
-        </script>
+
+        {% set issueDeletionComponentOptions  = {
+            idButton: idButton,
+            url: path('oro_bug_tracking_system_issue_index'),
+            subTasksCount: entity.getChildren()|length
+        } %}
+
+        <span data-page-component-module="orobugtrackingsystem/js/app/components/issue-deletion-component"
+              data-page-component-options="{{ issueDeletionComponentOptions|json_encode }}"></span>
     {% endif %}
     {{ UI.buttonSeparator() }}
 

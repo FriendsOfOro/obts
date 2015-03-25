@@ -24,5 +24,6 @@ class OroBugTrackingSystemExtension extends Extension
         $loader->load('services.yml');
         $loader->load('form.yml');
         $loader->load('importexport.yml');
+        $loader->load('conditions.yml');
     }
 }
