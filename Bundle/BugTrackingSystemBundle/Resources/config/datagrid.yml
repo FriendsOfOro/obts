@@ -213,8 +213,9 @@ datagrid:
         source:
             query:
                 where:
-                    and:
+                    or:
                         - issue.owner = :userId
+                        - issue.reporter = :userId
             bind_parameters:
                 - userId
         filters: ~
