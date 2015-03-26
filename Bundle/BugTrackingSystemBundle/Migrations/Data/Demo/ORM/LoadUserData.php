@@ -46,14 +46,11 @@ class LoadUserData extends AbstractFixture implements DependentFixtureInterface,
      */
     public function load(ObjectManager $manager)
     {
-        $userManagerRole = $manager->getRepository('OroUserBundle:Role')->findOneByRole(LoadRolesData::ROLE_MANAGER);
+        $userManagerRole = $manager->getRepository('OroUserBundle:Role')
+            ->findOneByRole(LoadRolesData::ROLE_ADMINISTRATOR);
 
         if (!$userManagerRole) {
             throw new \RuntimeException('Manager role should exist.');
-        }
-
-        if ($this->isUserWithRoleExist($manager, $userManagerRole)) {
-            return;
         }
 
         $businessUnit = $manager
@@ -77,15 +74,5 @@ class LoadUserData extends AbstractFixture implements DependentFixtureInterface,
             ->addOrganization($organization);
 
         $this->userManager->updateUser($userManager);
-    }
-
-    /**
-     * @param ObjectManager $manager
-     * @param Role $role
-     * @return boolean
-     */
-    protected function isUserWithRoleExist(ObjectManager $manager, Role $role)
-    {
-        return null !== $manager->getRepository('OroUserBundle:Role')->getFirstMatchedUser($role);
     }
 }

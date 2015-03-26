@@ -170,13 +170,6 @@ class Issue extends ExtendIssue implements Taggable
 
     /**
      * @var ArrayCollection
-     * @ConfigField(
-     *      defaultValues={
-     *          "merge"={
-     *              "display"=true
-     *          }
-     *      }
-     * )
      */
     protected $tags;
 
@@ -826,7 +819,7 @@ class Issue extends ExtendIssue implements Taggable
      */
     public function setCreatedAtAndUpdatedAtOnPrePersist()
     {
-        $date = new \DateTime();
+        $date = new \DateTime('now', new \DateTimeZone('UTC'));
 
         if (!$this->getId()) {
             $this
@@ -840,7 +833,7 @@ class Issue extends ExtendIssue implements Taggable
      */
     public function refreshUpdatedAtOnPreUpdate()
     {
-        $this->setUpdatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
     /**

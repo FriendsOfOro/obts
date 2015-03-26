@@ -6,27 +6,62 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
+use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
+
+use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
 
 /**
  * @codeCoverageIgnore
  */
-class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInterface
+class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
+    /**
+     * @var WorkflowManager
+     */
+    protected $workflowManager;
+
     /**
      * @var array
      */
     private $fixtureSummaries = [
-        'Lorem ipsum dolor sit amet, consectetuer adipiscing elit',
-        'Aenean commodo ligula eget dolor',
+        'Academic project on Oro'                                                   => IssueType::STORY,
+        'Preparing to work'                                                         => IssueType::SUB_TASK,
+        'Reading all documentation'                                                 => IssueType::SUB_TASK,
+        'Analysis of the main task, decomposition on sub-tasks and planning'        => IssueType::SUB_TASK,
+        'Entities (issue, issueType, issuePriority, issueResolution), tests'        => IssueType::SUB_TASK,
+        'CRUD controllers and views, tests'                                         => IssueType::SUB_TASK,
+        'Grid views'                                                                => IssueType::SUB_TASK,
+        'API controllers (REST), tests'                                             => IssueType::SUB_TASK,
+        'Translatable entities (issueType, issuePriority, issueResolution)'         => IssueType::SUB_TASK,
+        'Implement issue`s workflow (OroWorkflowBundle)'                            => IssueType::SUB_TASK,
+        'Issue sub-tasks flow (only for stories)'                                   => IssueType::SUB_TASK,
+        'Add collaborators logic (OroUserBundle) and `updated` field logic, tests'  => IssueType::SUB_TASK,
+        'Add import and export support (OroImportExportBundle)'                     => IssueType::SUB_TASK,
+        'Add searching (OroSearchBundle)'                                           => IssueType::SUB_TASK,
+        'Add tags support (OroTagBundle)'                                           => IssueType::SUB_TASK,
+        'Dashboard widgets'                                                         => IssueType::SUB_TASK,
+        'Dashboard user widget, create issue button (placeholders in OroUIBundle)'  => IssueType::SUB_TASK,
+        'Add dynamic updating of data grid (OroSyncBundle, need Web Socket Server)' => IssueType::SUB_TASK,
+        'Reports (OroReportBundle)'                                                 => IssueType::SUB_TASK,
+        'Add notes support (OroNotebundle)'                                         => IssueType::SUB_TASK,
+        'Email activity (OroEmailBundle)'                                           => IssueType::SUB_TASK,
+        'Prepare demo data'                                                         => IssueType::SUB_TASK,
+        'Code-style check'                                                          => IssueType::SUB_TASK,
+        'Planing'                                                                   => IssueType::STORY,
     ];
 
     /**
      * @var array
      */
-    private $fixtureDescriptions = [
-        'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
-        'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+    private $workflowSteps = [
+        'open',
+        'start_progress',
+        'resolve',
+        'close',
     ];
 
     /**
@@ -40,45 +75,83 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
     }
 
     /**
+     * @param ContainerInterface $container
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->workflowManager = $container->get('oro_workflow.manager');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < count($this->fixtureSummaries); $i++) {
-            $summary = $this->fixtureSummaries[$i];
-            $description = $this->fixtureDescriptions[$i];
-            $issueType = $this->getRandomEntity($manager, 'OroBugTrackingSystemBundle:IssueType');
-            $issuePriority = $this->getRandomEntity($manager, 'OroBugTrackingSystemBundle:IssuePriority');
-            $issueResolution = $this->getRandomEntity($manager, 'OroBugTrackingSystemBundle:IssueResolution');
-            $reporter = $this->getRandomEntity($manager, 'OroUserBundle:User');
-            $owner = $this->getRandomEntity($manager, 'OroUserBundle:User');
-            $organization = $this->getRandomEntity($manager, 'OroOrganizationBundle:Organization');
+        $issueTypeStory = $manager->getRepository('OroBugTrackingSystemBundle:IssueType')
+            ->findOneByName(IssueType::STORY);
+        $issueTypeSubTask = $manager->getRepository('OroBugTrackingSystemBundle:IssueType')
+            ->findOneByName(IssueType::SUB_TASK);
 
-            if (!$issueType || !$issuePriority || !$issueResolution || !$reporter || !$owner || !$organization) {
+        $organization = $this->getRandomEntity($manager, 'OroOrganizationBundle:Organization');
+        $reporter = $manager->getRepository('OroUserBundle:User')->findOneBy(['username' => 'admin']);
+        $owner = $manager->getRepository('OroUserBundle:User')->findOneBy(['username' => 'manager']);
+
+        if (!$issueTypeStory || !$issueTypeSubTask || !$organization || !$reporter || !$owner) {
+            return;
+        }
+
+        $story = null;
+        foreach ($this->fixtureSummaries as $summary => $type) {
+            $issuePriority = $this->getRandomEntity($manager, 'OroBugTrackingSystemBundle:IssuePriority');
+
+            if (!$issuePriority) {
                 continue;
             }
 
+            $entity = new Issue();
+
+            if ($type === IssueType::STORY) {
+                $story = $entity->setIssueType($issueTypeStory);
+            } else {
+                $entity->setIssueType($issueTypeSubTask)->setParent($story);
+            }
+
             if (!$this->isIssueExist($manager, $summary)) {
-                $entity = new Issue();
-                $entity->setSummary($summary);
-                $entity->setCode('ORO-' . ($i + 1));
-                $entity->setDescription($description);
-                $entity->setIssueType($issueType);
-                $entity->setIssuePriority($issuePriority);
-                $entity->setIssueResolution($issueResolution);
-                $entity->setReporter($reporter);
-                $entity->setOwner($owner);
-                $entity->setCreatedAt($this->getRandomDate());
-                $entity->setUpdatedAt($this->getRandomDate());
-                $entity->setOrganization($organization);
-                $entity->addCollaborator($reporter);
-                $entity->addCollaborator($owner);
+                $entity
+                    ->setSummary($summary)
+                    ->setDescription('Description for task: ' . $summary)
+                    ->setIssuePriority($issuePriority)
+                    ->setReporter($reporter)
+                    ->setOwner($owner)
+                    ->setCreatedAt($this->getRandomDate())
+                    ->setUpdatedAt($this->getRandomDate())
+                    ->setOrganization($organization)
+                    ->addCollaborator($reporter)
+                    ->addCollaborator($owner);
 
                 $manager->persist($entity);
+                $manager->flush();
+
+                $nextStep = $this->workflowSteps[rand(0, 3)];
+
+                if ($nextStep != 'open') {
+                    $workflowItem = $this->workflowManager->getWorkflowItemByEntity($entity);
+                    $this->workflowManager->transit($workflowItem, $nextStep);
+
+                    $stepName = $workflowItem->getCurrentStep()->getName();
+
+                    if (in_array($stepName, ['resolved', 'closed'])) {
+                        $issueResolution = $this->getRandomEntity(
+                            $manager,
+                            'OroBugTrackingSystemBundle:IssueResolution'
+                        );
+                        $entity->setIssueResolution($issueResolution);
+                    }
+
+                    $manager->flush();
+                }
             }
         }
-
-        $manager->flush();
     }
 
 
@@ -139,7 +212,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
      */
     private function getRandomDate()
     {
-        $result = new \DateTime();
+        $result = new \DateTime('now', new \DateTimeZone('UTC'));
         $result->sub(new \DateInterval(sprintf('P%dDT%dM', rand(0, 30), rand(0, 1440))));
 
         return $result;

@@ -25,7 +25,7 @@ class IssueFixture extends AbstractTemplateRepository implements TemplateFixture
      */
     public function getData()
     {
-        return $this->getEntityData('Sub-Task Issue');
+        return $this->getEntityData('Story Issue');
     }
 
     /**
@@ -65,8 +65,8 @@ class IssueFixture extends AbstractTemplateRepository implements TemplateFixture
                     ->setReporter($userRepo->getEntity('John Doo'))
                     ->setOwner($userRepo->getEntity('John Doo'))
                     ->setParent(null)
-                    ->setCreatedAt(new \DateTime())
-                    ->setUpdatedAt(new \DateTime())
+                    ->setCreatedAt(new \DateTime('now', new \DateTimeZone('UTC')))
+                    ->setUpdatedAt(new \DateTime('now', new \DateTimeZone('UTC')))
                     ->setOrganization($organizationRepo->getEntity('default'));
                 return;
             case 'Sub-Task Issue':
@@ -80,8 +80,8 @@ class IssueFixture extends AbstractTemplateRepository implements TemplateFixture
                     ->setReporter($userRepo->getEntity('John Doo'))
                     ->setOwner($userRepo->getEntity('John Doo'))
                     ->setParent($this->getEntity('Story Issue'))
-                    ->setCreatedAt(new \DateTime())
-                    ->setUpdatedAt(new \DateTime())
+                    ->setCreatedAt(new \DateTime('now', new \DateTimeZone('UTC')))
+                    ->setUpdatedAt(new \DateTime('now', new \DateTimeZone('UTC')))
                     ->setOrganization($organizationRepo->getEntity('default'));
                 return;
         }

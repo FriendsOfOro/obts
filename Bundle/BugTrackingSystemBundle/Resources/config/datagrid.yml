@@ -253,11 +253,7 @@ datagrid:
                     data_name: collaboratorName
             default:
                 collaboratorName: ASC
-        filters:
-            columns:
-                collaboratorName:
-                    type:      string
-                    data_name: collaboratorName
+        filters: ~
         properties:
             id: ~
             view_link:
