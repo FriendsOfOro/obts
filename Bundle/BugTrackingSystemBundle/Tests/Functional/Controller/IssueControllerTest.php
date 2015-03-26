@@ -32,16 +32,12 @@ class IssueControllerTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_bug_tracking_system_issue_create'));
 
-        /**
-         * @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType $type
-         */
+        /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType $type */
         $type = $this->em
             ->getRepository('OroBugTrackingSystemBundle:IssueType')
             ->findOneByName(IssueType::STORY);
 
-        /**
-         * @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority $priority
-         */
+        /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority $priority */
         $priority = $this->em
             ->getRepository('OroBugTrackingSystemBundle:IssuePriority')
             ->findOneByName(IssuePriority::MAJOR);

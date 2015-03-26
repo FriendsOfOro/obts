@@ -41,13 +41,10 @@ class LoadIssueData extends AbstractFixture implements ContainerAwareInterface
         $entity->setSummary('Acl issue');
         $entity->setCode('ORO-' . microtime());
         $entity->setDescription('Acl issue description');
-//        $entity->setIssueType($issueType);
-//        $entity->setIssuePriority($issuePriority);
-//        $entity->setIssueResolution($issueResolution);
         $entity->setReporter($user);
         $entity->setOwner($user);
-        $entity->setCreatedAt(new \DateTime());
-        $entity->setUpdatedAt(new \DateTime());
+        $entity->setCreatedAt(new \DateTime('now', new \DateTimeZone('UTC')));
+        $entity->setUpdatedAt(new \DateTime('now', new \DateTimeZone('UTC')));
         $entity->setOrganization($organization);
         $entity->addCollaborator($user);
 

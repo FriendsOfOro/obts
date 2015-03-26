@@ -76,14 +76,15 @@ class IssueTest extends \PHPUnit_Framework_TestCase
             ['summary', 'Test summary'],
             ['code', 'CODE-10'],
             ['description', 'Test Description'],
-            ['issueType', new IssueType],
-            ['issuePriority', new IssuePriority],
-            ['issueResolution', new IssueResolution],
-            ['reporter', new User],
-            ['owner', new User],
-            ['parent', new Issue],
-            ['createdAt', new \DateTime()],
-            ['updatedAt', new \DateTime()],
+            ['issueType', new IssueType()],
+            ['issuePriority', new IssuePriority()],
+            ['issueResolution', new IssueResolution()],
+            ['tags', new ArrayCollection()],
+            ['reporter', new User()],
+            ['owner', new User()],
+            ['parent', new Issue()],
+            ['createdAt', new \DateTime('now', new \DateTimeZone('UTC'))],
+            ['updatedAt', new \DateTime('now', new \DateTimeZone('UTC'))],
             ['organization', new Organization()],
             ['workflowItem', new WorkflowItem()],
             ['workflowStep', new WorkflowStep()],
@@ -183,6 +184,24 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($code, $this->entity);
     }
 
+    public function testGetTags()
+    {
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $this->entity->getTags());
+        $this->assertTrue($this->entity->getTags()->isEmpty());
+
+        $this->entity->setTags(['tag']);
+        $this->assertEquals(['tag'], $this->entity->getTags());
+    }
+
+    public function testGetTaggableId()
+    {
+        $reflection = new \ReflectionProperty(get_class($this->entity), 'id');
+        $reflection->setAccessible(true);
+        $reflection->setValue($this->entity, self::TEST_ID);
+
+        $this->assertEquals(self::TEST_ID, $this->entity->getTaggableId());
+    }
+
     /**
      * Issue generateTemporaryCodeOnPrePersist test
      */
@@ -242,5 +261,23 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $newCollection = new ArrayCollection();
         $this->entity->setTags($newCollection);
         $this->assertSame($newCollection, $this->entity->getTags());
+    }
+
+    public function testIsStory()
+    {
+        $type = new IssueType();
+        $type->setName(IssueType::STORY);
+
+        $this->entity->setIssueType($type);
+        $this->assertTrue($this->entity->isStory());
+    }
+
+    public function testIsSubTask()
+    {
+        $type = new IssueType();
+        $type->setName(IssueType::SUB_TASK);
+
+        $this->entity->setIssueType($type);
+        $this->assertTrue($this->entity->isSubTask());
     }
 }
