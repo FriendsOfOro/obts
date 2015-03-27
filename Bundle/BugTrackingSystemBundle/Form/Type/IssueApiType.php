@@ -23,11 +23,7 @@ class IssueApiType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(
-            [
-                'csrf_protection' => false
-            ]
-        );
+        $resolver->setDefaults(['csrf_protection' => false]);
     }
 
     /**

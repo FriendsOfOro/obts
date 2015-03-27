@@ -3,9 +3,6 @@
 namespace Oro\Bundle\BugTrackingSystemBundle\Tests\Unit\ImportExport\TemplateFixture;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
-use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
-use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution;
-use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
 use Oro\Bundle\BugTrackingSystemBundle\ImportExport\TemplateFixture\IssueFixture;
 use Oro\Bundle\BugTrackingSystemBundle\ImportExport\TemplateFixture\IssuePriorityFixture;
 use Oro\Bundle\BugTrackingSystemBundle\ImportExport\TemplateFixture\IssueResolutionFixture;
@@ -13,8 +10,10 @@ use Oro\Bundle\BugTrackingSystemBundle\ImportExport\TemplateFixture\IssueTypeFix
 
 use Oro\Bundle\ImportExportBundle\TemplateFixture\TemplateEntityRegistry;
 use Oro\Bundle\ImportExportBundle\TemplateFixture\TemplateManager;
+
 use Oro\Bundle\OrganizationBundle\ImportExport\TemplateFixture\BusinessUnitFixture;
 use Oro\Bundle\OrganizationBundle\ImportExport\TemplateFixture\OrganizationFixture;
+
 use Oro\Bundle\UserBundle\ImportExport\TemplateFixture\UserFixture;
 
 class IssueFixtureTest extends \PHPUnit_Framework_TestCase
@@ -24,6 +23,9 @@ class IssueFixtureTest extends \PHPUnit_Framework_TestCase
      */
     protected $fixture;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->fixture = new IssueFixture();
@@ -71,9 +73,7 @@ class IssueFixtureTest extends \PHPUnit_Framework_TestCase
         $data = $this->fixture->getData();
         $this->assertCount(1, $data);
 
-        /**
-         * @var Issue $issue
-         */
+        /** @var Issue $issue */
         $issue = current($data);
         $this->assertInstanceOf('Oro\Bundle\BugTrackingSystemBundle\Entity\Issue', $issue);
         $this->assertEquals('ORO-1', $issue->getCode());

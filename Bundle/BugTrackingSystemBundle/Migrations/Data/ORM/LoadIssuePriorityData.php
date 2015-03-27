@@ -37,23 +37,19 @@ class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
 
         foreach ($translationLocales as $locale) {
             foreach ($this->data as $order => $priorityName) {
-                /**
-                 * @var IssuePriority $issuePriority
-                 */
-                $issuePriority = $priorityRepository->findOneByName($priorityName);
+                /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority $issuePriority */
+                $issuePriority = $priorityRepository->findOneBy(['name' => $priorityName]);
                 if (!$issuePriority) {
                     $issuePriority = new IssuePriority();
                     $issuePriority->setName($priorityName);
                     $issuePriority->setOrder($order);
                 }
 
-                // set locale and label
                 $priorityLabel = $this->translate($priorityName, static::ISSUE_PRIORITY_PREFIX, $locale);
                 $issuePriority
                     ->setLocale($locale)
                     ->setLabel($priorityLabel);
 
-                // save
                 $manager->persist($issuePriority);
             }
 

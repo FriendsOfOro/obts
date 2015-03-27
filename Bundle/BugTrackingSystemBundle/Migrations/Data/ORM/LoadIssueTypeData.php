@@ -36,23 +36,19 @@ class LoadIssueTypeData extends AbstractTranslatableEntityFixture
 
         foreach ($translationLocales as $locale) {
             foreach ($this->data as $order => $typeName) {
-                /**
-                 * @var IssueType $issueType
-                 */
-                $issueType = $typeRepository->findOneByName($typeName);
+                /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType $issueType */
+                $issueType = $typeRepository->findOneBy(['name' => $typeName]);
                 if (!$issueType) {
                     $issueType = new IssueType();
                     $issueType->setName($typeName);
                     $issueType->setOrder($order);
                 }
 
-                // set locale and label
                 $typeLabel = $this->translate($typeName, static::ISSUE_TYPE_PREFIX, $locale);
                 $issueType
                     ->setLocale($locale)
                     ->setLabel($typeLabel);
 
-                // save
                 $manager->persist($issueType);
             }
 

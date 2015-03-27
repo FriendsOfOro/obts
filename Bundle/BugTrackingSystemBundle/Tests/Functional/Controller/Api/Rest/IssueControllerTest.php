@@ -14,12 +14,17 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class IssueControllerTest extends WebTestCase
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $issue = [
         'summary'     => 'New issue',
         'description' => 'New description',
     ];
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->initClient([], $this->generateWsseAuthHeader());
@@ -36,14 +41,14 @@ class IssueControllerTest extends WebTestCase
         if (!isset($this->issue['issuePriority'])) {
             $this->issue['issuePriority'] = $em
                 ->getRepository('OroBugTrackingSystemBundle:IssuePriority')
-                ->findOneByName(IssuePriority::MAJOR)
+                ->findOneBy(['name' => IssuePriority::MAJOR])
                 ->getId();
         }
 
         if (!isset($this->issue['issueType'])) {
             $this->issue['issueType'] = $em
                 ->getRepository('OroBugTrackingSystemBundle:IssueType')
-                ->findOneByName(IssueType::STORY)
+                ->findOneBy(['name' => IssueType::STORY])
                 ->getId();
         }
     }
@@ -102,7 +107,6 @@ class IssueControllerTest extends WebTestCase
 
     /**
      * @depends testCreate
-     *
      * @param integer $id
      */
     public function testGet($id)
@@ -115,7 +119,6 @@ class IssueControllerTest extends WebTestCase
 
     /**
      * @depends testCreate
-     *
      * @param integer $id
      */
     public function testPut($id)
@@ -140,7 +143,6 @@ class IssueControllerTest extends WebTestCase
 
     /**
      * @depends testCreate
-     *
      * @param integer $id
      */
     public function testDelete($id)

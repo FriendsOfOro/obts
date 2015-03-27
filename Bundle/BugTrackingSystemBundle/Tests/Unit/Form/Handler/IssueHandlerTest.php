@@ -37,6 +37,9 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
      */
     protected $entity;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->form = $this->getMockBuilder('Symfony\Component\Form\Form')
@@ -49,14 +52,17 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        /** @var \Oro\Bundle\TagBundle\Entity\TagManager $tagManager */
         $tagManager = $this->getMockBuilder('Oro\Bundle\TagBundle\Entity\TagManager')
             ->disableOriginalConstructor()
             ->getMock();
 
+        /** @var \Oro\Bundle\ActivityBundle\Manager\ActivityManager $activityManager */
         $activityManager = $this->getMockBuilder('Oro\Bundle\ActivityBundle\Manager\ActivityManager')
             ->disableOriginalConstructor()
             ->getMock();
 
+        /** @var \Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper $entityRoutingHelper */
         $entityRoutingHelper = $this->getMockBuilder('Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper')
             ->disableOriginalConstructor()
             ->getMock();
@@ -72,7 +78,6 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
         $this->handler->setTagManager($tagManager);
     }
 
-
     public function testProcessUnsupportedRequest()
     {
         $this->form->expects($this->once())
@@ -87,7 +92,6 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider supportedMethods
-     *
      * @param string $method
      */
     public function testProcessSupportedRequest($method)
@@ -105,6 +109,9 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->handler->process($this->entity));
     }
 
+    /**
+     * @return array
+     */
     public function supportedMethods()
     {
         return [['POST'], ['PUT']];

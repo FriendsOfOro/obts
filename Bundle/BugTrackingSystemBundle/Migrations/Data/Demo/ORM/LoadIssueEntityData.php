@@ -69,9 +69,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
      */
     public function getDependencies()
     {
-        return [
-            'Oro\Bundle\BugTrackingSystemBundle\Migrations\Data\Demo\ORM\LoadUserData',
-        ];
+        return ['Oro\Bundle\BugTrackingSystemBundle\Migrations\Data\Demo\ORM\LoadUserData'];
     }
 
     /**
@@ -87,11 +85,15 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
      */
     public function load(ObjectManager $manager)
     {
+        /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType $issueTypeStory */
         $issueTypeStory = $manager->getRepository('OroBugTrackingSystemBundle:IssueType')
-            ->findOneByName(IssueType::STORY);
-        $issueTypeSubTask = $manager->getRepository('OroBugTrackingSystemBundle:IssueType')
-            ->findOneByName(IssueType::SUB_TASK);
+            ->findOneBy(['name' => IssueType::STORY]);
 
+        /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType $issueTypeSubTask */
+        $issueTypeSubTask = $manager->getRepository('OroBugTrackingSystemBundle:IssueType')
+            ->findOneBy(['name' => IssueType::SUB_TASK]);
+
+        /** @var \Oro\Bundle\OrganizationBundle\Entity\Organization $organization */
         $organization = $this->getRandomEntity($manager, 'OroOrganizationBundle:Organization');
         $reporter = $manager->getRepository('OroUserBundle:User')->findOneBy(['username' => 'admin']);
         $owner = $manager->getRepository('OroUserBundle:User')->findOneBy(['username' => 'manager']);
@@ -102,6 +104,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
 
         $story = null;
         foreach ($this->fixtureSummaries as $summary => $type) {
+            /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority $issuePriority */
             $issuePriority = $this->getRandomEntity($manager, 'OroBugTrackingSystemBundle:IssuePriority');
 
             if (!$issuePriority) {
@@ -141,6 +144,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
                     $stepName = $workflowItem->getCurrentStep()->getName();
 
                     if (in_array($stepName, ['resolved', 'closed'])) {
+                        /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution $issueResolution */
                         $issueResolution = $this->getRandomEntity(
                             $manager,
                             'OroBugTrackingSystemBundle:IssueResolution'
@@ -162,7 +166,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
      */
     private function isIssueExist(ObjectManager $manager, $issueSummary)
     {
-        $issue = $manager->getRepository('OroBugTrackingSystemBundle:Issue')->findOneBySummary($issueSummary);
+        $issue = $manager->getRepository('OroBugTrackingSystemBundle:Issue')->findOneBy(['summary' => $issueSummary]);
 
         return $issue !== null;
     }
@@ -174,6 +178,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
      */
     private function getRandomEntity(ObjectManager $manager, $entityName)
     {
+        /** @var \Doctrine\ORM\EntityManager $manager */
         $count = $this->getEntityCount($manager, $entityName);
         $entity = null;
 
@@ -199,6 +204,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
      */
     private function getEntityCount(ObjectManager $manager, $entityName)
     {
+        /** @var \Doctrine\ORM\EntityManager $manager */
         return (int) $manager
             ->createQueryBuilder()
             ->select('COUNT(e)')

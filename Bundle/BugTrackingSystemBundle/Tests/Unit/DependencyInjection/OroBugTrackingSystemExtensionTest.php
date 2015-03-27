@@ -32,6 +32,6 @@ class OroBugTrackingSystemExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoad()
     {
-        $this->extension->load(array(), $this->container);
+        $this->extension->load([], $this->container);
     }
 }

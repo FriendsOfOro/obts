@@ -15,6 +15,9 @@ class IssuePriorityFixtureTest extends \PHPUnit_Framework_TestCase
      */
     protected $fixture;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->fixture = new IssuePriorityFixture();
@@ -53,9 +56,7 @@ class IssuePriorityFixtureTest extends \PHPUnit_Framework_TestCase
         $data = $this->fixture->getData();
         $this->assertCount(1, $data);
 
-        /**
-         * @var IssuePriority $priority
-         */
+        /** @var IssuePriority $priority */
         $priority = current($data);
         $this->assertInstanceOf('Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority', $priority);
         $this->assertEquals('major', $priority->getName());

@@ -15,6 +15,9 @@ class IssueResolutionFixtureTest extends \PHPUnit_Framework_TestCase
      */
     protected $fixture;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->fixture = new IssueResolutionFixture();
@@ -53,9 +56,7 @@ class IssueResolutionFixtureTest extends \PHPUnit_Framework_TestCase
         $data = $this->fixture->getData();
         $this->assertCount(1, $data);
 
-        /**
-         * @var IssueResolution $resolution
-         */
+        /** @var IssueResolution $resolution */
         $resolution = current($data);
         $this->assertInstanceOf('Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution', $resolution);
         $this->assertEquals('fixed', $resolution->getName());

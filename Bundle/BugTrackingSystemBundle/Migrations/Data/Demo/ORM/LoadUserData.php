@@ -11,10 +11,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
 use Oro\Bundle\OrganizationBundle\Migrations\Data\ORM\LoadOrganizationAndBusinessUnitData;
+
 use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Entity\UserManager;
 use Oro\Bundle\UserBundle\Migrations\Data\ORM\LoadRolesData;
 
+/**
+ * @codeCoverageIgnore
+ */
 class LoadUserData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
     /**
@@ -47,7 +51,7 @@ class LoadUserData extends AbstractFixture implements DependentFixtureInterface,
     public function load(ObjectManager $manager)
     {
         $userManagerRole = $manager->getRepository('OroUserBundle:Role')
-            ->findOneByRole(LoadRolesData::ROLE_ADMINISTRATOR);
+            ->findOneBy(['role' => LoadRolesData::ROLE_ADMINISTRATOR]);
 
         if (!$userManagerRole) {
             throw new \RuntimeException('Manager role should exist.');
@@ -55,7 +59,7 @@ class LoadUserData extends AbstractFixture implements DependentFixtureInterface,
 
         $businessUnit = $manager
             ->getRepository('OroOrganizationBundle:BusinessUnit')
-            ->findOneByName(LoadOrganizationAndBusinessUnitData::MAIN_BUSINESS_UNIT);
+            ->findOneBy(['name' => LoadOrganizationAndBusinessUnitData::MAIN_BUSINESS_UNIT]);
 
         $organization = $manager->getRepository('OroOrganizationBundle:Organization')->getFirst();
 

@@ -18,6 +18,9 @@ class IssueControllerTest extends WebTestCase
      */
     private $em;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->initClient([], $this->generateBasicAuthHeader());

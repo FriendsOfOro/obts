@@ -56,7 +56,6 @@ class IssueTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider settersAndGettersDataProvider
-     *
      * @param $property
      * @param $value
      */

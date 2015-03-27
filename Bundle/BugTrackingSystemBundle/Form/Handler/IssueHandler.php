@@ -38,10 +38,14 @@ class IssueHandler implements TagHandlerInterface
      */
     protected $tagManager;
 
-    /** @var  ActivityManager */
+    /**
+     * @var  ActivityManager
+     */
     protected $activityManager;
 
-    /** @var EntityRoutingHelper */
+    /**
+     * @var EntityRoutingHelper
+     */
     protected $entityRoutingHelper;
 
     /**
@@ -69,7 +73,6 @@ class IssueHandler implements TagHandlerInterface
      * Process form
      *
      * @param Issue $entity
-     *
      * @return boolean True on successful processing, false otherwise
      */
     public function process(Issue $entity)
@@ -84,9 +87,7 @@ class IssueHandler implements TagHandlerInterface
             && $action === 'assign'
             && is_a($targetEntityClass, 'Oro\Bundle\UserBundle\Entity\User', true)
         ) {
-            $entity->setOwner(
-                $this->entityRoutingHelper->getEntity($targetEntityClass, $targetEntityId)
-            );
+            $entity->setOwner($this->entityRoutingHelper->getEntity($targetEntityClass, $targetEntityId));
             FormUtils::replaceField($this->form, 'owner', ['read_only' => true]);
         }
 
@@ -115,7 +116,7 @@ class IssueHandler implements TagHandlerInterface
         if (!$entity->getId() && $entity->getParent()) {
             $type = $this->manager
                 ->getRepository('OroBugTrackingSystemBundle:IssueType')
-                ->findOneByName(IssueType::SUB_TASK);
+                ->findOneBy(['name' => IssueType::SUB_TASK]);
 
             $entity->setIssueType($type);
         }

@@ -13,7 +13,6 @@ class IssueDeleteAction extends AjaxAction
     public function getOptions()
     {
         $options = parent::getOptions();
-
         $options['frontend_type'] = 'issue-delete';
 
         return $options;

@@ -15,6 +15,9 @@ class IsInstanceOfTest extends \PHPUnit_Framework_TestCase
      */
     protected $condition;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->condition = new Condition\IsInstanceOf(new ContextAccessor());
@@ -22,7 +25,6 @@ class IsInstanceOfTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider isAllowedDataProvider
-     *
      * @param array $options
      * @param $context
      * @param $expectedResult
@@ -33,6 +35,9 @@ class IsInstanceOfTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $this->condition->isAllowed($context));
     }
 
+    /**
+     * @return array
+     */
     public function isAllowedDataProvider()
     {
         return [

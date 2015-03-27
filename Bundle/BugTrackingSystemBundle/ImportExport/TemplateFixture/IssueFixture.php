@@ -3,10 +3,10 @@
 namespace Oro\Bundle\BugTrackingSystemBundle\ImportExport\TemplateFixture;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
-
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType;
+
 use Oro\Bundle\ImportExportBundle\TemplateFixture\AbstractTemplateRepository;
 use Oro\Bundle\ImportExportBundle\TemplateFixture\TemplateFixtureInterface;
 

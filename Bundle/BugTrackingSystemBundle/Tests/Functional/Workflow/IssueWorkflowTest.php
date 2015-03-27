@@ -13,6 +13,9 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class IssueWorkflowTest extends WebTestCase
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->initClient([], $this->generateBasicAuthHeader());

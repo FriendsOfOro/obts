@@ -21,6 +21,9 @@ class IssueControllerACLTest extends WebTestCase
      */
     protected static $issueId;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->initClient([], $this->generateWsseAuthHeader(self::USER_NAME, self::USER_PASSWORD));
@@ -33,13 +36,16 @@ class IssueControllerACLTest extends WebTestCase
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function postFixtureLoad()
     {
         self::$issueId = $this
             ->getContainer()
             ->get('doctrine')
             ->getRepository('OroBugTrackingSystemBundle:Issue')
-            ->findOneBySummary('Acl issue')
+            ->findOneBy(['summary' => 'Acl issue'])
             ->getId();
     }
 
@@ -53,19 +59,19 @@ class IssueControllerACLTest extends WebTestCase
 
         $issuePriority = $em
             ->getRepository('OroBugTrackingSystemBundle:IssuePriority')
-            ->findOneByName(IssuePriority::MAJOR);
+            ->findOneBy(['name' => IssuePriority::MAJOR]);
 
         $issueType = $em
             ->getRepository('OroBugTrackingSystemBundle:IssueType')
-            ->findOneByName(IssueType::STORY);
+            ->findOneBy(['name' => IssueType::STORY]);
 
         $request = [
-            'summary' => 'New issue',
-            'description' => 'New description',
+            'summary'       => 'New issue',
+            'description'   => 'New description',
             'issuePriority' => $issuePriority->getId(),
-            'issueType' => $issueType->getId(),
-            'reporter' => $user->getId(),
-            'owner' => $user->getId(),
+            'issueType'     => $issueType->getId(),
+            'reporter'      => $user->getId(),
+            'owner'         => $user->getId(),
         ];
 
         $this->client->request(

@@ -21,23 +21,21 @@ class DashboardController extends Controller
      */
     public function issueByStatusAction($widget)
     {
-        $items = $this->getDoctrine()
+        $items = $this
+            ->getDoctrine()
             ->getRepository('OroBugTrackingSystemBundle:Issue')
             ->getIssuesByStatus($this->get('oro_security.acl_helper'));
 
         $widgetAttr = $this->get('oro_dashboard.widget_configs')->getWidgetAttributesForTwig($widget);
-        $widgetAttr['chartView'] = $this->get('oro_chart.view_builder')
+        $widgetAttr['chartView'] = $this
+            ->get('oro_chart.view_builder')
             ->setArrayData($items)
             ->setOptions(
                 [
                     'name' => 'bar_chart',
                     'data_schema' => [
-                        'label' => [
-                            'field_name' => 'status'
-                        ],
-                        'value' => [
-                            'field_name' => 'issue_count'
-                        ]
+                        'label' => ['field_name' => 'status'],
+                        'value' => ['field_name' => 'issue_count']
                     ]
                 ]
             )

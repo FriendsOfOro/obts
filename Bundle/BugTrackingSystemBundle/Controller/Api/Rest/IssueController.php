@@ -8,16 +8,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
-use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
-use Oro\Bundle\SoapBundle\Form\Handler\ApiFormHandler;
 use Oro\Bundle\SoapBundle\Request\Parameters\Filter\HttpDateTimeParameterFilter;
 use Oro\Bundle\SoapBundle\Request\Parameters\Filter\IdentifierToReferenceFilter;
 
@@ -163,9 +159,7 @@ class IssueController extends RestController implements ClassResourceInterface
     }
 
     /**
-     * Get entity Manager
-     *
-     * @return ApiEntityManager
+     * {@inheritDoc}
      */
     public function getManager()
     {
@@ -173,7 +167,7 @@ class IssueController extends RestController implements ClassResourceInterface
     }
 
     /**
-     * @return FormInterface
+     * {@inheritDoc}
      */
     public function getForm()
     {
@@ -181,7 +175,7 @@ class IssueController extends RestController implements ClassResourceInterface
     }
 
     /**
-     * @return ApiFormHandler
+     * {@inheritDoc}
      */
     public function getFormHandler()
     {
@@ -189,7 +183,7 @@ class IssueController extends RestController implements ClassResourceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function transformEntityField($field, &$value)
     {

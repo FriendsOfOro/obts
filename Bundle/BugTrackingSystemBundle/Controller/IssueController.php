@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
 use Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority;
@@ -17,10 +18,7 @@ use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 class IssueController extends Controller
 {
     /**
-     * @Route(
-     *      "/",
-     *      name="oro_bug_tracking_system_issue_index"
-     * )
+     * @Route("/", name="oro_bug_tracking_system_issue_index")
      * @Acl(
      *      id="oro_bug_tracking_system_issue_view",
      *      type="entity",
@@ -28,14 +26,11 @@ class IssueController extends Controller
      *      permission="VIEW"
      * )
      * @Template
-     *
      * @return array
      */
     public function indexAction()
     {
-        return [
-            'entity_class' => $this->container->getParameter('oro_bug_tracking_system.issue.entity.class')
-        ];
+        return ['entity_class' => $this->container->getParameter('oro_bug_tracking_system.issue.entity.class')];
     }
 
     /**
@@ -52,9 +47,8 @@ class IssueController extends Controller
      *      permission="CREATE"
      * )
      * @Template("OroBugTrackingSystemBundle:Issue:update.html.twig")
-     *
      * @param null|int
-     * @return array
+     * @return Response|array
      */
     public function createAction($id)
     {
@@ -64,29 +58,24 @@ class IssueController extends Controller
             if (!$story) {
                 throw $this->createNotFoundException('Oro\Bundle\BtsBundle\Entity\Issue object not found.');
             }
-
-            if (!$story->isStory()) {
-                return $this->redirect($this->generateUrl('oro_bug_tracking_system_issue_view', ['id' => $id]));
-            }
         }
 
         $issue = new Issue();
 
-        if (isset($story)) {
+        if (isset($story) && $story->isStory()) {
             $issue->setParent($story);
+        } else {
+            return $this->redirect($this->generateUrl('oro_bug_tracking_system_issue_view', ['id' => $id]));
         }
 
-        $type = $this
-            ->getRepository('OroBugTrackingSystemBundle:IssueType')
-            ->findOneByName(IssueType::STORY);
-
+        $type = $this->getRepository('OroBugTrackingSystemBundle:IssueType')->findOneBy(['name' => IssueType::STORY]);
         if ($type) {
             $issue->setIssueType($type);
         }
 
         $priority = $this
             ->getRepository('OroBugTrackingSystemBundle:IssuePriority')
-            ->findOneByName(IssuePriority::MAJOR);
+            ->findOneBy(['name' => IssuePriority::MAJOR]);
 
         if ($priority) {
             $issue->setIssuePriority($priority);
@@ -111,7 +100,6 @@ class IssueController extends Controller
      * )
      * @AclAncestor("oro_bug_tracking_system_issue_view")
      * @Template
-     *
      * @param Issue $issue
      * @return array
      */
@@ -133,7 +121,6 @@ class IssueController extends Controller
      *      permission="EDIT"
      * )
      * @Template
-     *
      * @param Issue $issue
      * @return array
      */
@@ -187,11 +174,11 @@ class IssueController extends Controller
 
                 return $this->get('oro_ui.router')->redirectAfterSave(
                     [
-                        'route' => 'oro_bug_tracking_system_issue_update',
+                        'route'      => 'oro_bug_tracking_system_issue_update',
                         'parameters' => ['id' => $issue->getId()],
                     ],
                     [
-                        'route' => 'oro_bug_tracking_system_issue_view',
+                        'route'      => 'oro_bug_tracking_system_issue_view',
                         'parameters' => ['id' => $issue->getId()],
                     ]
                 );

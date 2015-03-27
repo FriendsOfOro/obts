@@ -82,9 +82,7 @@ class IssueListener
     {
         $this->initializeFromEventArgs($args);
 
-        /**
-         * @var \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue[] $entities
-         */
+        /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue[] $entities */
         $entities = array_filter(
             $this->uow->getScheduledEntityInsertions(),
             function ($entity) {
@@ -112,9 +110,7 @@ class IssueListener
 
         $flushRequired = false;
 
-        /**
-         * @var \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $entity
-         */
+        /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\Issue $entity */
         foreach ($this->queued as $entity) {
             if (!$entity->getId() || !$this->isValuable($entity)) {
                 continue;

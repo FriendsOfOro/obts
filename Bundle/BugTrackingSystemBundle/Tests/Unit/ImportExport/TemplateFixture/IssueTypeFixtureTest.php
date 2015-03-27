@@ -15,6 +15,9 @@ class IssueTypeFixtureTest extends \PHPUnit_Framework_TestCase
      */
     protected $fixture;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->fixture = new IssueTypeFixture();
@@ -50,9 +53,7 @@ class IssueTypeFixtureTest extends \PHPUnit_Framework_TestCase
         $data = $this->fixture->getData();
         $this->assertCount(1, $data);
 
-        /**
-         * @var IssueType $type
-         */
+        /** @var IssueType $type */
         $type = current($data);
         $this->assertInstanceOf('Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType', $type);
         $this->assertEquals('story', $type->getName());

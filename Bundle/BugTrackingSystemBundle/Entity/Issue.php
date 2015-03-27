@@ -52,6 +52,8 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  *          }
  *      }
  * )
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class Issue extends ExtendIssue implements Taggable
 {

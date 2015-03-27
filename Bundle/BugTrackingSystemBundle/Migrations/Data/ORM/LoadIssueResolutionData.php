@@ -39,23 +39,19 @@ class LoadIssueResolutionData extends AbstractTranslatableEntityFixture
 
         foreach ($translationLocales as $locale) {
             foreach ($this->data as $order => $resolutionName) {
-                /**
-                 * @var IssueResolution $issueResolution
-                 */
-                $issueResolution = $resolutionRepository->findOneByName($resolutionName);
+                /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution $issueResolution */
+                $issueResolution = $resolutionRepository->findOneBy(['name' => $resolutionName]);
                 if (!$issueResolution) {
                     $issueResolution = new IssueResolution();
                     $issueResolution->setName($resolutionName);
                     $issueResolution->setOrder($order);
                 }
 
-                // set locale and label
                 $resolutionLabel = $this->translate($resolutionName, static::ISSUE_RESOLUTION_PREFIX, $locale);
                 $issueResolution
                     ->setLocale($locale)
                     ->setLabel($resolutionLabel);
 
-                // save
                 $manager->persist($issueResolution);
             }
 

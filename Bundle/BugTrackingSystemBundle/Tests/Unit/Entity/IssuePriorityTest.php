@@ -29,9 +29,8 @@ class IssuePriorityTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider settersAndGettersDataProvider
-     *
-     * @param $property
-     * @param $value
+     * @param string $property
+     * @param mixed $value
      */
     public function testSettersAndGetters($property, $value)
     {

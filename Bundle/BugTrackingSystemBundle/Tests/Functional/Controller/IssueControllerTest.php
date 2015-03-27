@@ -21,6 +21,9 @@ class IssueControllerTest extends WebTestCase
      */
     private $em;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->initClient([], $this->generateBasicAuthHeader());
@@ -35,12 +38,12 @@ class IssueControllerTest extends WebTestCase
         /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType $type */
         $type = $this->em
             ->getRepository('OroBugTrackingSystemBundle:IssueType')
-            ->findOneByName(IssueType::STORY);
+            ->findOneBy(['name' => IssueType::STORY]);
 
         /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority $priority */
         $priority = $this->em
             ->getRepository('OroBugTrackingSystemBundle:IssuePriority')
-            ->findOneByName(IssuePriority::MAJOR);
+            ->findOneBy(['name' => IssuePriority::MAJOR]);
 
         $form = $crawler->selectButton('Save and Close')->form();
         $form['oro_bug_tracking_system_issue_form[summary]'] = 'New issue';
@@ -80,7 +83,7 @@ class IssueControllerTest extends WebTestCase
          */
         $priority = $this->em
             ->getRepository('OroBugTrackingSystemBundle:IssuePriority')
-            ->findOneByName(IssuePriority::MAJOR);
+            ->findOneBy(['name' => IssuePriority::MAJOR]);
 
         $form = $crawler->selectButton('Save and Close')->form();
         $form['oro_bug_tracking_system_issue_form[summary]'] = 'New sub-task';
