@@ -1,5 +1,4 @@
-# obts
-OroBugTrackingSystemBundle
+# OroBugTrackingSystemBundle
 
 Adding to Oro Application as gitmodule:
 
