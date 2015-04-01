@@ -1,72 +1,74 @@
 oro:
   bugtrackingsystem:
       collaborator:
-          entity_label:               Collaborator
+          entity_label:                       Collaborator
 
       issue:
           dashboard:
               issues_by_status:
-                  title:              Issues by Status
-                  description:        This widget displays a breakdown of issues by status in form of a bar chart.
+                  title:                      Issues by Status
+                  description:                This widget displays a breakdown of issues by status in form of a bar chart.
 
               user_issues:
-                  title:              User`s Issues
-                  view_all:           View All
-                  description:        This widget displays the list of user`s issues
+                  title:                      User`s Issues
+                  view_all:                   View All
+                  description:                This widget displays the list of user`s issues
 
           menu:
-              issue_list.description: List of Issues
+              issue_list.description:         List of Issues
+              shortcut_new_issue.label:       Create new issue
+              shortcut_new_issue.description: Create new issue instance
 
-          user_issues.label:          User Issues
+          user_issues.label:                  User Issues
 
-          create_entity:              Create Issue
-          create_entity.title:        Create an Issue for this user
-          create_entity.widget_title: Create Issue for %username%
+          create_entity:                      Create Issue
+          create_entity.title:                Create an Issue for this user
+          create_entity.widget_title:         Create Issue for %username%
 
-          entity_label:               Issue
-          entity_plural_label:        Issues
+          entity_label:                       Issue
+          entity_plural_label:                Issues
 
-          children.label:             Subtasks
-          code.label:                 Code
-          collaborators.label:        Collaborators
-          created_at.label:           Created
-          description.label:	      Description
-          id.label:	                  Id
-          issue_priority.label:       Priority
-          issue_resolution.label:     Resolution
-          issue_type.label:           Type
-          organization.label:         Organization
-          owner.label:                Assignee
-          parent.label:               Story
-          reporter.label:	          Reporter
-          summary.label:	          Summary
-          updated_at.label:           Updated
-          workflow_item.label:        Workflow Item
-          workflow_step.label:        Status
+          children.label:                     Subtasks
+          code.label:                         Code
+          collaborators.label:                Collaborators
+          created_at.label:                   Created
+          description.label:	              Description
+          id.label:	                          Id
+          issue_priority.label:               Priority
+          issue_resolution.label:             Resolution
+          issue_type.label:                   Type
+          organization.label:                 Organization
+          owner.label:                        Assignee
+          parent.label:                       Story
+          reporter.label:	                  Reporter
+          summary.label:	                  Summary
+          updated_at.label:                   Updated
+          workflow_item.label:                Workflow Item
+          workflow_step.label:                Status
 
-          saved_message:              Issue saved
-          create_subtask_button:      Create Sub-Task
+          saved_message:                      Issue saved
+          create_subtask_button:              Create Sub-Task
 
       issuepriority:
-          entity_label:               Issue Priority
+          entity_label:                       Issue Priority
 
-          id.label:                   Id
-          name.label:                 Name
-          label.label:                Label
-          order.label:                Order
+          id.label:                           Id
+          name.label:                         Name
+          label.label:                        Label
+          order.label:                        Order
 
       issueresolution:
-          entity_label:               Issue Resolution
+          entity_label:                       Issue Resolution
 
-          id.label:                   Id
-          name.label:                 Name
-          label.label:                Label
-          order.label:                Order
+          id.label:                           Id
+          name.label:                         Name
+          label.label:                        Label
+          order.label:                        Order
 
       issuetype:
-          entity_label:               Issue Type
+          entity_label:                       Issue Type
 
-          id.label:                   Id
-          name.label:                 Name
-          label.label:                Label
-          order.label:                Order
+          id.label:                           Id
+          name.label:                         Name
+          label.label:                        Label
+          order.label:                        Order
