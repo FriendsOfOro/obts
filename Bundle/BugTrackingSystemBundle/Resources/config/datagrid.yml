@@ -200,6 +200,15 @@ datagrid:
                 where:
                     and:
                         - collaborator.id = @oro_security.security_facade->getLoggedUserId
+        columns:
+            typeLabel:
+                renderable:    false
+            resolutionLabel:
+                renderable:    false
+            reporterName:
+                renderable:    false
+            createdAt:
+                renderable:    false
         filters: ~
         options:
             toolbarOptions:
