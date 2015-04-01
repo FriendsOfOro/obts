@@ -252,7 +252,7 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent", cascade={"remove"})
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
