@@ -16,12 +16,47 @@ class IssueRepository extends EntityRepository
      */
     public function getIssuesByStatus(AclHelper $aclHelper)
     {
+        $statuses = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('workflow.name, workflow.label')
+            ->from('OroWorkflowBundle:WorkflowStep', 'workflow')
+            ->innerJoin('workflow.definition', 'definition')
+            ->where('definition.relatedEntity = ?1')
+            ->setParameter(1, 'Oro\Bundle\BugTrackingSystemBundle\Entity\Issue', \PDO::PARAM_STR)
+            ->orderBy('workflow.stepOrder', 'ASC')
+            ->getQuery()
+            ->getArrayResult();
+
+        $result = [];
+
+        foreach ($statuses as $status) {
+            $statusName = $status['name'];
+
+            $result[$statusName] = [
+                'name'        => $statusName,
+                'status'      => $status['label'],
+                'issue_count' => 0,
+            ];
+        }
+
         $qb = $this
             ->createQueryBuilder('issue')
-            ->select('COUNT(issue.id) AS issue_count', 'workflowStep.label AS status')
-            ->leftJoin('issue.workflowStep', 'workflowStep')
-            ->groupBy('workflowStep.id');
+            ->select('COUNT(issue.id) AS issue_count', 'workflow.name AS status_name')
+            ->leftJoin('issue.workflowStep', 'workflow')
+            ->groupBy('workflow.id');
 
-        return $aclHelper->apply($qb)->getArrayResult();
+        $issues = $aclHelper->apply($qb)->getArrayResult();
+
+        foreach ($issues as $issue) {
+            $status = $issue['status_name'];
+            $count = (int) $issue['issue_count'];
+
+            if ($count) {
+                $result[$status]['issue_count'] = $count;
+            }
+        }
+
+        return $result;
     }
 }

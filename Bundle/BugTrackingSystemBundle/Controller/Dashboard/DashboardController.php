@@ -36,7 +36,8 @@ class DashboardController extends Controller
                     'data_schema' => [
                         'label' => ['field_name' => 'status'],
                         'value' => ['field_name' => 'issue_count']
-                    ]
+                    ],
+                    'settings' => ['xNoTicks' => 4]
                 ]
             )
             ->getView();

@@ -35,6 +35,6 @@ class IssueControllerTest extends WebTestCase
         $issues = $this->em->getRepository('OroBugTrackingSystemBundle:Issue')->getIssuesByStatus($aclHelper);
 
         $this->assertTrue(is_array($issues));
-        $this->assertCount(0, $issues);
+        $this->assertCount(4, $issues);
     }
 }
