@@ -2,6 +2,10 @@
 
 namespace Oro\Bundle\BugTrackingSystemBundle\Controller;
 
+use FOS\RestBundle\Util\Codes;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -145,6 +149,50 @@ class IssueController extends Controller
         $formAction = $this->get('router')->generate('oro_bug_tracking_system_issue_link', ['id' => $issue->getId()]);
 
         return $this->link($issue, $formAction);
+    }
+
+    /**
+     * @Route(
+     *      "/issue/{mainId}/unlink/{id}",
+     *      name="oro_bug_tracking_system_issue_unlink",
+     *      requirements={"mainId"="\d+", "id"="\d+"}
+     * )
+     * @Method({"DELETE"})
+     * @AclAncestor("oro_bug_tracking_system_issue_update")
+     * @ParamConverter("issue", class="OroBugTrackingSystemBundle:Issue", options={"id" = "mainId"})
+     * @ParamConverter("relatedIssue", class="OroBugTrackingSystemBundle:Issue", options={"id" = "id"})
+     * @param Issue $issue
+     * @param Issue $relatedIssue
+     * @return Response
+     */
+    public function unlinkAction(Issue $issue, Issue $relatedIssue)
+    {
+        $this->handleUnlink($issue, $relatedIssue);
+
+        return new Response('', Codes::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @param Issue $issue
+     * @param Issue $relatedIssue
+     */
+    protected function handleUnlink(Issue $issue, Issue $relatedIssue)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        if ($issue->hasRelatedIssue($relatedIssue)) {
+            $issue->removeRelatedIssue($relatedIssue);
+
+            $em->persist($issue);
+        }
+
+        if ($relatedIssue->hasRelatedIssue($issue)) {
+            $relatedIssue->removeRelatedIssue($issue);
+
+            $em->persist($relatedIssue);
+        }
+
+        $em->flush();
     }
 
     /**

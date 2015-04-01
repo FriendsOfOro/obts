@@ -8,9 +8,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
-use Oro\Bundle\BugTrackingSystemBundle\Form\Handler\IssueHandler;
+use Oro\Bundle\BugTrackingSystemBundle\Form\Handler\LinkIssueHandler;
 
-class IssueHandlerTest extends \PHPUnit_Framework_TestCase
+class LinkIssueHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|FormInterface
@@ -28,7 +28,7 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
     protected $manager;
 
     /**
-     * @var IssueHandler
+     * @var LinkIssueHandler
      */
     protected $handler;
 
@@ -52,38 +52,12 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var \Oro\Bundle\TagBundle\Entity\TagManager $tagManager */
-        $tagManager = $this->getMockBuilder('Oro\Bundle\TagBundle\Entity\TagManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /** @var \Oro\Bundle\ActivityBundle\Manager\ActivityManager $activityManager */
-        $activityManager = $this->getMockBuilder('Oro\Bundle\ActivityBundle\Manager\ActivityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /** @var \Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper $entityRoutingHelper */
-        $entityRoutingHelper = $this->getMockBuilder('Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->entity  = new Issue();
-        $this->handler = new IssueHandler(
-            $this->form,
-            $this->request,
-            $this->manager,
-            $activityManager,
-            $entityRoutingHelper
-        );
-        $this->handler->setTagManager($tagManager);
+        $this->handler = new LinkIssueHandler($this->form, $this->request, $this->manager);
     }
 
     public function testProcessUnsupportedRequest()
     {
-        $this->form->expects($this->once())
-            ->method('setData')
-            ->with($this->entity);
-
         $this->form->expects($this->never())
             ->method('submit');
 
@@ -98,15 +72,21 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $this->request->setMethod($method);
 
-        $this->form->expects($this->once())
-            ->method('setData')
-            ->with($this->entity);
-        $this->form->expects($this->once())
+        $field = $this->getMock('Symfony\Component\Form\FormInterface');
+        $field->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($this->entity));
+
+         $this->form->expects($this->once())
             ->method('submit')
             ->with($this->request);
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));
+        $this->form->expects($this->any())
+            ->method('get')
+            ->with('relatedIssue')
+            ->will($this->returnValue($field));
 
         $this->assertTrue($this->handler->process($this->entity));
     }
@@ -116,30 +96,33 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function supportedMethods()
     {
-        return [['POST'], ['PUT']];
+        return [['POST']];
     }
 
     public function testProcessValidData()
     {
         $this->request->setMethod('POST');
 
-        $this->form->expects($this->once())
-            ->method('setData')
-            ->with($this->entity);
+        $field = $this->getMock('Symfony\Component\Form\FormInterface');
+        $field->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($this->entity));
 
         $this->form->expects($this->once())
             ->method('submit')
             ->with($this->request);
-
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));
+        $this->form->expects($this->any())
+            ->method('get')
+            ->with('relatedIssue')
+            ->will($this->returnValue($field));
 
-        $this->manager->expects($this->once())
+        $this->manager->expects($this->never())
             ->method('persist')
             ->with($this->entity);
-
-        $this->manager->expects($this->once())
+        $this->manager->expects($this->never())
             ->method('flush');
 
         $this->assertTrue($this->handler->process($this->entity));

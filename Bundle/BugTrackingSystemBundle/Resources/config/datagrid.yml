@@ -290,6 +290,7 @@ datagrid:
                     - relatedIssueType.label as typeLabel
                     - relatedIssuePriority.label as priorityLabel
                     - relatedIssueWorkflowStep.label as workflowStepLabel
+                    - issue.id AS mainId
                 from:
                     - { table: %oro_bug_tracking_system.issue.entity.class%, alias: issue }
                 join:
@@ -320,10 +321,17 @@ datagrid:
                 label:         oro.bugtrackingsystem.issue.workflow_step.label
         properties:
             id: ~
+            mainId: ~
             view_link:
                 type:       url
                 route:      oro_bug_tracking_system_issue_view
                 params:     [ id ]
+            unlink_link:
+                type:       url
+                route:      oro_bug_tracking_system_issue_unlink
+                params:
+                     - mainId
+                     - id
         actions:
             view:
                 type:          navigate
@@ -332,3 +340,9 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+            unlink:
+                type:          issue-unlink
+                acl_resource:  oro_bug_tracking_system_issue_update
+                label:         oro.bugtrackingsystem.issue.button.unlink
+                icon:          eraser
+                link:          unlink_link

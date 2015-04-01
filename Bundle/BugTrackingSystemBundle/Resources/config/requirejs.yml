@@ -6,3 +6,5 @@ config:
         'orobugtrackingsystem/js/app/components/issue-linking-widget-component': 'bundles/orobugtrackingsystem/js/app/components/issue-linking-widget-component.js'
         'orobugtrackingsystem/js/issue-deletion-handler': 'bundles/orobugtrackingsystem/js/issue-deletion-handler.js'
         'oro/datagrid/action/issue-delete-action': 'bundles/orobugtrackingsystem/js/datagrid/action/issue-delete-action.js'
+        'orobugtrackingsystem/js/issue-unlink-handler': 'bundles/orobugtrackingsystem/js/issue-unlink-handler.js'
+        'oro/datagrid/action/issue-unlink-action': 'bundles/orobugtrackingsystem/js/datagrid/action/issue-unlink-action.js'

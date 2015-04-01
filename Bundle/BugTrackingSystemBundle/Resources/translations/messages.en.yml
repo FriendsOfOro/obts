@@ -22,6 +22,7 @@ oro:
           button:
               link:                           Link
               link_entity:                    Link %entityName%
+              unlink:                         Unlink
 
           form:
               choose_issue:                   Choose issue...

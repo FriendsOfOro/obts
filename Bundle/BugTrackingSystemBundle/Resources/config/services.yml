@@ -1,12 +1,11 @@
 parameters:
-    oro_bug_tracking_system.issue.entity.class:            Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
-    oro_bug_tracking_system.issue_priority.entity.class:   Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority
-    oro_bug_tracking_system.issue_resolution.entity.class: Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution
-    oro_bug_tracking_system.issue_type.entity.class:       Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType
-
-    oro_bug_tracking_system.issue.listener.class:          Oro\Bundle\BugTrackingSystemBundle\EventListener\IssueListener
-
+    oro_bug_tracking_system.issue.entity.class:                 Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+    oro_bug_tracking_system.issue_priority.entity.class:        Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority
+    oro_bug_tracking_system.issue_resolution.entity.class:      Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution
+    oro_bug_tracking_system.issue_type.entity.class:            Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType
+    oro_bug_tracking_system.issue.listener.class:               Oro\Bundle\BugTrackingSystemBundle\EventListener\IssueListener
     oro_bug_tracking_system.datagrid.action.issue_delete.class: Oro\Bundle\BugTrackingSystemBundle\Datagrid\Action\IssueDeleteAction
+    oro_bug_tracking_system.datagrid.action.issue_unlink.class: Oro\Bundle\BugTrackingSystemBundle\Datagrid\Action\IssueUnlinkAction
 
 services:
     oro_bug_tracking_system.issue.listener:
@@ -22,3 +21,9 @@ services:
         scope: prototype
         tags:
             - { name: oro_datagrid.extension.action.type, type: issue-delete }
+
+    oro_bug_tracking_system.datagrid.action.issue_unlink:
+        class: %oro_bug_tracking_system.datagrid.action.issue_unlink.class%
+        scope: prototype
+        tags:
+            - { name: oro_datagrid.extension.action.type, type: issue-unlink }

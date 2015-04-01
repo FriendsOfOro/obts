@@ -279,4 +279,46 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->entity->setIssueType($type);
         $this->assertTrue($this->entity->isSubTask());
     }
+
+    /**
+     * Issue related issue add and remove functions test
+     */
+    public function testRelatedIssueAddAndRemoveFunctions()
+    {
+        $this->assertCount(0, $this->entity->getRelatedIssues());
+
+        $issue = new Issue();
+        $this->entity->addRelatedIssue($issue);
+        $this->assertCount(1, $this->entity->getRelatedIssues());
+
+        $this->entity->addRelatedIssue($issue);
+        $this->assertCount(1, $this->entity->getRelatedIssues());
+
+        $this->entity->removeRelatedIssue($issue);
+        $this->assertCount(0, $this->entity->getRelatedIssues());
+    }
+
+    /**
+     * Issue collaborators add and remove function test
+     */
+    public function testHasRelatedIssueFunction()
+    {
+        $this->assertCount(0, $this->entity->getRelatedIssues());
+
+        $issue1 = new Issue();
+        $issue2 = new Issue();
+        $this->entity->addRelatedIssue($issue2);
+
+        $this->assertTrue($this->entity->hasRelatedIssue($issue2));
+        $this->assertFalse($this->entity->hasRelatedIssue($issue1));
+    }
+
+    /**
+     * Issue collaborators getter test
+     */
+    public function testRelatedIssuesGetter()
+    {
+        $this->assertEquals([], $this->entity->getRelatedIssues());
+    }
+
 }
