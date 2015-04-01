@@ -277,3 +277,58 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+    related_issues_grid:
+        source:
+            type: orm
+            acl_resource: oro_bug_tracking_system_issue_view
+            query:
+                select:
+                    - relatedIssue.id
+                    - relatedIssue.code
+                    - relatedIssue.summary
+                    - relatedIssueType.label as typeLabel
+                    - relatedIssuePriority.label as priorityLabel
+                    - relatedIssueWorkflowStep.label as workflowStepLabel
+                from:
+                    - { table: %oro_bug_tracking_system.issue.entity.class%, alias: issue }
+                join:
+                    inner:
+                        - { join: issue.relatedIssues, alias: relatedIssue }
+                    left:
+                        - { join: relatedIssue.issueType, alias: relatedIssueType }
+                        - { join: relatedIssue.issuePriority, alias: relatedIssuePriority }
+                        - { join: relatedIssue.workflowStep, alias: relatedIssueWorkflowStep }
+                where:
+                    and:
+                        - issue.id = :issue_id
+                orderBy:
+                    - column: relatedIssue.id
+                      dir: asc
+            bind_parameters:
+                - issue_id
+        columns:
+            code:
+                label:         oro.bugtrackingsystem.issue.code.label
+            summary:
+                label:         oro.bugtrackingsystem.issue.summary.label
+            typeLabel:
+                label:         oro.bugtrackingsystem.issue.issue_type.label
+            priorityLabel:
+                label:         oro.bugtrackingsystem.issue.issue_priority.label
+            workflowStepLabel:
+                label:         oro.bugtrackingsystem.issue.workflow_step.label
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      oro_bug_tracking_system_issue_view
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  oro_bug_tracking_system_issue_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true

@@ -19,11 +19,19 @@ oro:
               shortcut_new_issue.label:       Create new issue
               shortcut_new_issue.description: Create new issue instance
 
+          button:
+              link:                           Link
+              link_entity:                    Link %entityName%
+
+          form:
+              choose_issue:                   Choose issue...
+
           user_issues.label:                  User Issues
 
           create_entity:                      Create Issue
           create_entity.title:                Create an Issue for this user
           create_entity.widget_title:         Create Issue for %username%
+          link_issue.widget_title:            Link Issue with %code%
 
           entity_label:                       Issue
           entity_plural_label:                Issues

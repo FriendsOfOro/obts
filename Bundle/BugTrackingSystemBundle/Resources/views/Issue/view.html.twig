@@ -138,6 +138,17 @@
     ] %}
     {% set dataBlocks = dataBlocks|merge(collaboratorsBlock) %}
 
+    {% set relatedIssuesBlock = [
+        {
+            'title': 'Related Issues'|trans,
+            'class': 'active',
+            'subblocks': [
+                {'data' : [dataGrid.renderGrid('related_issues_grid', {'issue_id': entity.id})] }
+            ]
+        }
+    ] %}
+    {% set dataBlocks = dataBlocks|merge(relatedIssuesBlock) %}
+
     {% if entity.isStory() %}
         {% set subtasksBlock = [
             {

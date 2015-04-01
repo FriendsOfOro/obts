@@ -3,5 +3,6 @@ config:
         'orobugtrackingsystem/js/app/components/issue-collaborators-refresh-component': 'bundles/orobugtrackingsystem/js/app/components/issue-collaborators-refresh-component.js'
         'orobugtrackingsystem/js/app/components/issue-creation-widget-component': 'bundles/orobugtrackingsystem/js/app/components/issue-creation-widget-component.js'
         'orobugtrackingsystem/js/app/components/issue-deletion-component': 'bundles/orobugtrackingsystem/js/app/components/issue-deletion-component.js'
+        'orobugtrackingsystem/js/app/components/issue-linking-widget-component': 'bundles/orobugtrackingsystem/js/app/components/issue-linking-widget-component.js'
         'orobugtrackingsystem/js/issue-deletion-handler': 'bundles/orobugtrackingsystem/js/issue-deletion-handler.js'
         'oro/datagrid/action/issue-delete-action': 'bundles/orobugtrackingsystem/js/datagrid/action/issue-delete-action.js'

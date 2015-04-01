@@ -49,6 +49,10 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  *          "workflow"={
  *              "active_workflow"="issue_flow",
  *              "show_step_in_grid"=false
+ *          },
+ *          "form"={
+ *              "form_type"="oro_bug_tracking_system_issue_select",
+ *              "grid_name"="issues_grid",
  *          }
  *      }
  * )
@@ -252,6 +256,22 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * @var ArrayCollection
      *
+     * @ORM\ManyToMany(targetEntity="Issue")
+     * @ORM\JoinTable(
+     *      name="obts_issue_relations",
+     *      joinColumns={
+     *          @ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")
+     *      },
+     *      inverseJoinColumns={
+     *          @ORM\JoinColumn(name="linked_issue_id", referencedColumnName="id", onDelete="CASCADE")
+     *      }
+     * )
+     */
+    protected $relatedIssues;
+
+    /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent", cascade={"remove"})
      * @ConfigField(
      *      defaultValues={
@@ -349,6 +369,7 @@ class Issue extends ExtendIssue implements Taggable
 
         $this->children = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
+        $this->relatedIssues = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
@@ -714,6 +735,52 @@ class Issue extends ExtendIssue implements Taggable
     public function removeChild(Issue $child)
     {
         $this->children->removeElement($child);
+    }
+
+    /**
+     * Add related issue
+     *
+     * @param Issue $issue
+     * @return Issue
+     */
+    public function addRelatedIssue(Issue $issue)
+    {
+        if (!$this->hasRelatedIssue($issue)) {
+            $this->relatedIssues->add($issue);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove related issue
+     *
+     * @param Issue $issue
+     */
+    public function removeRelatedIssue(Issue $issue)
+    {
+        $this->relatedIssues->removeElement($issue);
+    }
+
+    /**
+     * Has related issue
+     *
+     * @param Issue $issue
+     * @return boolean
+     */
+    public function hasRelatedIssue(Issue $issue)
+    {
+        return $this->relatedIssues->contains($issue);
+    }
+
+    /**
+     *  Get related issues
+     *
+     *  @return Issue[]
+     */
+    public function getRelatedIssues()
+    {
+        return $this->relatedIssues->toArray();
     }
 
     /**

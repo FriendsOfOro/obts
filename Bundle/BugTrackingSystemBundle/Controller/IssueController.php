@@ -131,6 +131,24 @@ class IssueController extends Controller
 
     /**
      * @Route(
+     *      "/link/{id}",
+     *      name="oro_bug_tracking_system_issue_link",
+     *      requirements={"id"="\d+"}
+     * )
+     * @AclAncestor("oro_bug_tracking_system_issue_update")
+     * @Template("OroBugTrackingSystemBundle:Issue\widget:link.html.twig")
+     * @param Issue $issue
+     * @return array
+     */
+    public function linkAction(Issue $issue)
+    {
+        $formAction = $this->get('router')->generate('oro_bug_tracking_system_issue_link', ['id' => $issue->getId()]);
+
+        return $this->link($issue, $formAction);
+    }
+
+    /**
+     * @Route(
      *      "/user/{userId}",
      *      name="oro_bug_tracking_system_issue_user_issues",
      *      requirements={"userId"="\d+"}
@@ -189,6 +207,27 @@ class IssueController extends Controller
             'entity'     => $issue,
             'saved'      => $saved,
             'form'       => $this->get('oro_bug_tracking_system.form.handler.issue')->getForm()->createView(),
+            'formAction' => $formAction,
+        ];
+    }
+
+    /**
+     * @param Issue $issue
+     * @param string $formAction
+     * @return array
+     */
+    protected function link(Issue $issue, $formAction)
+    {
+        $saved = false;
+
+        if ($this->get('oro_bug_tracking_system.form.handler.link_issue')->process($issue)) {
+            $saved = true;
+        }
+
+        return [
+            'entity'     => $issue,
+            'saved'      => $saved,
+            'form'       => $this->get('oro_bug_tracking_system.form.handler.link_issue')->getForm()->createView(),
             'formAction' => $formAction,
         ];
     }

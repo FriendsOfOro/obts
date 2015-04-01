@@ -55,6 +55,11 @@ class OroBugTrackingSystemBundle implements Migration
     /**
      * @var string
      */
+    private $issueRelationsTableName = 'obts_issue_relations';
+
+    /**
+     * @var string
+     */
     private $userTableName = 'oro_user';
 
     /**
@@ -85,9 +90,11 @@ class OroBugTrackingSystemBundle implements Migration
         $this->createIssueTypeTable($schema);
         $this->createIssueTypeTranslationTable($schema);
         $this->createIssueCollaboratorsTable($schema);
+        $this->createIssueRelationsTable($schema);
 
         $this->addIssueForeignKeys($schema);
         $this->addIssueCollaboratorsForeignKeys($schema);
+        $this->addIssueRelationsForeignKeys($schema);
     }
 
     /**
@@ -351,6 +358,25 @@ class OroBugTrackingSystemBundle implements Migration
     }
 
     /**
+     * Create IssueRelations table
+     *
+     * @param Schema $schema
+     */
+    private function createIssueRelationsTable(Schema $schema)
+    {
+        if ($schema->hasTable($this->issueRelationsTableName)) {
+            $schema->dropTable($this->issueRelationsTableName);
+        }
+
+        $table = $schema->createTable($this->issueRelationsTableName);
+
+        $table->addColumn('issue_id', 'integer', []);
+        $table->addColumn('linked_issue_id', 'integer', []);
+
+        $table->setPrimaryKey(['issue_id', 'linked_issue_id']);
+    }
+
+    /**
      * Add IssueCollaborators foreign keys.
      *
      * @param Schema $schema
@@ -369,6 +395,28 @@ class OroBugTrackingSystemBundle implements Migration
             ['user_id'],
             ['id'],
             ['onDelete' => null]
+        );
+    }
+
+    /**
+     * Add IssueRelations foreign keys.
+     *
+     * @param Schema $schema
+     */
+    private function addIssueRelationsForeignKeys(Schema $schema)
+    {
+        $table = $schema->getTable($this->issueRelationsTableName);
+        $table->addForeignKeyConstraint(
+            $schema->getTable($this->issueTableName),
+            ['issue_id'],
+            ['id'],
+            ['onDelete' => 'CASCADE']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable($this->issueTableName),
+            ['linked_issue_id'],
+            ['id'],
+            ['onDelete' => 'CASCADE']
         );
     }
 }
