@@ -216,7 +216,7 @@ class Issue extends ExtendIssue implements Taggable
      * @ORM\JoinTable(
      *      name="obts_issue_collaborators",
      *      joinColumns={
-     *          @ORM\JoinColumn(name="issue_id", referencedColumnName="id")
+     *          @ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")
      *      },
      *      inverseJoinColumns={
      *          @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -236,7 +236,7 @@ class Issue extends ExtendIssue implements Taggable
      * @var Issue
      *
      * @ORM\ManyToOne(targetEntity="Issue", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={

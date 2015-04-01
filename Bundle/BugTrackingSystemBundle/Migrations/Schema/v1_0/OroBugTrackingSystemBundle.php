@@ -122,6 +122,7 @@ class OroBugTrackingSystemBundle implements Migration
         $table->setPrimaryKey(['id']);
 
         $table->addUniqueIndex(['code'], 'uidx_obts_issue_code');
+        $table->addUniqueIndex(['workflow_item_id'], 'UNIQ_6D3EA5741023C4EE');
     }
 
     /**
@@ -143,6 +144,8 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('`order`', 'integer', ['notnull' => true]);
 
         $table->setPrimaryKey(['id']);
+
+        $table->addUniqueIndex(['label'], 'UNIQ_4FB220FDEA750E8');
     }
 
     /**
@@ -189,6 +192,8 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('`order`', 'integer', ['notnull' => true]);
 
         $table->setPrimaryKey(['id']);
+
+        $table->addUniqueIndex(['label'], 'UNIQ_320FB13CEA750E8');
     }
 
     /**
@@ -235,6 +240,8 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('`order`', 'integer', ['notnull' => true]);
 
         $table->setPrimaryKey(['id']);
+
+        $table->addUniqueIndex(['label'], 'UNIQ_59BA557AEA750E8');
     }
 
     /**
@@ -337,13 +344,10 @@ class OroBugTrackingSystemBundle implements Migration
 
         $table = $schema->createTable($this->issueCollaboratorsTableName);
 
-        $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('issue_id', 'integer', []);
         $table->addColumn('user_id', 'integer', []);
 
-        $table->setPrimaryKey(['id']);
-
-        $table->addUniqueIndex(['issue_id', 'user_id'], 'uidx_obts_collaborators_issue_id_user_id');
+        $table->setPrimaryKey(['issue_id', 'user_id']);
     }
 
     /**
