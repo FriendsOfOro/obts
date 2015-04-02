@@ -184,6 +184,7 @@ class IssueController extends RestController implements ClassResourceInterface
 
     /**
      * {@inheritDoc}
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function transformEntityField($field, &$value)
     {
@@ -195,6 +196,25 @@ class IssueController extends RestController implements ClassResourceInterface
                     $value = $value->getName();
                 }
                 break;
+            case 'parent':
+                if ($value) {
+                    $value = $value->getCode();
+                }
+                break;
+            case 'collaborators':
+            case 'children':
+            case 'relatedIssues':
+                $data = [];
+
+                if (count($value)) {
+                    foreach ($value as $item) {
+                        $data[] = $item->getId();
+                    }
+                }
+
+                $value = $data;
+                break;
+            case 'reporter':
             case 'owner':
             case 'workflowItem':
             case 'workflowStep':
