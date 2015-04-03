@@ -8,9 +8,12 @@ use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
 
 /**
  * @ORM\Table(
- *      name="obts_issue_type_trans",
+ *      name="oro_bts_issue_type_trans",
  *      indexes={
- *          @ORM\Index(name="idx_obts_issue_type_trans", columns={"locale", "object_class", "field", "foreign_key"})
+ *          @ORM\Index(
+ *              name="idx_oro_bts_issue_type_trans",
+ *              columns={"locale", "object_class", "field", "foreign_key"}
+ *          )
  *      }
  * )
  * @ORM\Entity(repositoryClass="Gedmo\Translatable\Entity\Repository\TranslationRepository")

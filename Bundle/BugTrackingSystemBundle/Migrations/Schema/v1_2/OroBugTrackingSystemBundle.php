@@ -44,6 +44,6 @@ class OroBugTrackingSystemBundle implements Migration, ActivityExtensionAwareInt
      */
     public static function addActivityAssociations(Schema $schema, ActivityExtension $activityExtension)
     {
-        $activityExtension->addActivityAssociation($schema, 'oro_email', 'obts_issue');
+        $activityExtension->addActivityAssociation($schema, 'oro_email', 'oro_bts_issue');
     }
 }

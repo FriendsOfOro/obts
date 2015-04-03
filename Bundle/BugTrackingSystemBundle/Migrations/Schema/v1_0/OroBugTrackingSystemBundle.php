@@ -12,50 +12,52 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
  */
 class OroBugTrackingSystemBundle implements Migration
 {
-    /**
-     * @var string
-     */
-    private $issueTableName = 'obts_issue';
+    const TABLE_PREFIX = 'oro_bts_';
 
     /**
      * @var string
      */
-    private $issuePriorityTableName = 'obts_issue_priority';
+    private $issueTableName = 'issue';
 
     /**
      * @var string
      */
-    private $issuePriorityTranslationTableName = 'obts_issue_priority_trans';
+    private $issuePriorityTableName = 'issue_priority';
 
     /**
      * @var string
      */
-    private $issueResolutionTableName = 'obts_issue_resolution';
+    private $issuePriorityTranslationTableName = 'issue_priority_trans';
 
     /**
      * @var string
      */
-    private $issueResolutionTranslationTableName = 'obts_issue_resolution_trans';
+    private $issueResolutionTableName = 'issue_resolution';
 
     /**
      * @var string
      */
-    private $issueTypeTableName = 'obts_issue_type';
+    private $issueResolutionTranslationTableName = 'issue_resolution_trans';
 
     /**
      * @var string
      */
-    private $issueTypeTranslationTableName = 'obts_issue_type_trans';
+    private $issueTypeTableName = 'issue_type';
 
     /**
      * @var string
      */
-    private $issueCollaboratorsTableName = 'obts_issue_collaborators';
+    private $issueTypeTranslationTableName = 'issue_type_trans';
 
     /**
      * @var string
      */
-    private $issueRelationsTableName = 'obts_issue_relations';
+    private $issueCollaboratorsTableName = 'issue_collaborators';
+
+    /**
+     * @var string
+     */
+    private $issueRelationsTableName = 'issue_relations';
 
     /**
      * @var string
@@ -104,11 +106,13 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function createIssueTable(Schema $schema)
     {
-        if ($schema->hasTable($this->issueTableName)) {
-            $schema->dropTable($this->issueTableName);
+        $table = self::TABLE_PREFIX . $this->issueTableName;
+
+        if ($schema->hasTable($table)) {
+            $schema->dropTable($table);
         }
 
-        $table = $schema->createTable($this->issueTableName);
+        $table = $schema->createTable($table);
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('summary', 'string', ['notnull' => true, 'length' => 255]);
@@ -120,15 +124,15 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('reporter_id', 'integer', ['notnull' => false]);
         $table->addColumn('owner_id', 'integer', ['notnull' => false]);
         $table->addColumn('parent_id', 'integer', ['notnull' => false]);
-        $table->addColumn('createdAt', 'datetime', []);
-        $table->addColumn('updatedAt', 'datetime', []);
+        $table->addColumn('created_at', 'datetime', []);
+        $table->addColumn('updated_at', 'datetime', []);
         $table->addColumn('organization_id', 'integer', ['notnull' => false]);
         $table->addColumn('workflow_step_id', 'integer', ['notnull' => false]);
         $table->addColumn('workflow_item_id', 'integer', ['notnull' => false]);
 
         $table->setPrimaryKey(['id']);
 
-        $table->addUniqueIndex(['code'], 'uidx_obts_issue_code');
+        $table->addUniqueIndex(['code'], 'uidx_oro_bts_issue_code');
         $table->addUniqueIndex(['workflow_item_id'], 'UNIQ_6D3EA5741023C4EE');
     }
 
@@ -139,11 +143,13 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function createIssuePriorityTable(Schema $schema)
     {
-        if ($schema->hasTable($this->issuePriorityTableName)) {
-            $schema->dropTable($this->issuePriorityTableName);
+        $table = self::TABLE_PREFIX . $this->issuePriorityTableName;
+
+        if ($schema->hasTable($table)) {
+            $schema->dropTable($table);
         }
 
-        $table = $schema->createTable($this->issuePriorityTableName);
+        $table = $schema->createTable($table);
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['notnull' => true, 'length' => 32]);
@@ -162,11 +168,13 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function createIssuePriorityTranslationTable(Schema $schema)
     {
-        if ($schema->hasTable($this->issuePriorityTranslationTableName)) {
-            $schema->dropTable($this->issuePriorityTranslationTableName);
+        $table = self::TABLE_PREFIX . $this->issuePriorityTranslationTableName;
+
+        if ($schema->hasTable($table)) {
+            $schema->dropTable($table);
         }
 
-        $table = $schema->createTable($this->issuePriorityTranslationTableName);
+        $table = $schema->createTable($table);
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('foreign_key', 'string', ['length' => 16]);
@@ -177,7 +185,10 @@ class OroBugTrackingSystemBundle implements Migration
 
         $table->setPrimaryKey(['id']);
 
-        $table->addIndex(['locale', 'object_class', 'field', 'foreign_key'], 'idx_obts_issue_priority_trans');
+        $table->addIndex(
+            ['locale', 'object_class', 'field', 'foreign_key'],
+            'idx_oro_bts_issue_priority_trans'
+        );
     }
 
     /**
@@ -187,11 +198,13 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function createIssueResolutionTable(Schema $schema)
     {
-        if ($schema->hasTable($this->issueResolutionTableName)) {
-            $schema->dropTable($this->issueResolutionTableName);
+        $table = self::TABLE_PREFIX . $this->issueResolutionTableName;
+
+        if ($schema->hasTable($table)) {
+            $schema->dropTable($table);
         }
 
-        $table = $schema->createTable($this->issueResolutionTableName);
+        $table = $schema->createTable($table);
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['notnull' => true, 'length' => 32]);
@@ -210,11 +223,13 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function createIssueResolutionTranslationTable(Schema $schema)
     {
-        if ($schema->hasTable($this->issueResolutionTranslationTableName)) {
-            $schema->dropTable($this->issueResolutionTranslationTableName);
+        $table = self::TABLE_PREFIX . $this->issueResolutionTranslationTableName;
+
+        if ($schema->hasTable($table)) {
+            $schema->dropTable($table);
         }
 
-        $table = $schema->createTable($this->issueResolutionTranslationTableName);
+        $table = $schema->createTable($table);
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('foreign_key', 'string', ['length' => 16]);
@@ -225,7 +240,10 @@ class OroBugTrackingSystemBundle implements Migration
 
         $table->setPrimaryKey(['id']);
 
-        $table->addIndex(['locale', 'object_class', 'field', 'foreign_key'], 'idx_obts_issue_resolution_trans');
+        $table->addIndex(
+            ['locale', 'object_class', 'field', 'foreign_key'],
+            'idx_oro_bts_issue_resolution_trans'
+        );
     }
 
     /**
@@ -235,11 +253,13 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function createIssueTypeTable(Schema $schema)
     {
-        if ($schema->hasTable($this->issueTypeTableName)) {
-            $schema->dropTable($this->issueTypeTableName);
+        $table = self::TABLE_PREFIX . $this->issueTypeTableName;
+
+        if ($schema->hasTable($table)) {
+            $schema->dropTable($table);
         }
 
-        $table = $schema->createTable($this->issueTypeTableName);
+        $table = $schema->createTable($table);
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['notnull' => true, 'length' => 32]);
@@ -258,11 +278,13 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function createIssueTypeTranslationTable(Schema $schema)
     {
-        if ($schema->hasTable($this->issueTypeTranslationTableName)) {
-            $schema->dropTable($this->issueTypeTranslationTableName);
+        $table = self::TABLE_PREFIX . $this->issueTypeTranslationTableName;
+
+        if ($schema->hasTable($table)) {
+            $schema->dropTable($table);
         }
 
-        $table = $schema->createTable($this->issueTypeTranslationTableName);
+        $table = $schema->createTable($table);
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('foreign_key', 'string', ['length' => 16]);
@@ -273,7 +295,10 @@ class OroBugTrackingSystemBundle implements Migration
 
         $table->setPrimaryKey(['id']);
 
-        $table->addIndex(['locale', 'object_class', 'field', 'foreign_key'], 'idx_obts_issue_type_trans');
+        $table->addIndex(
+            ['locale', 'object_class', 'field', 'foreign_key'],
+            'idx_oro_bts_issue_type_trans'
+        );
     }
 
     /**
@@ -281,21 +306,21 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function addIssueForeignKeys(Schema $schema)
     {
-        $table = $schema->getTable($this->issueTableName);
+        $table = $schema->getTable(self::TABLE_PREFIX . $this->issueTableName);
         $table->addForeignKeyConstraint(
-            $schema->getTable($this->issuePriorityTableName),
+            $schema->getTable(self::TABLE_PREFIX . $this->issuePriorityTableName),
             ['issue_priority_id'],
             ['id'],
             ['onDelete' => 'SET NULL']
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable($this->issueResolutionTableName),
+            $schema->getTable(self::TABLE_PREFIX . $this->issueResolutionTableName),
             ['issue_resolution_id'],
             ['id'],
             ['onDelete' => 'SET NULL']
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable($this->issueTypeTableName),
+            $schema->getTable(self::TABLE_PREFIX . $this->issueTypeTableName),
             ['issue_type_id'],
             ['id'],
             ['onDelete' => 'SET NULL']
@@ -313,7 +338,7 @@ class OroBugTrackingSystemBundle implements Migration
             ['onDelete' => 'SET NULL']
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable($this->issueTableName),
+            $schema->getTable(self::TABLE_PREFIX . $this->issueTableName),
             ['parent_id'],
             ['id'],
             ['onDelete' => 'CASCADE']
@@ -345,11 +370,13 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function createIssueCollaboratorsTable(Schema $schema)
     {
-        if ($schema->hasTable($this->issueCollaboratorsTableName)) {
-            $schema->dropTable($this->issueCollaboratorsTableName);
+        $table = self::TABLE_PREFIX . $this->issueCollaboratorsTableName;
+
+        if ($schema->hasTable($table)) {
+            $schema->dropTable($table);
         }
 
-        $table = $schema->createTable($this->issueCollaboratorsTableName);
+        $table = $schema->createTable($table);
 
         $table->addColumn('issue_id', 'integer', []);
         $table->addColumn('user_id', 'integer', []);
@@ -364,11 +391,13 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function createIssueRelationsTable(Schema $schema)
     {
-        if ($schema->hasTable($this->issueRelationsTableName)) {
-            $schema->dropTable($this->issueRelationsTableName);
+        $table = self::TABLE_PREFIX . $this->issueRelationsTableName;
+
+        if ($schema->hasTable($table)) {
+            $schema->dropTable($table);
         }
 
-        $table = $schema->createTable($this->issueRelationsTableName);
+        $table = $schema->createTable($table);
 
         $table->addColumn('issue_id', 'integer', []);
         $table->addColumn('linked_issue_id', 'integer', []);
@@ -383,9 +412,9 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function addIssueCollaboratorsForeignKeys(Schema $schema)
     {
-        $table = $schema->getTable($this->issueCollaboratorsTableName);
+        $table = $schema->getTable(self::TABLE_PREFIX . $this->issueCollaboratorsTableName);
         $table->addForeignKeyConstraint(
-            $schema->getTable($this->issueTableName),
+            $schema->getTable(self::TABLE_PREFIX . $this->issueTableName),
             ['issue_id'],
             ['id'],
             ['onDelete' => 'CASCADE']
@@ -405,15 +434,15 @@ class OroBugTrackingSystemBundle implements Migration
      */
     private function addIssueRelationsForeignKeys(Schema $schema)
     {
-        $table = $schema->getTable($this->issueRelationsTableName);
+        $table = $schema->getTable(self::TABLE_PREFIX . $this->issueRelationsTableName);
         $table->addForeignKeyConstraint(
-            $schema->getTable($this->issueTableName),
+            $schema->getTable(self::TABLE_PREFIX . $this->issueTableName),
             ['issue_id'],
             ['id'],
             ['onDelete' => 'CASCADE']
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable($this->issueTableName),
+            $schema->getTable(self::TABLE_PREFIX . $this->issueTableName),
             ['linked_issue_id'],
             ['id'],
             ['onDelete' => 'CASCADE']

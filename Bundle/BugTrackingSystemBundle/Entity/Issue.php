@@ -19,9 +19,9 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  * Issue
  *
  * @ORM\Table(
- *      name="obts_issue",
+ *      name="oro_bts_issue",
  *      indexes={
- *          @ORM\Index(name="uidx_obts_issue_code",columns={"code"})
+ *          @ORM\Index(name="uidx_oro_bts_issue_code",columns={"code"})
  *      }
  * )
  * @ORM\Entity(repositoryClass="Oro\Bundle\BugTrackingSystemBundle\Entity\Repository\IssueRepository")
@@ -218,7 +218,7 @@ class Issue extends ExtendIssue implements Taggable
      *
      * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinTable(
-     *      name="obts_issue_collaborators",
+     *      name="oro_bts_issue_collaborators",
      *      joinColumns={
      *          @ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")
      *      },
@@ -258,7 +258,7 @@ class Issue extends ExtendIssue implements Taggable
      *
      * @ORM\ManyToMany(targetEntity="Issue")
      * @ORM\JoinTable(
-     *      name="obts_issue_relations",
+     *      name="oro_bts_issue_relations",
      *      joinColumns={
      *          @ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")
      *      },
@@ -272,7 +272,7 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent", cascade={"all"})
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
@@ -286,7 +286,7 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="created_at", type="datetime")
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
@@ -301,7 +301,7 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="updated_at", type="datetime")
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={

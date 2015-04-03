@@ -11,7 +11,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
- * @ORM\Table(name="obts_issue_type")
+ * @ORM\Table(name="oro_bts_issue_type")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="Oro\Bundle\BugTrackingSystemBundle\Entity\IssueTypeTranslation")
  * @Config(

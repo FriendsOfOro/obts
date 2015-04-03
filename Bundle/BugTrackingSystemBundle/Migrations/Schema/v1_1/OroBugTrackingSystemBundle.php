@@ -44,6 +44,6 @@ class OroBugTrackingSystemBundle implements Migration, NoteExtensionAwareInterfa
      */
     public static function addNoteAssociations(Schema $schema, NoteExtension $noteExtension)
     {
-        $noteExtension->addNoteAssociation($schema, 'obts_issue');
+        $noteExtension->addNoteAssociation($schema, 'oro_bts_issue');
     }
 }
