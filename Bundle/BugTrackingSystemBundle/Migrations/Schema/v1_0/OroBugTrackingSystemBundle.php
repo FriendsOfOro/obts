@@ -154,7 +154,7 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['notnull' => true, 'length' => 32]);
         $table->addColumn('label', 'string', ['notnull' => true, 'length' => 255]);
-        $table->addColumn('`order`', 'integer', ['notnull' => true]);
+        $table->addColumn('entity_order', 'integer', ['notnull' => true]);
 
         $table->setPrimaryKey(['id']);
 
@@ -209,7 +209,7 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['notnull' => true, 'length' => 32]);
         $table->addColumn('label', 'string', ['notnull' => true, 'length' => 255]);
-        $table->addColumn('`order`', 'integer', ['notnull' => true]);
+        $table->addColumn('entity_order', 'integer', ['notnull' => true]);
 
         $table->setPrimaryKey(['id']);
 
@@ -264,7 +264,7 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['notnull' => true, 'length' => 32]);
         $table->addColumn('label', 'string', ['notnull' => true, 'length' => 255]);
-        $table->addColumn('`order`', 'integer', ['notnull' => true]);
+        $table->addColumn('entity_order', 'integer', ['notnull' => true]);
 
         $table->setPrimaryKey(['id']);
 

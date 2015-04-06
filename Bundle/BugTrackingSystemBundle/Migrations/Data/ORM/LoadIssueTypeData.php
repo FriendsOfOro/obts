@@ -41,7 +41,7 @@ class LoadIssueTypeData extends AbstractTranslatableEntityFixture
                 if (!$issueType) {
                     $issueType = new IssueType();
                     $issueType->setName($typeName);
-                    $issueType->setOrder($order);
+                    $issueType->setEntityOrder($order);
                 }
 
                 $typeLabel = $this->translate($typeName, static::ISSUE_TYPE_PREFIX, $locale);

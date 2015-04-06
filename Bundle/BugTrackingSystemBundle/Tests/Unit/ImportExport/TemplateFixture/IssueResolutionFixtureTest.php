@@ -46,7 +46,7 @@ class IssueResolutionFixtureTest extends \PHPUnit_Framework_TestCase
         $this->fixture->fillEntityData(IssueResolution::FIXED, $resolution);
         $this->assertEquals('fixed', $resolution->getName());
         $this->assertEquals('Fixed', $resolution->getLabel());
-        $this->assertEquals(1, $resolution->getOrder());
+        $this->assertEquals(1, $resolution->getEntityOrder());
     }
 
     public function testGetData()
@@ -61,7 +61,7 @@ class IssueResolutionFixtureTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution', $resolution);
         $this->assertEquals('fixed', $resolution->getName());
         $this->assertEquals('Fixed', $resolution->getLabel());
-        $this->assertEquals(1, $resolution->getOrder());
+        $this->assertEquals(1, $resolution->getEntityOrder());
     }
 
     /**

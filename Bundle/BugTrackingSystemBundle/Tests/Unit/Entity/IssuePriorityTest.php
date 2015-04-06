@@ -47,7 +47,7 @@ class IssuePriorityTest extends \PHPUnit_Framework_TestCase
             ['name', 'Test name'],
             ['label', 'Test label'],
             ['locale', 'en'],
-            ['order', 10],
+            ['entityOrder', 10],
         ];
     }
 

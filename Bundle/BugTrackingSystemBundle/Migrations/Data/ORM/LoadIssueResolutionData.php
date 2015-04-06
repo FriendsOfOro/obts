@@ -44,7 +44,7 @@ class LoadIssueResolutionData extends AbstractTranslatableEntityFixture
                 if (!$issueResolution) {
                     $issueResolution = new IssueResolution();
                     $issueResolution->setName($resolutionName);
-                    $issueResolution->setOrder($order);
+                    $issueResolution->setEntityOrder($order);
                 }
 
                 $resolutionLabel = $this->translate($resolutionName, static::ISSUE_RESOLUTION_PREFIX, $locale);

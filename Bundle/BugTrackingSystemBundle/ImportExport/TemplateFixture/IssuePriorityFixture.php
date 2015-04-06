@@ -44,7 +44,7 @@ class IssuePriorityFixture extends AbstractTemplateRepository implements Templat
                 $entity
                     ->setName(IssuePriority::MAJOR)
                     ->setLabel(ucfirst(IssuePriority::MAJOR))
-                    ->setOrder(1);
+                    ->setEntityOrder(1);
                 return;
         }
 

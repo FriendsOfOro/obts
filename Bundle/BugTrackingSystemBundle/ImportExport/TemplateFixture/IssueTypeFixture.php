@@ -44,13 +44,13 @@ class IssueTypeFixture extends AbstractTemplateRepository implements TemplateFix
                 $entity
                     ->setName(IssueType::STORY)
                     ->setLabel(ucfirst(IssueType::STORY))
-                    ->setOrder(1);
+                    ->setEntityOrder(1);
                 return;
             case IssueType::SUB_TASK:
                 $entity
                     ->setName(IssueType::SUB_TASK)
                     ->setLabel(ucfirst(IssueType::SUB_TASK))
-                    ->setOrder(1);
+                    ->setEntityOrder(1);
                 return;
         }
 

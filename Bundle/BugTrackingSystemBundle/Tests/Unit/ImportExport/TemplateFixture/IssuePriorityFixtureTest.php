@@ -46,7 +46,7 @@ class IssuePriorityFixtureTest extends \PHPUnit_Framework_TestCase
         $this->fixture->fillEntityData(IssuePriority::MAJOR, $priority);
         $this->assertEquals('major', $priority->getName());
         $this->assertEquals('Major', $priority->getLabel());
-        $this->assertEquals(1, $priority->getOrder());
+        $this->assertEquals(1, $priority->getEntityOrder());
     }
 
     public function testGetData()
@@ -61,7 +61,7 @@ class IssuePriorityFixtureTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority', $priority);
         $this->assertEquals('major', $priority->getName());
         $this->assertEquals('Major', $priority->getLabel());
-        $this->assertEquals(1, $priority->getOrder());
+        $this->assertEquals(1, $priority->getEntityOrder());
     }
 
     /**

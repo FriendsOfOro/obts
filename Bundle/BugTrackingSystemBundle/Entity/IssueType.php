@@ -71,9 +71,9 @@ class IssueType implements Translatable
     /**
      * @var string
      *
-     * @ORM\Column(name="`order`", type="integer")
+     * @ORM\Column(name="entity_order", type="integer")
      */
-    protected $order;
+    protected $entityOrder;
 
     /**
      * Get id
@@ -155,26 +155,26 @@ class IssueType implements Translatable
     }
 
     /**
-     * Set order
+     * Set entity order
      *
-     * @param integer $order
+     * @param integer $entityOrder
      * @return IssueType
      */
-    public function setOrder($order)
+    public function setEntityOrder($entityOrder)
     {
-        $this->order = $order;
+        $this->entityOrder = $entityOrder;
 
         return $this;
     }
 
     /**
-     * Get order
+     * Get entity order
      *
      * @return integer
      */
-    public function getOrder()
+    public function getEntityOrder()
     {
-        return $this->order;
+        return $this->entityOrder;
     }
 
     /**

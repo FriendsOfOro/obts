@@ -42,7 +42,7 @@ class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
                 if (!$issuePriority) {
                     $issuePriority = new IssuePriority();
                     $issuePriority->setName($priorityName);
-                    $issuePriority->setOrder($order);
+                    $issuePriority->setEntityOrder($order);
                 }
 
                 $priorityLabel = $this->translate($priorityName, static::ISSUE_PRIORITY_PREFIX, $locale);

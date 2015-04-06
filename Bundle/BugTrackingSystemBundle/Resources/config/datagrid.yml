@@ -71,13 +71,13 @@ datagrid:
                 summary:
                     data_name: issue.summary
                 typeLabel:
-                    data_name: issueType.order
+                    data_name: issueType.entityOrder
                 priorityLabel:
-                    data_name: issuePriority.order
+                    data_name: issuePriority.entityOrder
                 workflowStepLabel:
                     data_name: workflowStep.stepOrder
                 resolutionLabel:
-                    data_name: issueResolution.order
+                    data_name: issueResolution.entityOrder
                 reporterName:
                     data_name: reporterName
                 ownerName:

@@ -64,7 +64,7 @@ oro:
           id.label:                           Id
           name.label:                         Name
           label.label:                        Label
-          order.label:                        Order
+          entity_order.label:                 Order
 
       issueresolution:
           entity_label:                       Issue Resolution
@@ -72,7 +72,7 @@ oro:
           id.label:                           Id
           name.label:                         Name
           label.label:                        Label
-          order.label:                        Order
+          entity_order.label:                 Order
 
       issuetype:
           entity_label:                       Issue Type
@@ -80,4 +80,4 @@ oro:
           id.label:                           Id
           name.label:                         Name
           label.label:                        Label
-          order.label:                        Order
+          entity_order.label:                 Order

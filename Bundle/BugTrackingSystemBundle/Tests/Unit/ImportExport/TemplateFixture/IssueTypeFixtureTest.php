@@ -43,7 +43,7 @@ class IssueTypeFixtureTest extends \PHPUnit_Framework_TestCase
         $this->fixture->fillEntityData(IssueType::STORY, $type);
         $this->assertEquals('story', $type->getName());
         $this->assertEquals('Story', $type->getLabel());
-        $this->assertEquals(1, $type->getOrder());
+        $this->assertEquals(1, $type->getEntityOrder());
     }
 
     public function testGetData()
@@ -58,7 +58,7 @@ class IssueTypeFixtureTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType', $type);
         $this->assertEquals('story', $type->getName());
         $this->assertEquals('Story', $type->getLabel());
-        $this->assertEquals(1, $type->getOrder());
+        $this->assertEquals(1, $type->getEntityOrder());
     }
 
     /**

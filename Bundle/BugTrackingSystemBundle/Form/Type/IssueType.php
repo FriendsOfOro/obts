@@ -42,7 +42,7 @@ class IssueType extends AbstractType
                     'query_builder' => function (EntityRepository $repository) {
                         return $repository
                             ->createQueryBuilder('type')
-                            ->orderBy('type.order')
+                            ->orderBy('type.entityOrder')
                             ->where('type.name != :name')
                             ->setParameter('name', \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType::SUB_TASK);
                     }
@@ -56,7 +56,7 @@ class IssueType extends AbstractType
                     'class' => 'Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority',
                     'required' => true,
                     'query_builder' => function (EntityRepository $repository) {
-                        return $repository->createQueryBuilder('priority')->orderBy('priority.order');
+                        return $repository->createQueryBuilder('priority')->orderBy('priority.entityOrder');
                     }
                 ]
             )

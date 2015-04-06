@@ -44,7 +44,7 @@ class IssueResolutionFixture extends AbstractTemplateRepository implements Templ
                 $entity
                     ->setName(IssueResolution::FIXED)
                     ->setLabel(ucfirst(IssueResolution::FIXED))
-                    ->setOrder(1);
+                    ->setEntityOrder(1);
                 return;
         }
 
