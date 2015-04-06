@@ -4,6 +4,7 @@ namespace Oro\Bundle\BugTrackingSystemBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class LinkIssueType extends AbstractType
 {
@@ -18,6 +19,9 @@ class LinkIssueType extends AbstractType
                 'oro_bug_tracking_system_issue_select',
                 [
                     'required' => true,
+                    'constraints' => [
+                        new NotBlank(),
+                    ],
                 ]
             );
     }
