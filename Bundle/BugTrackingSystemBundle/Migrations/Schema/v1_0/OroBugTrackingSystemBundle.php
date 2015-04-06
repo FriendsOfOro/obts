@@ -117,7 +117,7 @@ class OroBugTrackingSystemBundle implements Migration
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('summary', 'string', ['notnull' => true, 'length' => 255]);
         $table->addColumn('code', 'string', ['notnull' => true, 'length' => 255]);
-        $table->addColumn('description', 'string', ['notnull' => false, 'length' => 255]);
+        $table->addColumn('description', 'text', ['notnull' => false]);
         $table->addColumn('issue_type_id', 'integer', ['notnull' => false]);
         $table->addColumn('issue_priority_id', 'integer', ['notnull' => false]);
         $table->addColumn('issue_resolution_id', 'integer', ['notnull' => false]);

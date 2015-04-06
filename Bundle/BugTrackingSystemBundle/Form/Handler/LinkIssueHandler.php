@@ -75,14 +75,10 @@ class LinkIssueHandler
 
         if (!$entity->hasRelatedIssue($relatedIssue)) {
             $entity->addRelatedIssue($relatedIssue);
-
-            $this->manager->persist($entity);
         }
 
         if (!$relatedIssue->hasRelatedIssue($entity)) {
             $relatedIssue->addRelatedIssue($entity);
-
-            $this->manager->persist($relatedIssue);
         }
 
         $this->manager->flush();

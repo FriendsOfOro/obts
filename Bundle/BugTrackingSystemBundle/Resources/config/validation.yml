@@ -5,9 +5,6 @@ Oro\Bundle\BugTrackingSystemBundle\Entity\Issue:
             - Length:
                 min: 3
                 max: 255
-        description:
-            - Length:
-                max: 255
         issuePriority:
             - NotBlank: ~
         issueType:

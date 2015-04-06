@@ -182,14 +182,10 @@ class IssueController extends Controller
 
         if ($issue->hasRelatedIssue($relatedIssue)) {
             $issue->removeRelatedIssue($relatedIssue);
-
-            $em->persist($issue);
         }
 
         if ($relatedIssue->hasRelatedIssue($issue)) {
             $relatedIssue->removeRelatedIssue($issue);
-
-            $em->persist($relatedIssue);
         }
 
         $em->flush();

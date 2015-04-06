@@ -28,7 +28,7 @@ definitions:
         actions_configuration:
             - @tree:
                 conditions:
-                    @is_instance_of: [$.data.target, 'Oro\Bundle\BugTrackingSystemBundle\Entity\Issue']
+                    @is_instance_of: [$target, 'Oro\Bundle\BugTrackingSystemBundle\Entity\Issue']
                 actions:
                     - @create_datetime:
                         attribute: $target.updatedAt
