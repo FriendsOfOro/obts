@@ -24,11 +24,10 @@ workflows:
                 form_options:
                     attribute_fields:
                         issue_resolution:
-                            form_type: entity
                             options:
-                                class: Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution
-                                property: label
                                 required: true
+                                constraints:
+                                    - NotBlank: ~
             close:
                 label: 'Close'
                 step_to: closed
@@ -38,11 +37,10 @@ workflows:
                 form_options:
                     attribute_fields:
                         issue_resolution:
-                            form_type: entity
                             options:
-                                class: Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution
-                                property: label
                                 required: true
+                                constraints:
+                                    - NotBlank: ~
             reopen:
                 label: 'Reopen'
                 step_to: open

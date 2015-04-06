@@ -3,6 +3,7 @@
 namespace Oro\Bundle\BugTrackingSystemBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\BugTrackingSystemBundle\Form\Type\LinkIssueType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class LinkIssueTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +28,16 @@ class LinkIssueTypeTest extends \PHPUnit_Framework_TestCase
         $builder
             ->expects($this->once())
             ->method('add')
-            ->with('relatedIssue', 'oro_bug_tracking_system_issue_select', ['required' => true])
+            ->with(
+                'relatedIssue',
+                'oro_bug_tracking_system_issue_select',
+                [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank(),
+                    ]
+                ]
+            )
             ->will($this->returnSelf());
 
         $this->type->buildForm($builder, []);

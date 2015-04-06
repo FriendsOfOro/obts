@@ -2,7 +2,4 @@ workflows:
     issue_flow:
         attributes:
             issue_resolution:
-                label: 'Resolution'
-                type: entity
-                options:
-                    class: Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution
+                property_path: issue.issueResolution

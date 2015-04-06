@@ -220,12 +220,8 @@ class IssueTest extends \PHPUnit_Framework_TestCase
     /**
      * Issue setCreatedAtAndUpdatedAtOnPrePersist test
      */
-    public function testSetCreatedAtAndUpdatedAtOnPrePersist()
+    public function testConstructor()
     {
-        $this->assertNull($this->entity->getCreatedAt());
-        $this->assertNull($this->entity->getUpdatedAt());
-
-        $this->entity->setCreatedAtAndUpdatedAtOnPrePersist();
         $this->assertInstanceOf('\DateTime', $this->entity->getCreatedAt());
         $this->assertInstanceOf('\DateTime', $this->entity->getUpdatedAt());
     }
@@ -235,8 +231,6 @@ class IssueTest extends \PHPUnit_Framework_TestCase
      */
     public function testRefreshUpdatedAtOnPreUpdate()
     {
-        $this->assertNull($this->entity->getUpdatedAt());
-
         $this->entity->refreshUpdatedAtOnPreUpdate();
         $this->assertInstanceOf('\DateTime', $this->entity->getUpdatedAt());
     }

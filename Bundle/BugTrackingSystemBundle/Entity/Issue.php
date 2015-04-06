@@ -371,6 +371,12 @@ class Issue extends ExtendIssue implements Taggable
         $this->collaborators = new ArrayCollection();
         $this->relatedIssues = new ArrayCollection();
         $this->tags = new ArrayCollection();
+
+        $date = new \DateTime('now', new \DateTimeZone('UTC'));
+
+        $this
+            ->setCreatedAt($date)
+            ->setUpdatedAt($date);
     }
 
     /**
@@ -880,20 +886,6 @@ class Issue extends ExtendIssue implements Taggable
     {
         if (!$this->getCode() && $this->getOrganization()) {
             $this->setCode(sprintf('%s-%d', $this->getOrganization()->getName(), crc32(microtime())));
-        }
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtAndUpdatedAtOnPrePersist()
-    {
-        $date = new \DateTime('now', new \DateTimeZone('UTC'));
-
-        if (!$this->getId()) {
-            $this
-                ->setCreatedAt($date)
-                ->setUpdatedAt($date);
         }
     }
 
