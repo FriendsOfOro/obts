@@ -43,7 +43,7 @@ class IsInstanceOf extends AbstractCondition
     {
         $value = $this->contextAccessor->getValue($context, $this->target);
 
-        return is_a($value, $this->className);
+        return $value instanceof $this->className;
     }
 
     /**

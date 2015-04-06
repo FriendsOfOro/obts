@@ -85,7 +85,10 @@ class IssueHandler implements TagHandlerInterface
             && !$entity->getId()
             && $this->request->getMethod() === 'GET'
             && $action === 'assign'
-            && is_a($targetEntityClass, 'Oro\Bundle\UserBundle\Entity\User', true)
+            && (
+                $targetEntityClass == 'Oro\Bundle\UserBundle\Entity\User'
+                || is_subclass_of($targetEntityClass, 'Oro\Bundle\UserBundle\Entity\User')
+            )
         ) {
             $entity->setOwner($this->entityRoutingHelper->getEntity($targetEntityClass, $targetEntityId));
             FormUtils::replaceField($this->form, 'owner', ['read_only' => true]);
