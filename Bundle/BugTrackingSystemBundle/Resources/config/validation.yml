@@ -14,3 +14,24 @@ Oro\Bundle\BugTrackingSystemBundle\Entity\Issue:
             - NotBlank: ~
         owner:
             - NotBlank: ~
+
+Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority:
+    properties:
+        name:
+            - NotBlank: ~
+        label:
+            - NotBlank: ~
+
+Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution:
+    properties:
+        name:
+            - NotBlank: ~
+        label:
+            - NotBlank: ~
+
+Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType:
+    properties:
+        name:
+            - NotBlank: ~
+        label:
+            - NotBlank: ~

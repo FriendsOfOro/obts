@@ -158,7 +158,7 @@ class OroBugTrackingSystemBundle implements Migration
 
         $table->setPrimaryKey(['id']);
 
-        $table->addUniqueIndex(['label'], 'UNIQ_4FB220FDEA750E8');
+        $table->addUniqueIndex(['name'], 'UNIQ_98C47AC5E237E06');
     }
 
     /**
@@ -213,7 +213,7 @@ class OroBugTrackingSystemBundle implements Migration
 
         $table->setPrimaryKey(['id']);
 
-        $table->addUniqueIndex(['label'], 'UNIQ_320FB13CEA750E8');
+        $table->addUniqueIndex(['name'], 'UNIQ_42796FEC5E237E06');
     }
 
     /**
@@ -268,7 +268,7 @@ class OroBugTrackingSystemBundle implements Migration
 
         $table->setPrimaryKey(['id']);
 
-        $table->addUniqueIndex(['label'], 'UNIQ_59BA557AEA750E8');
+        $table->addUniqueIndex(['name'], 'UNIQ_3342E0305E237E06');
     }
 
     /**

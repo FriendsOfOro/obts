@@ -45,7 +45,7 @@ class IssuePriority implements Translatable
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=32)
+     * @ORM\Column(name="name", type="string", length=32, unique=true)
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
@@ -59,7 +59,7 @@ class IssuePriority implements Translatable
     /**
      * @var string
      *
-     * @ORM\Column(name="label", type="string", length=255, unique=true)
+     * @ORM\Column(name="label", type="string", length=255)
      * @Gedmo\Translatable
      */
     protected $label;
