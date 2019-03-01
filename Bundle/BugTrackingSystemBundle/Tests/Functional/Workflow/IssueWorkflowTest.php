@@ -31,8 +31,8 @@ class IssueWorkflowTest extends WebTestCase
         $workflowManager = static::$kernel->getContainer()->get('oro_workflow.manager');
 
         $response = $this->client->requestGrid(
-            'issues_grid',
-            ['issues_grid[_filter][summary][value]' => 'New issue']
+            'issues-grid',
+            ['issues-grid[_filter][summary][value]' => 'New issue']
         );
 
         $result = $this->getJsonResponseContent($response, 200);

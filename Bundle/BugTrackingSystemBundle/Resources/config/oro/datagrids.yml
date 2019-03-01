@@ -1,5 +1,5 @@
-datagrid:
-    issues_grid:
+datagrids:
+    issues-grid:
         extended_entity_name: '%oro_bug_tracking_system.issue.entity.class%'
         source:
             type: orm
@@ -102,14 +102,14 @@ datagrid:
                     options:
                         field_options:
                             class: '%oro_bug_tracking_system.issue_type.entity.class%'
-                            property: label
+                            property_path: label
                 priorityLabel:
                     type:      entity
                     data_name: issuePriority.id
                     options:
                         field_options:
                             class: '%oro_bug_tracking_system.issue_priority.entity.class%'
-                            property: label
+                            property_path: label
                 workflowStepLabel:
                     type:      entity
                     data_name: issue.workflowStep
@@ -123,7 +123,7 @@ datagrid:
                     options:
                         field_options:
                             class: '%oro_bug_tracking_system.issue_resolution.entity.class%'
-                            property: label
+                            property_path: label
                 reporterName:
                     type:      string
                     data_name: reporterName
@@ -174,7 +174,7 @@ datagrid:
             entity_pagination: true
 
     subtask_grid:
-        extends: issues_grid
+        extends: issues-grid
         source:
             query:
                 where:
@@ -190,8 +190,8 @@ datagrid:
                 typeLabel:
                     enabled: false
 
-    dashboard_user_issues_grid:
-        extends: issues_grid
+    dashboard-user-issues-grid:
+        extends: issues-grid
         source:
             query:
                 join:
@@ -217,8 +217,8 @@ datagrid:
                     items: [10]
                     default_per_page: 10
 
-    user_issues_grid:
-        extends: issues_grid
+    user-issues-grid:
+        extends: issues-grid
         source:
             query:
                 where:
@@ -278,7 +278,7 @@ datagrid:
                 link:          view_link
                 rowAction:     true
 
-    related_issues_grid:
+    related-issues-grid:
         source:
             type: orm
             acl_resource: oro_bug_tracking_system_issue_view

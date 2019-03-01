@@ -66,8 +66,8 @@ class IssueControllerTest extends WebTestCase
     public function testCreateSubTask()
     {
         $response = $this->client->requestGrid(
-            'issues_grid',
-            ['issues_grid[_filter][summary][value]' => 'New issue']
+            'issues-grid',
+            ['issues-grid[_filter][summary][value]' => 'New issue']
         );
 
         $result = $this->getJsonResponseContent($response, 200);
@@ -105,8 +105,8 @@ class IssueControllerTest extends WebTestCase
     public function testUpdate()
     {
         $response = $this->client->requestGrid(
-            'issues_grid',
-            ['issues_grid[_filter][summary][value]' => 'New issue']
+            'issues-grid',
+            ['issues-grid[_filter][summary][value]' => 'New issue']
         );
 
         $result = $this->getJsonResponseContent($response, 200);
@@ -135,8 +135,8 @@ class IssueControllerTest extends WebTestCase
     public function testView()
     {
         $response = $this->client->requestGrid(
-            'issues_grid',
-            ['issues_grid[_filter][summary][value]' => 'Issue updated']
+            'issues-grid',
+            ['issues-grid[_filter][summary][value]' => 'Issue updated']
         );
 
         $result = $this->getJsonResponseContent($response, 200);

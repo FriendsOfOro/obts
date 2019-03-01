@@ -52,7 +52,7 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  *          },
  *          "form"={
  *              "form_type"="oro_bug_tracking_system_issue_select",
- *              "grid_name"="issues_grid",
+ *              "grid_name"="issues-grid",
  *          }
  *      }
  * )
