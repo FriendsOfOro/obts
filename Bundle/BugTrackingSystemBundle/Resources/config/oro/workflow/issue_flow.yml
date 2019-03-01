@@ -6,7 +6,6 @@ imports:
 
 workflows:
     issue_flow:
-        label: 'Issue Flow'
         entity: Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
         entity_attribute: issue
         start_step: open

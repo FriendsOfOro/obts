@@ -9,12 +9,12 @@ parameters:
 
 services:
     oro_bug_tracking_system.form.type.issue:
-        class: %oro_bug_tracking_system.form.type.issue.class%
+        class: '%oro_bug_tracking_system.form.type.issue.class%'
         tags:
             - { name: form.type, alias: oro_bug_tracking_system_issue }
             
     oro_bug_tracking_system.form.type.issue_api:
-        class: %oro_bug_tracking_system.form.type.issue_api.class%
+        class: '%oro_bug_tracking_system.form.type.issue_api.class%'
         tags:
             - { name: form.type, alias: oro_bug_tracking_system_issue_api }
 
@@ -27,14 +27,15 @@ services:
             - 'oro_bug_tracking_system_issue'
 
     oro_bug_tracking_system.form.handler.issue:
-        class: %oro_bug_tracking_system.form.handler.issue.class%
+        class: '%oro_bug_tracking_system.form.handler.issue.class%'
         scope: request
+        shared: false
         arguments:
-            - @oro_bug_tracking_system.form
-            - @request
-            - @doctrine.orm.entity_manager
-            - @oro_activity.manager
-            - @oro_entity.routing_helper
+            - '@oro_bug_tracking_system.form'
+            - '@request_stack'
+            - '@doctrine.orm.entity_manager'
+            - '@oro_activity.manager'
+            - '@oro_entity.routing_helper'
         tags:
             - { name: oro_tag.tag_manager }
 
@@ -47,39 +48,40 @@ services:
             - 'oro_bug_tracking_system_issue_api'
 
     oro_bug_tracking_system.form.handler.issue_api:
-        class: %oro_bug_tracking_system.form.handler.issue.class%
+        class: '%oro_bug_tracking_system.form.handler.issue.class%'
         scope: request
+        shared: false
         arguments:
-            - @oro_bug_tracking_system.form.api
-            - @request
-            - @doctrine.orm.entity_manager
-            - @oro_activity.manager
-            - @oro_entity.routing_helper
+            - '@oro_bug_tracking_system.form.api'
+            - '@request_stack'
+            - '@doctrine.orm.entity_manager'
+            - '@oro_activity.manager'
+            - '@oro_entity.routing_helper'
         tags:
             - { name: oro_tag.tag_manager }
 
     oro_bug_tracking_system.manager.api:
-        class: %oro_bug_tracking_system.manager.api.class%
+        class: '%oro_bug_tracking_system.manager.api.class%'
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
-            - %oro_bug_tracking_system.issue.entity.class%
-            - @doctrine.orm.entity_manager
+            - '%oro_bug_tracking_system.issue.entity.class%'
+            - '@doctrine.orm.entity_manager'
 
     oro_bug_tracking_system.form.type.issue_select:
-        class: %oro_bug_tracking_system.form.type.issue_select.class%
+        class: '%oro_bug_tracking_system.form.type.issue_select.class%'
         tags:
             - { name: form.type, alias: oro_bug_tracking_system_issue_select }
 
     oro_bug_tracking_system.form.autocomplete.issue.search_handler:
         parent: oro_form.autocomplete.search_handler
         arguments:
-            - %oro_bug_tracking_system.issue.entity.class%
+            - '%oro_bug_tracking_system.issue.entity.class%'
             - ["code", "summary"]
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: issues, acl_resource: oro_bug_tracking_system_issue_view }
 
     oro_bug_tracking_system.form.type.link_issue:
-        class: %oro_bug_tracking_system.form.type.link_issue.class%
+        class: '%oro_bug_tracking_system.form.type.link_issue.class%'
         tags:
             - { name: form.type, alias: oro_bug_tracking_system_link_issue }
 
@@ -92,9 +94,10 @@ services:
             - 'oro_bug_tracking_system_link_issue'
 
     oro_bug_tracking_system.form.handler.link_issue:
-        class: %oro_bug_tracking_system.form.handler.link_issue.class%
+        class: '%oro_bug_tracking_system.form.handler.link_issue.class%'
         scope: request
+        shared: false
         arguments:
-            - @oro_bug_tracking_system.form.link_issue
-            - @request
-            - @doctrine.orm.entity_manager
+            - '@oro_bug_tracking_system.form.link_issue'
+            - '@request_stack'
+            - '@doctrine.orm.entity_manager'

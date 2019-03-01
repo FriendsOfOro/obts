@@ -41,7 +41,7 @@ class IssueWorkflowTest extends WebTestCase
         $issue = $em->getRepository('OroBugTrackingSystemBundle:Issue')->find($result['id']);
 
         /*start workflow test*/
-        $workflowItem = $workflowManager->getWorkflowItemByEntity($issue);
+        $workflowItem = $workflowManager->getFirstWorkflowItemByEntity($issue);
         $this->assertEquals('open', $workflowItem->getCurrentStep()->getName());
         $this->assertCount(3, $workflowManager->getTransitionsByWorkflowItem($workflowItem));
 

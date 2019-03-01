@@ -14,15 +14,15 @@ placeholders:
 items:
     oro_bug_tracking_system_user_issues:
         template: OroBugTrackingSystemBundle:Issue:userIssues.html.twig
-        applicable: @oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_user.entity.class%)
+        applicable: '@oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_user.entity.class%)'
         acl: oro_bug_tracking_system_issue_view
 
     oro_bug_tracking_system_user_create_issue_button:
         template: OroBugTrackingSystemBundle:Issue:createIssueButton.html.twig
-        applicable: @oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_user.entity.class%)
+        applicable: '@oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_user.entity.class%)'
         acl: oro_bug_tracking_system_issue_create
 
     oro_bug_tracking_system_issue_link_issue_button:
         template: OroBugTrackingSystemBundle:Issue:linkIssueButton.html.twig
-        applicable: @oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_bug_tracking_system.issue.entity.class%)
+        applicable: '@oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_bug_tracking_system.issue.entity.class%)'
         acl: oro_bug_tracking_system_issue_update

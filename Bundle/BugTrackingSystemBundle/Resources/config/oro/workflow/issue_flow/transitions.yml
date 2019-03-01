@@ -2,21 +2,18 @@ workflows:
     issue_flow:
         transitions:
             start_progress:
-                label: 'Start progress'
                 step_to: in_progress
                 frontend_options:
                     icon: 'icon-play'
                     class: 'btn-primary'
                 transition_definition: start_progress_definition
             stop_progress:
-                label: 'Stop progress'
                 step_to: open
                 frontend_options:
                     icon: 'icon-stop'
                     class: 'btn-primary'
                 transition_definition: stop_progress_definition
             resolve:
-                label: 'Resolve'
                 step_to: resolved
                 frontend_options:
                     icon: 'icon-star'
@@ -29,7 +26,6 @@ workflows:
                                 constraints:
                                     - NotBlank: ~
             close:
-                label: 'Close'
                 step_to: closed
                 frontend_options:
                     icon: 'icon-ok'
@@ -42,7 +38,6 @@ workflows:
                                 constraints:
                                     - NotBlank: ~
             reopen:
-                label: 'Reopen'
                 step_to: open
                 frontend_options:
                     icon: 'icon-refresh'

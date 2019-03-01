@@ -19,43 +19,43 @@ services:
     oro_bug_tracking_system.importexport.processor.import:
         parent: oro_importexport.processor.import_abstract
         calls:
-             - [setDataConverter, [@oro_bug_tracking_system.importexport.data_converter]]
-             - [setStrategy, [@oro_bug_tracking_system.importexport.strategy.issue.add_or_replace]]
+             - [ setDataConverter, [ '@oro_bug_tracking_system.importexport.data_converter' ] ]
+             - [ setStrategy, [ '@oro_bug_tracking_system.importexport.strategy.issue.add_or_replace' ] ]
         tags:
-            - { name: oro_importexport.processor, type: import, entity: %oro_bug_tracking_system.issue.entity.class%, alias: oro_bug_tracking_system.add_or_replace }
-            - { name: oro_importexport.processor, type: import_validation, entity: %oro_bug_tracking_system.issue.entity.class%, alias: oro_bug_tracking_system.add_or_replace }
+            - { name: oro_importexport.processor, type: import, entity: '%oro_bug_tracking_system.issue.entity.class%', alias: oro_bug_tracking_system.add_or_replace }
+            - { name: oro_importexport.processor, type: import_validation, entity: '%oro_bug_tracking_system.issue.entity.class%', alias: oro_bug_tracking_system.add_or_replace }
 
     # Export processor
     oro_bug_tracking_system.importexport.processor.export:
         parent: oro_importexport.processor.export_abstract
         calls:
-            - [setDataConverter, [@oro_bug_tracking_system.importexport.data_converter]]
+            - [ setDataConverter, [ '@oro_bug_tracking_system.importexport.data_converter' ] ]
         tags:
-            - { name: oro_importexport.processor, type: export, entity: %oro_bug_tracking_system.issue.entity.class%, alias: oro_bug_tracking_system }
+            - { name: oro_importexport.processor, type: export, entity: '%oro_bug_tracking_system.issue.entity.class%', alias: oro_bug_tracking_system }
 
     oro_bug_tracking_system.importexport.processor.export_template:
         parent: oro_importexport.processor.export_abstract
         calls:
-            - [setDataConverter, [@oro_bug_tracking_system.importexport.template_fixture.data_converter.issue]]
+            - [ setDataConverter, [ '@oro_bug_tracking_system.importexport.template_fixture.data_converter.issue' ] ]
         tags:
-            - { name: oro_importexport.processor, type: export_template, entity: %oro_bug_tracking_system.issue.entity.class%, alias: oro_bug_tracking_system }
+            - { name: oro_importexport.processor, type: export_template, entity: '%oro_bug_tracking_system.issue.entity.class%', alias: oro_bug_tracking_system }
 
     oro_bug_tracking_system.importexport.template_fixture.issue:
-        class: %oro_bug_tracking_system.importexport.template_fixture.issue.class%
+        class: '%oro_bug_tracking_system.importexport.template_fixture.issue.class%'
         tags:
             - { name: oro_importexport.template_fixture }
 
     oro_bug_tracking_system.importexport.template_fixture.issue_priority:
-        class: %oro_bug_tracking_system.importexport.template_fixture.issue_priority.class%
+        class: '%oro_bug_tracking_system.importexport.template_fixture.issue_priority.class%'
         tags:
             - { name: oro_importexport.template_fixture }
 
     oro_bug_tracking_system.importexport.template_fixture.issue_resolution:
-        class: %oro_bug_tracking_system.importexport.template_fixture.issue_resolution.class%
+        class: '%oro_bug_tracking_system.importexport.template_fixture.issue_resolution.class%'
         tags:
             - { name: oro_importexport.template_fixture }
 
     oro_bug_tracking_system.importexport.template_fixture.issue_type:
-        class: %oro_bug_tracking_system.importexport.template_fixture.issue_type.class%
+        class: '%oro_bug_tracking_system.importexport.template_fixture.issue_type.class%'
         tags:
             - { name: oro_importexport.template_fixture }

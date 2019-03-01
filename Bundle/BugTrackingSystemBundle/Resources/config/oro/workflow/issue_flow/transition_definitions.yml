@@ -7,5 +7,5 @@ workflows:
             closed_definition: ~
             reopen_definition:
                 post_actions:
-                    - @assign_value:
+                    - '@assign_value':
                         - [$issue_resolution, ~]

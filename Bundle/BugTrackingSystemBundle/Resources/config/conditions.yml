@@ -3,7 +3,6 @@ parameters:
 
 services:
     oro_bug_tracking_system.condition.is_instance_of:
-        class: %oro_bug_tracking_system.condition.is_instance_of.class%
-        arguments: [@oro_workflow.context_accessor]
+        class: '%oro_bug_tracking_system.condition.is_instance_of.class%'
         tags:
             - { name: oro_workflow.condition, alias: is_instance_of }

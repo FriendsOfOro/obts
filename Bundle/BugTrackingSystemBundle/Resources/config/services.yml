@@ -9,21 +9,24 @@ parameters:
 
 services:
     oro_bug_tracking_system.issue.listener:
-        class: %oro_bug_tracking_system.issue.listener.class%
-        arguments: [@service_container]
+        class: '%oro_bug_tracking_system.issue.listener.class%'
+        arguments:
+            - '@service_container'
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }
 
     oro_bug_tracking_system.datagrid.action.issue_delete:
-        class: %oro_bug_tracking_system.datagrid.action.issue_delete.class%
+        class: '%oro_bug_tracking_system.datagrid.action.issue_delete.class%'
         scope: prototype
+        shared: false
         tags:
             - { name: oro_datagrid.extension.action.type, type: issue-delete }
 
     oro_bug_tracking_system.datagrid.action.issue_unlink:
-        class: %oro_bug_tracking_system.datagrid.action.issue_unlink.class%
+        class: '%oro_bug_tracking_system.datagrid.action.issue_unlink.class%'
         scope: prototype
+        shared: false
         tags:
             - { name: oro_datagrid.extension.action.type, type: issue-unlink }

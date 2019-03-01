@@ -138,18 +138,22 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
                 $nextStep = $this->workflowSteps[rand(0, 3)];
 
                 if ($nextStep != 'open') {
-                    $workflowItem = $this->workflowManager->getWorkflowItemByEntity($entity);
-                    $this->workflowManager->transit($workflowItem, $nextStep);
+                    $workflowItem = $this->workflowManager->getWorkflowItem($entity, 'issue_flow');
+                    if ($workflowItem === null) {
+                        $this->workflowManager->startWorkflow('issue_flow', $entity);
+                    } else {
+                        $this->workflowManager->transit($workflowItem, $nextStep);
 
-                    $stepName = $workflowItem->getCurrentStep()->getName();
+                        $stepName = $workflowItem->getCurrentStep()->getName();
 
-                    if (in_array($stepName, ['resolved', 'closed'])) {
-                        /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution $issueResolution */
-                        $issueResolution = $this->getRandomEntity(
-                            $manager,
-                            'OroBugTrackingSystemBundle:IssueResolution'
-                        );
-                        $entity->setIssueResolution($issueResolution);
+                        if (in_array($stepName, ['resolved', 'closed'])) {
+                            /** @var \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueResolution $issueResolution */
+                            $issueResolution = $this->getRandomEntity(
+                                $manager,
+                                'OroBugTrackingSystemBundle:IssueResolution'
+                            );
+                            $entity->setIssueResolution($issueResolution);
+                        }
                     }
 
                     $manager->flush();

@@ -1,6 +1,6 @@
 datagrid:
     issues_grid:
-        extended_entity_name: %oro_bug_tracking_system.issue.entity.class%
+        extended_entity_name: '%oro_bug_tracking_system.issue.entity.class%'
         source:
             type: orm
             acl_resource: oro_bug_tracking_system_issue_view
@@ -22,7 +22,7 @@ datagrid:
                     - issue.updatedAt
                     - COUNT(DISTINCT subtask.id) as subtasksCount
                 from:
-                    - { table: %oro_bug_tracking_system.issue.entity.class%, alias: issue }
+                    - { table: '%oro_bug_tracking_system.issue.entity.class%', alias: issue }
                 join:
                     left:
                         - { join: issue.issueType, alias: issueType }
@@ -101,14 +101,14 @@ datagrid:
                     data_name: issueType.id
                     options:
                         field_options:
-                            class: %oro_bug_tracking_system.issue_type.entity.class%
+                            class: '%oro_bug_tracking_system.issue_type.entity.class%'
                             property: label
                 priorityLabel:
                     type:      entity
                     data_name: issuePriority.id
                     options:
                         field_options:
-                            class: %oro_bug_tracking_system.issue_priority.entity.class%
+                            class: '%oro_bug_tracking_system.issue_priority.entity.class%'
                             property: label
                 workflowStepLabel:
                     type:      entity
@@ -116,13 +116,13 @@ datagrid:
                     options:
                         field_type: oro_workflow_step_select
                         field_options:
-                            workflow_entity_class: %oro_bug_tracking_system.issue.entity.class%
+                            workflow_entity_class: '%oro_bug_tracking_system.issue.entity.class%'
                 resolutionLabel:
                     type:      entity
                     data_name: issueResolution.id
                     options:
                         field_options:
-                            class: %oro_bug_tracking_system.issue_resolution.entity.class%
+                            class: '%oro_bug_tracking_system.issue_resolution.entity.class%'
                             property: label
                 reporterName:
                     type:      string
@@ -199,7 +199,7 @@ datagrid:
                         - { join: issue.collaborators, alias: collaborator }
                 where:
                     and:
-                        - collaborator.id = @oro_security.security_facade->getLoggedUserId
+                        - 'collaborator.id = @oro_security.security_facade->getLoggedUserId'
         columns:
             typeLabel:
                 renderable:    false
@@ -244,7 +244,7 @@ datagrid:
                     - collaborator.id
                     - CONCAT(collaborator.firstName, CONCAT(' ', collaborator.lastName)) as collaboratorName
                 from:
-                    - { table: %oro_bug_tracking_system.issue.entity.class%, alias: issue }
+                    - { table: '%oro_bug_tracking_system.issue.entity.class%', alias: issue }
                 join:
                     inner:
                         - { join: issue.collaborators , alias: collaborator }
@@ -292,7 +292,7 @@ datagrid:
                     - relatedIssueWorkflowStep.label as workflowStepLabel
                     - issue.id AS mainId
                 from:
-                    - { table: %oro_bug_tracking_system.issue.entity.class%, alias: issue }
+                    - { table: '%oro_bug_tracking_system.issue.entity.class%', alias: issue }
                 join:
                     inner:
                         - { join: issue.relatedIssues, alias: relatedIssue }

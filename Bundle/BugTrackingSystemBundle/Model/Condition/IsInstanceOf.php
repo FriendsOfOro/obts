@@ -2,16 +2,16 @@
 
 namespace Oro\Bundle\BugTrackingSystemBundle\Model\Condition;
 
-use Oro\Bundle\WorkflowBundle\Exception\ConditionException;
-use Oro\Bundle\WorkflowBundle\Model\Condition\AbstractCondition;
-use Oro\Bundle\WorkflowBundle\Model\ContextAccessor;
+use Oro\Component\ConfigExpression\Condition\AbstractCondition;
+use Oro\Component\ConfigExpression\ContextAccessorAwareInterface;
+use Oro\Component\ConfigExpression\ContextAccessorAwareTrait;
+use Oro\Component\ConfigExpression\Exception\InvalidArgumentException;
 
-class IsInstanceOf extends AbstractCondition
+class IsInstanceOf extends AbstractCondition implements ContextAccessorAwareInterface
 {
-    /**
-     * @var ContextAccessor
-     */
-    protected $contextAccessor;
+    use ContextAccessorAwareTrait;
+
+    const NAME = 'instanceof';
 
     /**
      * @var object
@@ -24,16 +24,6 @@ class IsInstanceOf extends AbstractCondition
     protected $className;
 
     /**
-     * Constructor
-     *
-     * @param ContextAccessor $contextAccessor
-     */
-    public function __construct(ContextAccessor $contextAccessor)
-    {
-        $this->contextAccessor = $contextAccessor;
-    }
-
-    /**
      * Returns TRUE if target is instance of class
      *
      * @param mixed $context
@@ -41,27 +31,53 @@ class IsInstanceOf extends AbstractCondition
      */
     protected function isConditionAllowed($context)
     {
-        $value = $this->contextAccessor->getValue($context, $this->target);
+        $value = $this->resolveValue($context, $this->target);
 
         return $value instanceof $this->className;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return static::NAME;
     }
 
     /**
      * Initialize target that will be checked for emptiness
      *
      * @param array $options
+     *
      * @return IsInstanceOf
-     * @throws ConditionException
+     *
+     * @throws InvalidArgumentException
      */
     public function initialize(array $options)
     {
         if (2 !== count($options)) {
-            throw new ConditionException(sprintf('Options must have 2 elements, but %d given', count($options)));
+            throw new InvalidArgumentException(sprintf('Options must have 2 elements, but %d given', count($options)));
         }
 
         $this->target = array_shift($options);
         $this->className = array_shift($options);
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray()
+    {
+        return $this->convertToArray([$this->target, $this->className]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function compile($factoryAccessor)
+    {
+        return $this->convertToPhpCode([$this->target], $factoryAccessor)  .' instanceof ' . $this->className;
     }
 }
