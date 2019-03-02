@@ -16,7 +16,7 @@ class LinkIssueType extends AbstractType
         $builder
             ->add(
                 'relatedIssue',
-                'oro_bug_tracking_system_issue_select',
+                IssueSelectType::class,
                 [
                     'required' => true,
                     'constraints' => [
@@ -24,13 +24,5 @@ class LinkIssueType extends AbstractType
                     ],
                 ]
             );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'oro_bug_tracking_system_link_issue';
     }
 }

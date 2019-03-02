@@ -1,53 +1,54 @@
-definitions:
-    issue_collaborators_definition:
-        label: 'Add collaborators on create or update issue'
-        enabled: true
-        entity: Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
-        order: 10
-        actions_configuration:
-            - '@call_method':
-                conditions:
-                    '@not_blank': [$reporter]
-                parameters:
-                    object: $.data
-                    method: addCollaborator
-                    method_parameters: [$reporter]
-            - '@call_method':
-                conditions:
-                   '@not_blank': [$owner]
-                parameters:
-                    object: $.data
-                    method: addCollaborator
-                    method_parameters: [$owner]
-
-    issue_note_added_definition:
-        label: 'Add collaborator and refresh updatedAt on adding new note to issue'
-        enabled: true
-        entity:  Oro\Bundle\NoteBundle\Entity\Note
-        order: 20
-        actions_configuration:
-            - '@tree':
-                conditions:
-                    '@is_instance_of': [$target, 'Oro\Bundle\BugTrackingSystemBundle\Entity\Issue']
-                actions:
-                    - '@create_datetime':
-                        attribute: $target.updatedAt
-                    - '@call_method':
-                        object: $target
+processes:
+    definitions:
+        issue_collaborators_definition:
+            label: 'Add collaborators on create or update issue'
+            enabled: true
+            entity: Oro\Bundle\BugTrackingSystemBundle\Entity\Issue
+            order: 10
+            actions_configuration:
+                - '@call_method':
+                    conditions:
+                        '@not_blank': [$reporter]
+                    parameters:
+                        object: $.data
+                        method: addCollaborator
+                        method_parameters: [$reporter]
+                - '@call_method':
+                    conditions:
+                       '@not_blank': [$owner]
+                    parameters:
+                        object: $.data
                         method: addCollaborator
                         method_parameters: [$owner]
 
-triggers:
-    issue_collaborators_definition:
-        -
-            event: create
-            queued: false
-        -
-            event: update
-            field: owner
-            queued: false
+        issue_note_added_definition:
+            label: 'Add collaborator and refresh updatedAt on adding new note to issue'
+            enabled: true
+            entity:  Oro\Bundle\NoteBundle\Entity\Note
+            order: 20
+            actions_configuration:
+                - '@tree':
+                    conditions:
+                        '@is_instance_of': [$target, 'Oro\Bundle\BugTrackingSystemBundle\Entity\Issue']
+                    actions:
+                        - '@create_datetime':
+                            attribute: $target.updatedAt
+                        - '@call_method':
+                            object: $target
+                            method: addCollaborator
+                            method_parameters: [$owner]
 
-    issue_note_added_definition:
-        -
-            event: create
-            queued: false
+    triggers:
+        issue_collaborators_definition:
+            -
+                event: create
+                queued: false
+            -
+                event: update
+                field: owner
+                queued: false
+
+        issue_note_added_definition:
+            -
+                event: create
+                queued: false

@@ -15,6 +15,7 @@ use Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper;
 use Oro\Bundle\FormBundle\Utils\FormUtils;
 use Oro\Bundle\TagBundle\Entity\TagManager;
 use Oro\Bundle\TagBundle\Form\Handler\TagHandlerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class IssueHandler implements TagHandlerInterface
 {
@@ -24,9 +25,9 @@ class IssueHandler implements TagHandlerInterface
     protected $form;
 
     /**
-     * @var Request
+     * @var RequestStack
      */
-    protected $request;
+    protected $requestStack;
 
     /**
      * @var ObjectManager
@@ -50,20 +51,20 @@ class IssueHandler implements TagHandlerInterface
 
     /**
      * @param FormInterface       $form
-     * @param Request             $request
+     * @param RequestStack        $requestStack
      * @param ObjectManager       $manager
      * @param ActivityManager     $activityManager
      * @param EntityRoutingHelper $entityRoutingHelper
      */
     public function __construct(
         FormInterface $form,
-        Request $request,
+        RequestStack $requestStack,
         ObjectManager $manager,
         ActivityManager $activityManager,
         EntityRoutingHelper $entityRoutingHelper
     ) {
         $this->form                = $form;
-        $this->request             = $request;
+        $this->requestStack        = $requestStack;
         $this->manager             = $manager;
         $this->activityManager     = $activityManager;
         $this->entityRoutingHelper = $entityRoutingHelper;
@@ -77,13 +78,13 @@ class IssueHandler implements TagHandlerInterface
      */
     public function process(Issue $entity)
     {
-        $action            = $this->entityRoutingHelper->getAction($this->request);
-        $targetEntityClass = $this->entityRoutingHelper->getEntityClassName($this->request);
-        $targetEntityId    = $this->entityRoutingHelper->getEntityId($this->request);
+        $action            = $this->entityRoutingHelper->getAction($this->requestStack->getCurrentRequest());
+        $targetEntityClass = $this->entityRoutingHelper->getEntityClassName($this->requestStack->getCurrentRequest());
+        $targetEntityId    = $this->entityRoutingHelper->getEntityId($this->requestStack->getCurrentRequest());
 
         if ($targetEntityClass
             && !$entity->getId()
-            && $this->request->getMethod() === 'GET'
+            && $this->requestStack->getCurrentRequest()->getMethod() === 'GET'
             && $action === 'assign'
             && (
                 $targetEntityClass == 'Oro\Bundle\UserBundle\Entity\User'
@@ -96,8 +97,8 @@ class IssueHandler implements TagHandlerInterface
 
         $this->form->setData($entity);
 
-        if (in_array($this->request->getMethod(), ['POST', 'PUT'])) {
-            $this->form->submit($this->request);
+        if (in_array($this->requestStack->getCurrentRequest()->getMethod(), ['POST', 'PUT'])) {
+            $this->form->submit($this->requestStack->getCurrentRequest());
 
             if ($this->form->isValid()) {
                 $this->onSuccess($entity);

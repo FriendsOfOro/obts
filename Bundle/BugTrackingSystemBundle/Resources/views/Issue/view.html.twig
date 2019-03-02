@@ -72,7 +72,6 @@
                 {{ UI.renderHtmlProperty('oro.bugtrackingsystem.issue.description.label'|trans, entity.description|nl2br) }}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.issue_type.label'|trans, entity.issueType) }}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.issue_priority.label'|trans, entity.issuePriority) }}
-                {{ UI.renderProperty('oro.bugtrackingsystem.issue.workflow_step.label'|trans, entity.workflowStep ? entity.workflowStep.label : 'N/A') }}
                 {{ UI.renderProperty('oro.bugtrackingsystem.issue.issue_resolution.label'|trans, entity.issueResolution) }}
 
                 {%- set reporterData -%}

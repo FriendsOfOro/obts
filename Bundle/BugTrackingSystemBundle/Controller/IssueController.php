@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
@@ -54,7 +55,7 @@ class IssueController extends Controller
      * @param null|int
      * @return Response|array
      */
-    public function createAction($id)
+    public function createAction(Request $request, $id)
     {
         if ($id) {
             $story = $this->getRepository('OroBugTrackingSystemBundle:Issue')->find($id);
@@ -87,11 +88,11 @@ class IssueController extends Controller
             ->get('oro_entity.routing_helper')
             ->generateUrlByRequest(
                 'oro_bug_tracking_system_issue_create',
-                $this->getRequest(),
+                $request,
                 isset($story) ? ['id' => $story->getId()] : []
             );
 
-        return $this->update($issue, $formAction);
+        return $this->update($request, $issue, $formAction);
     }
 
     /**
@@ -126,11 +127,11 @@ class IssueController extends Controller
      * @param Issue $issue
      * @return array
      */
-    public function updateAction(Issue $issue)
+    public function updateAction(Request $request, Issue $issue)
     {
         $formAction = $this->get('router')->generate('oro_bug_tracking_system_issue_update', ['id' => $issue->getId()]);
 
-        return $this->update($issue, $formAction);
+        return $this->update($request, $issue, $formAction);
     }
 
     /**
@@ -221,12 +222,12 @@ class IssueController extends Controller
      * @param string $formAction
      * @return array
      */
-    protected function update(Issue $issue, $formAction)
+    protected function update(Request $request, Issue $issue, $formAction)
     {
         $saved = false;
 
         if ($this->get('oro_bug_tracking_system.form.handler.issue')->process($issue)) {
-            if (!$this->getRequest()->get('_widgetContainer')) {
+            if (!$request->get('_widgetContainer')) {
                 $this->get('session')->getFlashBag()->add(
                     'success',
                     $this->get('translator')->trans('oro.bugtrackingsystem.issue.saved_message')

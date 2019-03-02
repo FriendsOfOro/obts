@@ -1,4 +1,4 @@
-oro_dashboard_config:
+dashboards:
     widgets:
         issues_by_status:
             label:       oro.bugtrackingsystem.issue.dashboard.issues_by_status.title

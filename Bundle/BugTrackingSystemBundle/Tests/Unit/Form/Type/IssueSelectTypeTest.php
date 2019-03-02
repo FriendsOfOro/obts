@@ -32,11 +32,11 @@ class IssueSelectTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetParent()
     {
-        $this->assertEquals('oro_entity_create_or_select_inline', $this->type->getParent());
+        $this->assertEquals(OroCreateOrse, $this->type->getParent());
     }
 
     public function testGetName()
     {
-        $this->assertEquals('oro_bug_tracking_system_issue_select', $this->type->getName());
+        $this->assertEquals(IssueSelectType::class, $this->type->getName());
     }
 }

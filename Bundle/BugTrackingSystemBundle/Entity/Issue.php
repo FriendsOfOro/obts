@@ -3,17 +3,18 @@
 namespace Oro\Bundle\BugTrackingSystemBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Oro\Bundle\BugTrackingSystemBundle\Model\ExtendIssue;
 
+use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
+use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
-use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
 
 /**
  * Issue
@@ -51,7 +52,7 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  *              "show_step_in_grid"=false
  *          },
  *          "form"={
- *              "form_type"="oro_bug_tracking_system_issue_select",
+ *              "form_type"="Oro\Bundle\BugTrackingSystemBundle\Form\Type\IssueSelectType",
  *              "grid_name"="issues-grid",
  *          }
  *      }
@@ -59,8 +60,10 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
-class Issue extends ExtendIssue implements Taggable
+class Issue extends ExtendIssue implements Taggable, DatesAwareInterface
 {
+    use DatesAwareTrait;
+
     /**
      * @var integer
      *
@@ -75,7 +78,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
@@ -90,7 +93,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $summary;
+    private $summary;
 
     /**
      * @var string
@@ -106,7 +109,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $code;
+    private $code;
 
     /**
      * @var string
@@ -121,7 +124,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $description;
+    private $description;
 
     /**
      * @var IssueType
@@ -138,7 +141,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $issueType;
+    private $issueType;
 
     /**
      * @var IssuePriority
@@ -155,7 +158,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $issuePriority;
+    private $issuePriority;
 
     /**
      * @var IssueResolution
@@ -172,12 +175,12 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $issueResolution;
+    private $issueResolution;
 
     /**
      * @var ArrayCollection
      */
-    protected $tags;
+    private $tags;
 
     /**
      * @var User
@@ -194,7 +197,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $reporter;
+    private $reporter;
 
     /**
      * @var User
@@ -211,7 +214,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $owner;
+    private $owner;
 
     /**
      * @var ArrayCollection
@@ -234,7 +237,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $collaborators;
+    private $collaborators;
 
     /**
      * @var Issue
@@ -251,7 +254,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $parent;
+    private $parent;
 
     /**
      * @var ArrayCollection
@@ -267,7 +270,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $relatedIssues;
+    private $relatedIssues;
 
     /**
      * @var ArrayCollection
@@ -281,37 +284,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $children;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "order"=90,
-     *              "header"="Created At"
-     *          }
-     *      }
-     * )
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="updated_at", type="datetime")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "order"=100,
-     *              "header"="Created At"
-     *          }
-     *      }
-     * )
-     */
-    protected $updatedAt;
+    private $children;
 
     /**
      * @var Organization
@@ -328,37 +301,7 @@ class Issue extends ExtendIssue implements Taggable
      *      }
      * )
      */
-    protected $organization;
-
-    /**
-     * @var WorkflowItem
-     *
-     * @ORM\OneToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowItem")
-     * @ORM\JoinColumn(name="workflow_item_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $workflowItem;
-
-    /**
-     * @var WorkflowStep
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowStep")
-     * @ORM\JoinColumn(name="workflow_step_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $workflowStep;
+    private $organization;
 
     /**
      * Constructor
@@ -371,12 +314,6 @@ class Issue extends ExtendIssue implements Taggable
         $this->collaborators = new ArrayCollection();
         $this->relatedIssues = new ArrayCollection();
         $this->tags = new ArrayCollection();
-
-        $date = new \DateTime('now', new \DateTimeZone('UTC'));
-
-        $this
-            ->setCreatedAt($date)
-            ->setUpdatedAt($date);
     }
 
     /**
@@ -389,186 +326,62 @@ class Issue extends ExtendIssue implements Taggable
         return $this->id;
     }
 
-    /**
-     * Set summary
-     *
-     * @param string $summary
-     * @return Issue
-     */
-    public function setSummary($summary)
+    public function setSummary(string $summary): void
     {
         $this->summary = $summary;
-
-        return $this;
     }
 
-    /**
-     * Get summary
-     *
-     * @return string
-     */
-    public function getSummary()
+    public function getSummary(): ?string
     {
         return $this->summary;
     }
 
-    /**
-     * Set code
-     *
-     * @param string $code
-     * @return Issue
-     */
-    public function setCode($code)
+    public function setCode(string $code): void
     {
         $this->code = $code;
-
-        return $this;
     }
 
-    /**
-     * Get code
-     *
-     * @return string
-     */
-    public function getCode()
+    public function getCode(): ?string
     {
         return $this->code;
     }
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Issue
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
-
-        return $this;
     }
 
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return Issue
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return Issue
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Set issueType
-     *
-     * @param IssueType $issueType
-     * @return Issue
-     */
-    public function setIssueType(IssueType $issueType = null)
+    public function setIssueType(?IssueType $issueType): void
     {
         $this->issueType = $issueType;
-
-        return $this;
     }
 
-    /**
-     * Get issueType
-     *
-     * @return IssueType
-     */
-    public function getIssueType()
+    public function getIssueType(): ?IssueType
     {
         return $this->issueType;
     }
 
-    /**
-     * Set issuePriority
-     *
-     * @param IssuePriority $issuePriority
-     * @return Issue
-     */
-    public function setIssuePriority(IssuePriority $issuePriority = null)
+    public function setIssuePriority(IssuePriority $issuePriority): void
     {
         $this->issuePriority = $issuePriority;
-
-        return $this;
     }
 
-    /**
-     * Get issuePriority
-     *
-     * @return IssuePriority
-     */
-    public function getIssuePriority()
+    public function getIssuePriority(): ?IssuePriority
     {
         return $this->issuePriority;
     }
 
-    /**
-     * Set issueResolution
-     *
-     * @param IssueResolution $issueResolution
-     * @return Issue
-     */
-    public function setIssueResolution(IssueResolution $issueResolution = null)
+    public function setIssueResolution(IssueResolution $issueResolution): void
     {
         $this->issueResolution = $issueResolution;
-
-        return $this;
     }
 
-    /**
-     * Get issueResolution
-     *
-     * @return IssueResolution
-     */
-    public function getIssueResolution()
+    public function getIssueResolution(): ?IssueResolution
     {
         return $this->issueResolution;
     }
@@ -603,272 +416,124 @@ class Issue extends ExtendIssue implements Taggable
         return $this;
     }
 
-    /**
-     * Set reporter
-     *
-     * @param User $reporter
-     * @return Issue
-     */
-    public function setReporter(User $reporter = null)
+    public function setReporter(User $reporter): void
     {
         $this->reporter = $reporter;
-
-        return $this;
     }
 
-    /**
-     * Get reporter
-     *
-     * @return User
-     */
-    public function getReporter()
+    public function getReporter(): ?User
     {
         return $this->reporter;
     }
 
-    /**
-     * Set owner
-     *
-     * @param User $owner
-     * @return Issue
-     */
-    public function setOwner(User $owner = null)
+    public function setOwner(User $owner): void
     {
         $this->owner = $owner;
-
-        return $this;
     }
 
-    /**
-     * Get owner
-     *
-     * @return User
-     */
-    public function getOwner()
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    /**
-     * Add collaborator
-     *
-     * @param User $user
-     * @return Issue
-     */
-    public function addCollaborator(User $user)
+    public function addCollaborator(User $user): void
     {
         if (!$this->hasCollaborator($user)) {
             $this->collaborators->add($user);
         }
-
-        return $this;
     }
 
-    /**
-     * Remove collaborator
-     *
-     * @param User $user
-     */
-    public function removeCollaborator(User $user)
+    public function removeCollaborator(User $user): void
     {
         $this->collaborators->removeElement($user);
     }
 
-    /**
-     * Has collaborator
-     *
-     * @param User $user
-     * @return  boolean
-     */
-    public function hasCollaborator(User $user)
+    public function hasCollaborator(User $user): bool
     {
         return $this->collaborators->contains($user);
     }
 
     /**
-     *  Get collaborators
-     *
-     *  @return User[]
+     * @return User[]|Collection
      */
-    public function getCollaborators()
+    public function getCollaborators(): Collection
     {
-        return $this->collaborators->toArray();
+        return $this->collaborators;
     }
 
-    /**
-     * Set parent
-     *
-     * @param Issue $parent
-     * @return Issue
-     */
-    public function setParent(Issue $parent = null)
+    public function setParent(Issue $parent): void
     {
         $this->parent = $parent;
-
-        return $this;
     }
 
-    /**
-     * Get parent
-     *
-     * @return Issue
-     */
-    public function getParent()
+    public function detachParent(): void
+    {
+        $this->parent = null;
+    }
+
+    public function getParent(): ?Issue
     {
         return $this->parent;
     }
 
-    /**
-     * Add child
-     *
-     * @param Issue $child
-     * @return Issue
-     */
-    public function addChild(Issue $child)
+    public function addChild(Issue $child): void
     {
         if (!$this->hasChild($child)) {
             $this->children->add($child);
         }
-
-        return $this;
     }
 
-    /**
-     * Remove child
-     *
-     * @param Issue $child
-     */
-    public function removeChild(Issue $child)
+    public function removeChild(Issue $child): void
     {
         $this->children->removeElement($child);
     }
 
-    /**
-     * Add related issue
-     *
-     * @param Issue $issue
-     * @return Issue
-     */
-    public function addRelatedIssue(Issue $issue)
+    public function addRelatedIssue(Issue $issue): void
     {
         if (!$this->hasRelatedIssue($issue)) {
             $this->relatedIssues->add($issue);
         }
-
-        return $this;
     }
 
-    /**
-     * Remove related issue
-     *
-     * @param Issue $issue
-     */
-    public function removeRelatedIssue(Issue $issue)
+    public function removeRelatedIssue(Issue $issue): void
     {
         $this->relatedIssues->removeElement($issue);
     }
 
-    /**
-     * Has related issue
-     *
-     * @param Issue $issue
-     * @return boolean
-     */
-    public function hasRelatedIssue(Issue $issue)
+    public function hasRelatedIssue(Issue $issue): bool
     {
         return $this->relatedIssues->contains($issue);
     }
 
     /**
-     *  Get related issues
-     *
-     *  @return Issue[]
+     *  @return Issue[]|Collection
      */
-    public function getRelatedIssues()
+    public function getRelatedIssues(): Collection
     {
         return $this->relatedIssues->toArray();
     }
 
-    /**
-     * Has child
-     *
-     * @param Issue $child
-     * @return boolean
-     */
-    public function hasChild(Issue $child)
+    public function hasChild(Issue $child): bool
     {
         return $this->children->contains($child);
     }
 
     /**
-     * Get children
-     *
-     * @return Issue[]
+     * @return Issue[]|Collection
      */
-    public function getChildren()
+    public function getChildren(): Collection
     {
-        return $this->children->toArray();
+        return $this->children;
     }
 
-    /**
-     * Set organization
-     *
-     * @param Organization $organization
-     * @return Issue
-     */
-    public function setOrganization(Organization $organization = null)
+    public function setOrganization(Organization $organization): void
     {
         $this->organization = $organization;
-
-        return $this;
     }
 
-    /**
-     * Get organization
-     *
-     * @return Organization
-     */
-    public function getOrganization()
+    public function getOrganization(): ?Organization
     {
         return $this->organization;
-    }
-
-    /**
-     * @param WorkflowItem $workflowItem
-     * @return Issue
-     */
-    public function setWorkflowItem($workflowItem)
-    {
-        $this->workflowItem = $workflowItem;
-
-        return $this;
-    }
-
-    /**
-     * @return WorkflowItem
-     */
-    public function getWorkflowItem()
-    {
-        return $this->workflowItem;
-    }
-
-    /**
-     * @param WorkflowStep $workflowStep
-     * @return Issue
-     */
-    public function setWorkflowStep($workflowStep)
-    {
-        $this->workflowStep = $workflowStep;
-
-        return $this;
-    }
-
-    /**
-     * @return WorkflowStep
-     */
-    public function getWorkflowStep()
-    {
-        return $this->workflowStep;
     }
 
     /**
@@ -890,6 +555,14 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
+     * @ORM\PrePersist
+     */
+    public function refreshCreatedAtOnPrePersist()
+    {
+        $this->setCreatedAt(new \DateTime('now', new \DateTimeZone('UTC')));
+    }
+
+    /**
      * @ORM\PreUpdate
      */
     public function refreshUpdatedAtOnPreUpdate()
@@ -897,19 +570,13 @@ class Issue extends ExtendIssue implements Taggable
         $this->setUpdatedAt(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
-    /**
-     * @return boolean
-     */
-    public function isStory()
+    public function isStory(): bool
     {
-        return $this->getIssueType() && $this->getIssueType()->getName() == IssueType::STORY;
+        return $this->getIssueType() && $this->getIssueType()->getName() === IssueType::STORY;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isSubTask()
+    public function isSubTask(): bool
     {
-        return $this->getIssueType() && $this->getIssueType()->getName() == IssueType::SUB_TASK;
+        return $this->getIssueType() && $this->getIssueType()->getName() === IssueType::SUB_TASK;
     }
 }

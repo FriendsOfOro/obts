@@ -46,9 +46,8 @@ class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
                 }
 
                 $priorityLabel = $this->translate($priorityName, static::ISSUE_PRIORITY_PREFIX, $locale);
-                $issuePriority
-                    ->setLocale($locale)
-                    ->setLabel($priorityLabel);
+                $issuePriority->setLocale($locale);
+                $issuePriority->setLabel($priorityLabel);
 
                 $manager->persist($issuePriority);
             }

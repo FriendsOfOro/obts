@@ -48,9 +48,8 @@ class LoadIssueResolutionData extends AbstractTranslatableEntityFixture
                 }
 
                 $resolutionLabel = $this->translate($resolutionName, static::ISSUE_RESOLUTION_PREFIX, $locale);
-                $issueResolution
-                    ->setLocale($locale)
-                    ->setLabel($resolutionLabel);
+                $issueResolution->setLocale($locale);
+                $issueResolution->setLabel($resolutionLabel);
 
                 $manager->persist($issueResolution);
             }

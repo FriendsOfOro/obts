@@ -39,7 +39,7 @@ class IssueType implements Translatable
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
@@ -53,7 +53,7 @@ class IssueType implements Translatable
      *      }
      * )
      */
-    protected $name;
+    private $name;
 
     /**
      * @var string
@@ -61,118 +61,66 @@ class IssueType implements Translatable
      * @ORM\Column(name="label", type="string", length=255)
      * @Gedmo\Translatable
      */
-    protected $label;
+    private $label;
 
     /**
      * @Gedmo\Locale
      */
-    protected $locale;
+    private $locale;
 
     /**
      * @var string
      *
      * @ORM\Column(name="entity_order", type="integer")
      */
-    protected $entityOrder;
+    private $entityOrder;
 
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return IssueType
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * Set label
-     *
-     * @param string $label
-     * @return IssueType
-     */
-    public function setLabel($label)
+    public function setLabel(string $label): void
     {
         $this->label = $label;
-
-        return $this;
     }
 
-    /**
-     * Get label
-     *
-     * @return string
-     */
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    /**
-     * Set locale
-     *
-     * @param string $locale
-     * @return IssueType
-     */
-    public function setLocale($locale)
+    public function setLocale(string $locale): void
     {
         $this->locale = $locale;
-
-        return $this;
     }
 
-    /**
-     * Returns locale code
-     *
-     * @return string
-     */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
 
-    /**
-     * Set entity order
-     *
-     * @param integer $entityOrder
-     * @return IssueType
-     */
-    public function setEntityOrder($entityOrder)
+    public function setEntityOrder(int $entityOrder): void
     {
         $this->entityOrder = $entityOrder;
-
-        return $this;
     }
 
-    /**
-     * Get entity order
-     *
-     * @return integer
-     */
-    public function getEntityOrder()
+    public function getEntityOrder(): ?int
     {
         return $this->entityOrder;
     }

@@ -2,15 +2,16 @@
 
 namespace Oro\Bundle\BugTrackingSystemBundle\Form\Type;
 
+use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IssueSelectType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function defaultOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [
@@ -28,14 +29,6 @@ class IssueSelectType extends AbstractType
      */
     public function getParent()
     {
-        return 'oro_entity_create_or_select_inline';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'oro_bug_tracking_system_issue_select';
+        return OroEntitySelectOrCreateInlineType::class;
     }
 }

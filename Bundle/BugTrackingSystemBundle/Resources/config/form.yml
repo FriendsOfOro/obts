@@ -11,20 +11,19 @@ services:
     oro_bug_tracking_system.form.type.issue:
         class: '%oro_bug_tracking_system.form.type.issue.class%'
         tags:
-            - { name: form.type, alias: oro_bug_tracking_system_issue }
+            - { name: form.type }
             
     oro_bug_tracking_system.form.type.issue_api:
         class: '%oro_bug_tracking_system.form.type.issue_api.class%'
         tags:
-            - { name: form.type, alias: oro_bug_tracking_system_issue_api }
+            - { name: form.type }
 
     oro_bug_tracking_system.form:
         class: Symfony\Component\Form\Form
-        factory_method: createNamed
-        factory_service: form.factory
+        factory: [ '@form.factory', createNamed ]
         arguments:
             - 'oro_bug_tracking_system_issue_form'
-            - 'oro_bug_tracking_system_issue'
+            - 'Oro\Bundle\BugTrackingSystemBundle\Form\Type\IssueType'
 
     oro_bug_tracking_system.form.handler.issue:
         class: '%oro_bug_tracking_system.form.handler.issue.class%'
@@ -41,11 +40,10 @@ services:
 
     oro_bug_tracking_system.form.api:
         class: Symfony\Component\Form\Form
-        factory_method: createNamed
-        factory_service: form.factory
+        factory: [ '@form.factory', createNamed ]
         arguments:
             - ~
-            - 'oro_bug_tracking_system_issue_api'
+            - 'Oro\Bundle\BugTrackingSystemBundle\Form\Type\IssueApiType'
 
     oro_bug_tracking_system.form.handler.issue_api:
         class: '%oro_bug_tracking_system.form.handler.issue.class%'
@@ -70,7 +68,7 @@ services:
     oro_bug_tracking_system.form.type.issue_select:
         class: '%oro_bug_tracking_system.form.type.issue_select.class%'
         tags:
-            - { name: form.type, alias: oro_bug_tracking_system_issue_select }
+            - { name: form.type }
 
     oro_bug_tracking_system.form.autocomplete.issue.search_handler:
         parent: oro_form.autocomplete.search_handler
@@ -87,8 +85,7 @@ services:
 
     oro_bug_tracking_system.form.link_issue:
         class: Symfony\Component\Form\Form
-        factory_method: createNamed
-        factory_service: form.factory
+        factory: [ '@form.factory', createNamed ]
         arguments:
             - 'oro_bug_tracking_system_link_issue_form'
             - 'oro_bug_tracking_system_link_issue'

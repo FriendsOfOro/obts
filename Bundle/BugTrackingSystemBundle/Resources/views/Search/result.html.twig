@@ -10,7 +10,6 @@
 {% set entityInfo = [
     {'title': 'oro.bugtrackingsystem.issuetype.entity_label'|trans, 'value': entity.issueType.label},
     {'title': 'oro.bugtrackingsystem.issuepriority.entity_label'|trans, 'value': entity.issuePriority.label},
-    {'title': 'oro.bugtrackingsystem.issue.workflow_step.label'|trans, 'value': entity.workflowStep.label},
     {'title': 'oro.bugtrackingsystem.issueresolution.entity_label'|trans, 'value': entity.issueResolution ? entity.issueResolution.label : 'N/A'},
     {'title': 'oro.bugtrackingsystem.issue.reporter.label'|trans, 'value': entity.reporter},
     {'title': 'oro.bugtrackingsystem.issue.owner.label'|trans, 'value': entity.owner},

@@ -12,7 +12,6 @@ datagrids:
                     - issue.description
                     - issueType.label as typeLabel
                     - issuePriority.label as priorityLabel
-                    - workflowStep.label as workflowStepLabel
                     - issueResolution.label as resolutionLabel
                     - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as reporterName
                     - reporter.id as reporterId
@@ -30,7 +29,6 @@ datagrids:
                         - { join: issue.issueResolution, alias: issueResolution }
                         - { join: issue.reporter, alias: reporter }
                         - { join: issue.owner, alias: owner }
-                        - { join: issue.workflowStep, alias: workflowStep }
                         - { join: issue.children, alias: subtask }
                 groupBy: issue.id
         columns:
@@ -42,8 +40,6 @@ datagrids:
                 label:         oro.bugtrackingsystem.issue.issue_type.label
             priorityLabel:
                 label:         oro.bugtrackingsystem.issue.issue_priority.label
-            workflowStepLabel:
-                label:         oro.bugtrackingsystem.issue.workflow_step.label
             resolutionLabel:
                 label:         oro.bugtrackingsystem.issue.issue_resolution.label
             reporterName:
@@ -74,8 +70,6 @@ datagrids:
                     data_name: issueType.entityOrder
                 priorityLabel:
                     data_name: issuePriority.entityOrder
-                workflowStepLabel:
-                    data_name: workflowStep.stepOrder
                 resolutionLabel:
                     data_name: issueResolution.entityOrder
                 reporterName:
@@ -110,13 +104,6 @@ datagrids:
                         field_options:
                             class: '%oro_bug_tracking_system.issue_priority.entity.class%'
                             property_path: label
-                workflowStepLabel:
-                    type:      entity
-                    data_name: issue.workflowStep
-                    options:
-                        field_type: oro_workflow_step_select
-                        field_options:
-                            workflow_entity_class: '%oro_bug_tracking_system.issue.entity.class%'
                 resolutionLabel:
                     type:      entity
                     data_name: issueResolution.id
@@ -289,7 +276,6 @@ datagrids:
                     - relatedIssue.summary
                     - relatedIssueType.label as typeLabel
                     - relatedIssuePriority.label as priorityLabel
-                    - relatedIssueWorkflowStep.label as workflowStepLabel
                     - issue.id AS mainId
                 from:
                     - { table: '%oro_bug_tracking_system.issue.entity.class%', alias: issue }
@@ -299,7 +285,6 @@ datagrids:
                     left:
                         - { join: relatedIssue.issueType, alias: relatedIssueType }
                         - { join: relatedIssue.issuePriority, alias: relatedIssuePriority }
-                        - { join: relatedIssue.workflowStep, alias: relatedIssueWorkflowStep }
                 where:
                     and:
                         - issue.id = :issue_id
@@ -317,8 +302,6 @@ datagrids:
                 label:         oro.bugtrackingsystem.issue.issue_type.label
             priorityLabel:
                 label:         oro.bugtrackingsystem.issue.issue_priority.label
-            workflowStepLabel:
-                label:         oro.bugtrackingsystem.issue.workflow_step.label
         properties:
             id: ~
             mainId: ~

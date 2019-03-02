@@ -42,18 +42,6 @@ search:
                         target_type: integer
                         target_fields: [issuePriority]
             -
-                name: workflowStep
-                relation_type: many-to-one
-                relation_fields:
-                    -
-                        name: label
-                        target_type: text
-                        target_fields: [label, all_data]
-                    -
-                        name: id
-                        target_type: integer
-                        target_fields: [workflowStep]
-            -
                 name: issueResolution
                 relation_type: many-to-one
                 relation_fields:

@@ -4,9 +4,15 @@ namespace Oro\Bundle\BugTrackingSystemBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
 
+use Oro\Bundle\TagBundle\Form\Type\TagSelectType;
+use Oro\Bundle\UserBundle\Form\Type\UserSelectType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Oro\Bundle\BugTrackingSystemBundle\Entity;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IssueType extends AbstractType
 {
@@ -18,7 +24,7 @@ class IssueType extends AbstractType
         $builder
             ->add(
                 'summary',
-                'text',
+                TextType::class,
                 [
                     'label' => 'oro.bugtrackingsystem.issue.summary.label',
                     'required' => true
@@ -26,7 +32,7 @@ class IssueType extends AbstractType
             )
             ->add(
                 'description',
-                'textarea',
+                TextareaType::class,
                 [
                     'label' => 'oro.bugtrackingsystem.issue.description.label',
                     'required' => false
@@ -34,35 +40,36 @@ class IssueType extends AbstractType
             )
             ->add(
                 'issueType',
-                'entity',
+                EntityType::class,
                 [
                     'label' => 'oro.bugtrackingsystem.issue.issue_type.label',
-                    'class' => 'Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType',
+                    'class' => Entity\IssueType::class,
                     'required' => true,
                     'query_builder' => function (EntityRepository $repository) {
                         return $repository
                             ->createQueryBuilder('type')
                             ->orderBy('type.entityOrder')
                             ->where('type.name != :name')
-                            ->setParameter('name', \Oro\Bundle\BugTrackingSystemBundle\Entity\IssueType::SUB_TASK);
+                            ->setParameter('name', Entity\IssueType::SUB_TASK);
                     }
                 ]
             )
             ->add(
                 'issuePriority',
-                'entity',
+                EntityType::class,
                 [
                     'label' => 'oro.bugtrackingsystem.issue.issue_priority.label',
-                    'class' => 'Oro\Bundle\BugTrackingSystemBundle\Entity\IssuePriority',
+                    'class' => Entity\IssuePriority::class,
                     'required' => true,
                     'query_builder' => function (EntityRepository $repository) {
-                        return $repository->createQueryBuilder('priority')->orderBy('priority.entityOrder');
+                        return $repository->createQueryBuilder('priority')
+                            ->orderBy('priority.entityOrder');
                     }
                 ]
             )
             ->add(
                 'owner',
-                'oro_user_select',
+                UserSelectType::class,
                 [
                     'required' => true,
                     'label' => 'oro.bugtrackingsystem.issue.owner.label',
@@ -70,7 +77,7 @@ class IssueType extends AbstractType
             )
             ->add(
                 'tags',
-                'oro_tag_select',
+                TagSelectType::class,
                 [
                     'label' => 'oro.tag.entity_plural_label',
                 ]
@@ -80,7 +87,7 @@ class IssueType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function defaultOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [
@@ -89,13 +96,5 @@ class IssueType extends AbstractType
                 'cascade_validation' => true,
             ]
         );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'oro_bug_tracking_system_issue';
     }
 }

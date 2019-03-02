@@ -4,6 +4,7 @@ namespace Oro\Bundle\BugTrackingSystemBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+use Oro\Bundle\BugTrackingSystemBundle\Entity\Issue;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 class IssueRepository extends EntityRepository
@@ -23,7 +24,7 @@ class IssueRepository extends EntityRepository
             ->from('OroWorkflowBundle:WorkflowStep', 'workflow')
             ->innerJoin('workflow.definition', 'definition')
             ->where('definition.relatedEntity = ?1')
-            ->setParameter(1, 'Oro\Bundle\BugTrackingSystemBundle\Entity\Issue', \PDO::PARAM_STR)
+            ->setParameter(1, Issue::class)
             ->orderBy('workflow.stepOrder', 'ASC')
             ->getQuery()
             ->getArrayResult();
@@ -41,10 +42,12 @@ class IssueRepository extends EntityRepository
         }
 
         $qb = $this
-            ->createQueryBuilder('issue')
-            ->select('COUNT(issue.id) AS issue_count', 'workflow.name AS status_name')
-            ->leftJoin('issue.workflowStep', 'workflow')
-            ->groupBy('workflow.id');
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('COUNT(item.id) AS issue_count', 'step.name AS status_name')
+            ->from('OroWorkflowBundle:WorkflowItem', 'item')
+            ->leftJoin('item.currentStep', 'step')
+            ->groupBy('step.id');
 
         $issues = $aclHelper->apply($qb)->getArrayResult();
 

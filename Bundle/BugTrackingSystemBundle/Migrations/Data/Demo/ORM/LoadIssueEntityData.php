@@ -114,23 +114,24 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
             $entity = new Issue();
 
             if ($type === IssueType::STORY) {
-                $story = $entity->setIssueType($issueTypeStory);
+                $entity->setIssueType($issueTypeStory);
+                $story = $entity;
             } else {
-                $entity->setIssueType($issueTypeSubTask)->setParent($story);
+                $entity->setIssueType($issueTypeSubTask);
+                $entity->setParent($story);
             }
 
             if (!$this->isIssueExist($manager, $summary)) {
-                $entity
-                    ->setSummary($summary)
-                    ->setDescription('Description for task: ' . $summary)
-                    ->setIssuePriority($issuePriority)
-                    ->setReporter($reporter)
-                    ->setOwner($owner)
-                    ->setCreatedAt($this->getRandomDate())
-                    ->setUpdatedAt($this->getRandomDate())
-                    ->setOrganization($organization)
-                    ->addCollaborator($reporter)
-                    ->addCollaborator($owner);
+                $entity->setSummary($summary);
+                $entity->setDescription('Description for task: ' . $summary);
+                $entity->setIssuePriority($issuePriority);
+                $entity->setReporter($reporter);
+                $entity->setOwner($owner);
+                $entity->setCreatedAt($this->getRandomDate());
+                $entity->setUpdatedAt($this->getRandomDate());
+                $entity->setOrganization($organization);
+                $entity->addCollaborator($reporter);
+                $entity->addCollaborator($owner);
 
                 $manager->persist($entity);
                 $manager->flush();
@@ -204,9 +205,10 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
     /**
      * @param ObjectManager $manager
      * @param string $entityName
+     *
      * @return int
      */
-    private function getEntityCount(ObjectManager $manager, $entityName)
+    private function getEntityCount(ObjectManager $manager, string $entityName): int
     {
         /** @var \Doctrine\ORM\EntityManager $manager */
         return (int) $manager
@@ -220,7 +222,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
     /**
      * @return \DateTime
      */
-    private function getRandomDate()
+    private function getRandomDate(): \DateTime
     {
         $result = new \DateTime('now', new \DateTimeZone('UTC'));
         $result->sub(new \DateInterval(sprintf('P%dDT%dM', rand(0, 30), rand(0, 1440))));

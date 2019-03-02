@@ -85,8 +85,6 @@ class IssueTest extends \PHPUnit_Framework_TestCase
             ['createdAt', new \DateTime('now', new \DateTimeZone('UTC'))],
             ['updatedAt', new \DateTime('now', new \DateTimeZone('UTC'))],
             ['organization', new Organization()],
-            ['workflowItem', new WorkflowItem()],
-            ['workflowStep', new WorkflowStep()],
         ];
     }
 
